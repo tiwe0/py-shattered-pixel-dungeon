@@ -31,11 +31,11 @@ class MainEventHandler(EventHandler):
         K_PERIOD: Wait(),
         K_ESCAPE: Action,
     }
-    entity: 'Entity'
+    player: 'Entity'
 
     @classmethod
     def dispatch_event(cls, event: 'Event'):
-        if cls.entity.sprite.is_moving:
+        if cls.player.sprite.is_moving:
             return None
         if event.type == KEYDOWN:
             action = cls.key_map.get(event.key)
@@ -43,7 +43,7 @@ class MainEventHandler(EventHandler):
 
     @classmethod
     def execute_action(cls, action: 'Action'):
-        action.exec(cls.entity)
+        action.exec(cls.player)
 
     @classmethod
     def handle_event(cls):

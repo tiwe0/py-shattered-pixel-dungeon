@@ -9,15 +9,19 @@ if TYPE_CHECKING:
 
 class DSprite(Sprite):
     """Sprite class for dungeon."""
-    def __init__(self):
+    def __init__(self, name: str = ''):
         super().__init__()
         self._entity = None
+        self.name = name
         self.x = 0
         self.y = 0
         self.animation: 'Mapping[str, DAnimation]' = {}
         self.pos_tweener: 'Optional[PosTweener]' = None
         self.direction = 'right'
         self.status = 'idle'
+
+    def __repr__(self):
+        return f"DSprite '{self.name}' -> {self.entity}"
 
     @property
     def is_moving(self):
@@ -83,6 +87,9 @@ class DAnimation:
         self._timer.tick()
         self._current_index = 0
 
+    def __repr__(self):
+        return f"DAnimation '{self.status}' -> {self.sprite}"
+
     @property
     def elapsed(self):
         return self._timer.tick()
@@ -120,7 +127,7 @@ class DAnimation:
 
 
 class DSpriteSheetReader:
-    def __init__(self, filename: 'str', frame_width: 'int', frame_height: 'int', row: 'int' = 1, col: 'int' = -1):
+    def __init__(self, filename: 'str', frame_width: 'int', frame_height: 'int', row: 'int' = -1, col: 'int' = -1):
         self.surface_sheet = DSpriteSheetReader.read_sheet(
             filename=filename,
             frame_width=frame_width,
@@ -128,6 +135,12 @@ class DSpriteSheetReader:
             row=row,
             col=col,
         )
+        self.filename = filename
+        self.frame_width = frame_width
+        self.frame_height = frame_height
+
+    def __repr__(self):
+        return f"<DSpriteSheetReader {self.filename}| frame: [width: {self.frame_width}, height: {self.frame_height}]>"
 
     @classmethod
     def read_sheet(
@@ -143,8 +156,15 @@ class DSpriteSheetReader:
         # assert (surface_total.get_width() % frame_width) == 0
         # assert (surface_total.get_height() % frame_height) == 0
 
+        # TODO these code should be removed later.
+        frame_width = int(frame_width)
+        frame_height = int(frame_height)
+
         if col == -1:
             col = int(surface_total.get_width() // frame_width)
+
+        if row == -1:
+            row = int(surface_total.get_height() // frame_height)
 
         surface_sheet: 'List[pygame.Surface]' = []
         rect = pygame.Rect(0, 0, frame_width, frame_height)

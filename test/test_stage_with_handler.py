@@ -1,7 +1,7 @@
 import pygame
 from dungeon.input_handler import MainEventHandler
 from dungeon.dsprite import DSprite, DAnimation, DSpriteSheetReader
-from dungeon.assets import DAssets
+from dungeon.assets import Assets
 from dungeon.entity import Entity
 from dungeon.game_map import gen_gamemap
 
@@ -20,7 +20,7 @@ def test_stage_with_handler():
     screen.blit(background, (0, 0))
     pygame.display.flip()
 
-    rogue_dsprite_sheet_reader = DSpriteSheetReader(DAssets.Sprites.rogue, frame_width=12, frame_height=15)
+    rogue_dsprite_sheet_reader = DSpriteSheetReader(Assets.Sprites.rogue, frame_width=12, frame_height=15)
 
     rogue_idle_animation = DAnimation(
         status='idle',
@@ -44,7 +44,7 @@ def test_stage_with_handler():
 
     rogue = Entity(x=0, y=0, sprite=rogue_sprite)
 
-    MainEventHandler.entity = rogue
+    MainEventHandler.player = rogue
 
     gamemap = gen_gamemap(map_width, map_height)
     gamemap.place_entity(entity=rogue, position=gamemap.rooms[-1].center_xy)

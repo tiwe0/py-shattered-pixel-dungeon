@@ -2,19 +2,20 @@ import numpy as np
 import random
 from typing import Tuple, Iterator, List, TYPE_CHECKING, Set, Optional
 import pygame
-from dungeon.assets import DAssets
+from dungeon.assets import Assets
 from dungeon.dsprite import DSpriteSheetReader
 from utils.line import line
 
 if TYPE_CHECKING:
     from entity import Entity
+    from dungeon.engine import Engine
 
 # for test
-tmp_test_tiles = DSpriteSheetReader(DAssets.Environment.tiles_sewers, frame_width=16, frame_height=16, row=4)
+tmp_test_tiles = DSpriteSheetReader(Assets.Environment.tiles_sewers, frame_width=16, frame_height=16, row=4)
 wall_tile = tmp_test_tiles[48]
 floor_tile = tmp_test_tiles[0]
 
-tmp_hero_tiles = DSpriteSheetReader(DAssets.Sprites.rogue, frame_width=12, frame_height=15, row=7)
+tmp_hero_tiles = DSpriteSheetReader(Assets.Sprites.rogue, frame_width=12, frame_height=15, row=7)
 hero_tile = tmp_hero_tiles[0]
 
 
@@ -34,7 +35,10 @@ class GameMap:
         self.entities: 'Set[Entity]' = set()
         self.surface: 'pygame.Surface' = pygame.Surface((width*16, height*16))
         self.rooms: 'List[RectangularRoom]'
+        self.engine: 'Engine'
 
+    def player(self):
+        return self.engine.player
     def update_surface(self):
         self.surface.fill((0, 0, 0))
         for c in range(self.width):
@@ -44,6 +48,12 @@ class GameMap:
                         self.surface.blit(wall_tile, (c*16, r*16))
                     else:
                         self.surface.blit(floor_tile, (c*16, r*16))
+
+    def get_entities_in_xy(self, xy: Tuple[int, int]):
+        for entity in self.entities:
+            if entity.xy == xy:
+                return entity
+        return None
 
     def render(self, scale: 'int' = 1):
         screen = pygame.display.get_surface()

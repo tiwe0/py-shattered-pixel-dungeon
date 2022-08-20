@@ -1,12 +1,12 @@
 from dungeon.dsprite import DSpriteSheetReader
 import pygame
 from test.test_stage import test_stage
-from dungeon.assets import DAssets
+from dungeon.assets import Assets
 
 frame_width = 15
 frame_height = 15
 
-test_dspritesheetreader = DSpriteSheetReader(DAssets.Sprites.bat, frame_width, frame_height)
+test_dspritesheetreader = DSpriteSheetReader(Assets.Sprites.bat, frame_width, frame_height)
 
 
 def test_func(screen):

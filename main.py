@@ -1,26 +1,21 @@
 import pygame
 from dungeon.input_handler import MainEventHandler
 from dungeon.dsprite import DSprite, DAnimation, DSpriteSheetReader
-from dungeon.assets import DAssets
+from dungeon.assets import Assets
 from dungeon.entity import Entity
 from dungeon.game_map import gen_gamemap
+from dungeon.engine import Engine
 from utils.compute_fov import compute_fov
 
+
 def main():
-    map_width = 80
-    map_height = 40
+    map_width = 40
+    map_height = 30
     pygame.init()
     screen = pygame.display.set_mode((map_width*32, map_height*32))
     pygame.display.set_caption('Test Stage')
 
-    background = pygame.Surface(screen.get_size())
-    background = background.convert()
-    background.fill((0, 0, 0))
-
-    screen.blit(background, (0, 0))
-    pygame.display.flip()
-
-    rogue_dsprite_sheet_reader = DSpriteSheetReader(DAssets.Sprites.rogue, frame_width=12, frame_height=15)
+    rogue_dsprite_sheet_reader = DSpriteSheetReader(Assets.Sprites.rogue, frame_width=12, frame_height=15)
 
     rogue_idle_animation = DAnimation(
         status='idle',
@@ -44,15 +39,20 @@ def main():
 
     rogue = Entity(x=0, y=0, sprite=rogue_sprite)
 
-    MainEventHandler.entity = rogue
-
     gamemap = gen_gamemap(map_width, map_height)
     gamemap.place_entity(entity=rogue, position=gamemap.rooms[-1].center_xy)
     rogue_sprite.entity = rogue
 
+    engine = Engine(
+        player=rogue,
+        input_handler=MainEventHandler,
+        gamemap=gamemap,
+    )
+
     compute_fov(origin=(rogue.x, rogue.y), gamemap=gamemap, radius=7)
 
     gamemap.update_surface()
+
     gamemap.render()
 
     render_surface = pygame.transform.scale(
@@ -65,9 +65,8 @@ def main():
     pygame.display.flip()
 
     while True:
-        MainEventHandler.handle_event()
 
-        gamemap.render()
+        engine.run()
 
         render_surface = pygame.transform.scale(
             screen,

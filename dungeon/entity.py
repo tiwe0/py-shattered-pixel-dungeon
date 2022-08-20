@@ -5,6 +5,7 @@ from typing import Tuple, TYPE_CHECKING
 if TYPE_CHECKING:
     from dungeon.game_map import GameMap
     from dungeon.dsprite import DSprite
+    from dungeon.engine import Engine
 
 
 class Entity:
@@ -15,6 +16,11 @@ class Entity:
         sprite.entity = self
         self.sprite = sprite
         self.gamemap: 'GameMap' = None
+        self.engine: 'Engine' = None
+
+    @property
+    def xy(self):
+        return self.x, self.y
 
     @property
     def pos(self):
@@ -23,11 +29,15 @@ class Entity:
     def render(self):
         self.sprite.render()
 
+    def is_player(self):
+        return self == self.gamemap.player()
+
     def move(self, direction: 'Tuple[int, int]'):
         dx, dy = direction
         self.x += dx
         self.y += dy
-        compute_fov(origin=(self.x, self.y), gamemap=self.gamemap, radius=7)
-        self.gamemap.update_surface()
+        if self.is_player():
+            compute_fov(origin=(self.x, self.y), gamemap=self.gamemap, radius=7)
+            self.gamemap.update_surface()
         # maybe add some trigger
         self.sprite.move(direction)

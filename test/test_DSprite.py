@@ -1,10 +1,10 @@
-from dungeon.assets import DAssets
+from dungeon.assets import Assets
 from dungeon.dsprite import DSpriteSheetReader
 from dungeon.dsprite import DAnimation, DSprite
 from dungeon.entity import Entity
 from test.test_stage import test_stage
 
-rogue_dsprite_sheet_reader = DSpriteSheetReader(DAssets.Sprites.rogue, frame_width=12, frame_height=15)
+rogue_dsprite_sheet_reader = DSpriteSheetReader(Assets.Sprites.rogue, frame_width=12, frame_height=15)
 
 rogue_idle_animation = DAnimation(
     status='idle',

@@ -15,9 +15,6 @@ tmp_test_tiles = DSpriteSheetReader(Assets.Environment.tiles_sewers, frame_width
 wall_tile = tmp_test_tiles[48]
 floor_tile = tmp_test_tiles[0]
 
-tmp_hero_tiles = DSpriteSheetReader(Assets.Sprites.rogue, frame_width=12, frame_height=15, row=7)
-hero_tile = tmp_hero_tiles[0]
-
 
 class GameMap:
     max_room = 30
@@ -64,6 +61,7 @@ class GameMap:
     def place_entity(self, *, entity: 'Entity', position: 'Tuple[int, int]'):
         self.entities.add(entity)
         entity.x, entity.y = position
+        entity.sprite.entity = entity
         entity.gamemap = self
 
 

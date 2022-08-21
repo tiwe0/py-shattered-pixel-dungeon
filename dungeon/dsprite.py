@@ -1,4 +1,5 @@
 from typing import List, TYPE_CHECKING, Mapping, Optional, Tuple
+import copy
 import pygame
 from pygame.sprite import Sprite
 from dungeon.tweener.tweener import PosTweener
@@ -8,20 +9,35 @@ if TYPE_CHECKING:
 
 
 class DSprite(Sprite):
-    """Sprite class for dungeon."""
-    def __init__(self, name: str = ''):
+    """Sprite class for dungeon.
+    default grid is 16x16, we need to compute offset to
+    make the sprite in the center for x, but not for y
+    """
+    def __init__(self, name: str = '', width: int = 16, height: int = 16, offset_grid: 'Tuple[int, int]' = (16, 16)):
         super().__init__()
         self._entity = None
         self.name = name
+        self.width = width
+        self.height = height
         self.x = 0
         self.y = 0
         self.animation: 'Mapping[str, DAnimation]' = {}
         self.pos_tweener: 'Optional[PosTweener]' = None
         self.direction = 'right'
         self.status = 'idle'
+        self.offset = self.compute_offset(offset_grid)
 
     def __repr__(self):
         return f"DSprite '{self.name}' -> {self.entity}"
+
+    def compute_offset(self, offset_grid: Tuple[int, int]) -> tuple[int, int]:
+        grid_width, grid_height = offset_grid
+        offset_x, offset_y = (grid_width-self.width) // 2, -1
+        return offset_x, offset_y
+
+    def clone(self):
+        clone = copy.copy(self)
+        return clone
 
     @property
     def is_moving(self):
@@ -46,7 +62,7 @@ class DSprite(Sprite):
 
     @property
     def pos(self):
-        return self.x, self.y
+        return self.x+self.offset[0], self.y+self.offset[1]
 
     def __getitem__(self, item: str):
         return self.animation.get(item, None)
@@ -58,7 +74,7 @@ class DSprite(Sprite):
     def render(self):
         # trigger before
         self.before_render()
-        self.current_animation.render()
+        self.current_animation.render(sprite=self)
 
     def add_animation(self, animation: 'DAnimation'):
         self.animation[animation.status] = animation
@@ -81,22 +97,17 @@ class DAnimation:
         self.frames = frames
         self.key_frame = key_frame
         self.delay = float(1.0/fps) * 1000
-        self.sprite: 'Optional[DSprite]' = None
         self.time: 'float' = 0.0
         self._timer: 'pygame.time.Clock' = pygame.time.Clock()
         self._timer.tick()
         self._current_index = 0
 
     def __repr__(self):
-        return f"DAnimation '{self.status}' -> {self.sprite}"
+        return f"DAnimation '{self.status}'"
 
     @property
     def elapsed(self):
         return self._timer.tick()
-
-    @property
-    def direction(self):
-        return self.sprite.direction
 
     @property
     def current_index(self):
@@ -115,15 +126,15 @@ class DAnimation:
             self.time -= self.delay
             self.current_index += 1
 
-    def get_current_frame(self):
+    def get_current_frame(self, direction: str):
         self.update_index()
         current_key = self.key_frame[self.current_index]
-        return self.frames[current_key] if self.direction == 'right' else pygame.transform.flip(self.frames[current_key], True, False)
+        return self.frames[current_key] if direction == 'right' else pygame.transform.flip(self.frames[current_key], True, False)
 
-    def render(self) -> None:
-        current_frame = self.get_current_frame()
+    def render(self, sprite: 'DSprite') -> None:
+        current_frame = self.get_current_frame(sprite.direction)
         screen = pygame.display.get_surface()
-        screen.blit(current_frame, self.sprite.pos)
+        screen.blit(current_frame, sprite.pos)
 
 
 class DSpriteSheetReader:
@@ -156,10 +167,6 @@ class DSpriteSheetReader:
         # assert (surface_total.get_width() % frame_width) == 0
         # assert (surface_total.get_height() % frame_height) == 0
 
-        # TODO these code should be removed later.
-        frame_width = int(frame_width)
-        frame_height = int(frame_height)
-
         if col == -1:
             col = int(surface_total.get_width() // frame_width)
 
@@ -178,6 +185,7 @@ class DSpriteSheetReader:
         return surface_sheet
 
     def __getitem__(self, item: 'int') -> 'pygame.Surface':
+        item = int(item)
         return self.surface_sheet[item]
 
     def __iter__(self):

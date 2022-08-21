@@ -37,7 +37,8 @@ class Entity:
         self.x += dx
         self.y += dy
         if self.is_player():
-            compute_fov(origin=(self.x, self.y), gamemap=self.gamemap, radius=7)
+            self.gamemap.visiting[:] = compute_fov(origin=(self.x, self.y), gamemap=self.gamemap, radius=7)
+            self.gamemap.explored |= self.gamemap.visiting
             self.gamemap.update_surface()
         # maybe add some trigger
         self.sprite.move(direction)

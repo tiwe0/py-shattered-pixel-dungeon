@@ -4,6 +4,7 @@ from typing import Tuple, Iterator, List, TYPE_CHECKING, Set, Optional
 import pygame
 from dungeon.assets import Assets
 from dungeon.dsprite import DSpriteSheetReader
+from dungeon.tiles.fog_of_war import FogOfWar
 from utils.line import line
 
 if TYPE_CHECKING:
@@ -28,7 +29,8 @@ class GameMap:
         self.height = height
         self.tiles = np.full((width, height), fill_value=1, order='F')
         self.walkable = np.full((width, height), fill_value=False, order='F')
-        self.visible = np.full((width, height), fill_value=False, order='F')
+        self.explored = np.full((width, height), fill_value=False, order='F')
+        self.visiting = np.full((width, height), fill_value=False, order='F')
         self.entities: 'Set[Entity]' = set()
         self.surface: 'pygame.Surface' = pygame.Surface((width*16, height*16))
         self.rooms: 'List[RectangularRoom]'
@@ -36,15 +38,22 @@ class GameMap:
 
     def player(self):
         return self.engine.player
+
     def update_surface(self):
         self.surface.fill((0, 0, 0))
         for c in range(self.width):
             for r in range(self.height):
-                if self.visible[c, r]:
+                if self.explored[c, r]:
                     if self.tiles[c, r] == 1:
                         self.surface.blit(wall_tile, (c*16, r*16))
                     else:
                         self.surface.blit(floor_tile, (c*16, r*16))
+                    if not self.visiting[c, r]:
+                        self.surface.blit(FogOfWar.explored_surface, (c*16, r*16))
+
+    def render_map(self):
+        screen = pygame.display.get_surface()
+        screen.blit(self.surface, (0, 0))
 
     def get_entities_in_xy(self, xy: Tuple[int, int]):
         for entity in self.entities:
@@ -53,8 +62,7 @@ class GameMap:
         return None
 
     def render(self, scale: 'int' = 1):
-        screen = pygame.display.get_surface()
-        screen.blit(self.surface, (0, 0))
+        self.render_map()
         for entity in self.entities:
             entity.render()
 

@@ -117,7 +117,7 @@ def compute_fov(origin: Tuple[int, int], radius: int, gamemap: 'GameMap'):
 
         first_row = Row(1, Fraction(-1), Fraction(1))
         scan(first_row, 0)
-    gamemap.visible[:] = new_fov[:]
+    return new_fov
 
 
 def is_blocking(gamemap: 'GameMap', pos: Tuple[int, int]):

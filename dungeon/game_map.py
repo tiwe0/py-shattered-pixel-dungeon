@@ -4,7 +4,7 @@ from typing import Tuple, Iterator, List, TYPE_CHECKING, Set, Optional
 import pygame
 from dungeon.assets import Assets
 from dungeon.dsprite import DSpriteSheetReader
-from dungeon.tiles.fog_of_war import FogOfWar
+from dungeon.tileset.fog_of_war import FogOfWar
 from utils.line import line
 
 if TYPE_CHECKING:

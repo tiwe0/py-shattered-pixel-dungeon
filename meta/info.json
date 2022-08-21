@@ -1,0 +1,3713 @@
+[
+    {
+        "file": "RatKing",
+        "animations": [
+            {
+                "name": "attack",
+                "fps": 15,
+                "loop": "false",
+                "frames": [
+                    "c+0"
+                ]
+            },
+            {
+                "name": "idle",
+                "fps": 2,
+                "loop": "true",
+                "frames": [
+                    "c+0",
+                    "c+0",
+                    "c+0",
+                    "c+1"
+                ]
+            },
+            {
+                "name": "run",
+                "fps": 10,
+                "loop": "true",
+                "frames": [
+                    "c+2",
+                    "c+3",
+                    "c+4",
+                    "c+5",
+                    "c+6"
+                ]
+            },
+            {
+                "name": "die",
+                "fps": 10,
+                "loop": "false",
+                "frames": [
+                    "c+0"
+                ]
+            }
+        ],
+        "sprite": "Assets.Sprites.RATKING",
+        "width": 16,
+        "height": 17
+    },
+    {
+        "file": "Imp",
+        "animations": [
+            {
+                "name": "die",
+                "fps": 10,
+                "loop": "false",
+                "frames": [
+                    0,
+                    3,
+                    2,
+                    1,
+                    0,
+                    3,
+                    2,
+                    1,
+                    0
+                ]
+            },
+            {
+                "name": "run",
+                "fps": 20,
+                "loop": "true",
+                "frames": [
+                    0
+                ]
+            }
+        ],
+        "sprite": "Assets.Sprites.IMP",
+        "width": 12,
+        "height": 14
+    },
+    {
+        "file": "Thief",
+        "animations": [
+            {
+                "name": "idle",
+                "fps": 1,
+                "loop": "true",
+                "frames": [
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1
+                ]
+            },
+            {
+                "name": "die",
+                "fps": 10,
+                "loop": "false",
+                "frames": [
+                    5,
+                    6,
+                    7,
+                    8,
+                    9
+                ]
+            },
+            {
+                "name": "run",
+                "fps": 15,
+                "loop": "true",
+                "frames": [
+                    0,
+                    0,
+                    2,
+                    3,
+                    3,
+                    4
+                ]
+            },
+            {
+                "name": "attack",
+                "fps": 12,
+                "loop": "false",
+                "frames": [
+                    10,
+                    11,
+                    12,
+                    0
+                ]
+            }
+        ],
+        "sprite": "Assets.Sprites.THIEF",
+        "width": 12,
+        "height": 13
+    },
+    {
+        "file": "Necromancer",
+        "animations": [
+            {
+                "name": "run",
+                "fps": 8,
+                "loop": "true",
+                "frames": [
+                    0,
+                    0,
+                    0,
+                    2,
+                    3,
+                    4
+                ]
+            },
+            {
+                "name": "die",
+                "fps": 10,
+                "loop": "false",
+                "frames": [
+                    9,
+                    10,
+                    11,
+                    12
+                ]
+            },
+            {
+                "name": "zap",
+                "fps": 10,
+                "loop": "false",
+                "frames": [
+                    5,
+                    6,
+                    7,
+                    8
+                ]
+            },
+            {
+                "name": "idle",
+                "fps": 1,
+                "loop": "true",
+                "frames": [
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1
+                ]
+            },
+            {
+                "name": "charging",
+                "fps": 5,
+                "loop": "true",
+                "frames": [
+                    7,
+                    8
+                ]
+            }
+        ],
+        "sprite": "Assets.Sprites.NECRO",
+        "width": 16,
+        "height": 16
+    },
+    {
+        "file": "DiscardedItem",
+        "animations": []
+    },
+    {
+        "file": "DM100",
+        "animations": [
+            {
+                "name": "idle",
+                "fps": 1,
+                "loop": "true",
+                "frames": [
+                    0,
+                    1
+                ]
+            },
+            {
+                "name": "attack",
+                "fps": 12,
+                "loop": "false",
+                "frames": [
+                    2,
+                    3,
+                    4,
+                    0
+                ]
+            },
+            {
+                "name": "run",
+                "fps": 12,
+                "loop": "true",
+                "frames": [
+                    6,
+                    7,
+                    8,
+                    9
+                ]
+            },
+            {
+                "name": "zap",
+                "fps": 8,
+                "loop": "false",
+                "frames": [
+                    5,
+                    5,
+                    1
+                ]
+            },
+            {
+                "name": "die",
+                "fps": 12,
+                "loop": "false",
+                "frames": [
+                    10,
+                    11,
+                    12,
+                    13,
+                    14,
+                    15
+                ]
+            }
+        ],
+        "sprite": "Assets.Sprites.DM100",
+        "width": 16,
+        "height": 14
+    },
+    {
+        "file": "Guard",
+        "animations": [
+            {
+                "name": "idle",
+                "fps": 2,
+                "loop": "true",
+                "frames": [
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    1,
+                    1
+                ]
+            },
+            {
+                "name": "die",
+                "fps": 8,
+                "loop": "false",
+                "frames": [
+                    11,
+                    12,
+                    13,
+                    14
+                ]
+            },
+            {
+                "name": "attack",
+                "fps": 12,
+                "loop": "false",
+                "frames": [
+                    8,
+                    9,
+                    10
+                ]
+            },
+            {
+                "name": "run",
+                "fps": 15,
+                "loop": "true",
+                "frames": [
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7
+                ]
+            }
+        ],
+        "sprite": "Assets.Sprites.GUARD",
+        "width": 12,
+        "height": 16
+    },
+    {
+        "file": "Mirror",
+        "animations": [
+            {
+                "name": "attack",
+                "fps": 15,
+                "loop": "false",
+                "frames": [
+                    13,
+                    14,
+                    15,
+                    0
+                ]
+            },
+            {
+                "name": "run",
+                "fps": 20,
+                "loop": "true",
+                "frames": [
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7
+                ]
+            },
+            {
+                "name": "idle",
+                "fps": 1,
+                "loop": "true",
+                "frames": [
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    1,
+                    1
+                ]
+            },
+            {
+                "name": "die",
+                "fps": 20,
+                "loop": "false",
+                "frames": [
+                    0
+                ]
+            }
+        ]
+    },
+    {
+        "file": "Bee",
+        "animations": [
+            {
+                "name": "die",
+                "fps": 20,
+                "loop": "false",
+                "frames": [
+                    7,
+                    8,
+                    9,
+                    10
+                ]
+            },
+            {
+                "name": "attack",
+                "fps": 20,
+                "loop": "false",
+                "frames": [
+                    3,
+                    4,
+                    5,
+                    6
+                ]
+            },
+            {
+                "name": "idle",
+                "fps": 12,
+                "loop": "true",
+                "frames": [
+                    0,
+                    1,
+                    1,
+                    0,
+                    2,
+                    2
+                ]
+            },
+            {
+                "name": "run",
+                "fps": 15,
+                "loop": "true",
+                "frames": [
+                    0,
+                    1,
+                    1,
+                    0,
+                    2,
+                    2
+                ]
+            }
+        ],
+        "sprite": "Assets.Sprites.BEE",
+        "width": 16,
+        "height": 16
+    },
+    {
+        "file": "Scorpio",
+        "animations": [
+            {
+                "name": "attack",
+                "fps": 15,
+                "loop": "false",
+                "frames": [
+                    0,
+                    3,
+                    4
+                ]
+            },
+            {
+                "name": "idle",
+                "fps": 12,
+                "loop": "true",
+                "frames": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    2,
+                    1,
+                    2,
+                    1,
+                    2
+                ]
+            },
+            {
+                "name": "run",
+                "fps": 8,
+                "loop": "true",
+                "frames": [
+                    5,
+                    5,
+                    6,
+                    6
+                ]
+            },
+            {
+                "name": "die",
+                "fps": 12,
+                "loop": "false",
+                "frames": [
+                    0,
+                    7,
+                    8,
+                    9,
+                    10
+                ]
+            }
+        ],
+        "sprite": "Assets.Sprites.SCORPIO",
+        "width": 18,
+        "height": 17
+    },
+    {
+        "file": "Acidic",
+        "animations": [
+            {
+                "name": "idle",
+                "fps": 12,
+                "loop": "true",
+                "frames": [
+                    14,
+                    14,
+                    14,
+                    14,
+                    14,
+                    14,
+                    14,
+                    14,
+                    15,
+                    16,
+                    15,
+                    16,
+                    15,
+                    16
+                ]
+            },
+            {
+                "name": "attack",
+                "fps": 15,
+                "loop": "false",
+                "frames": [
+                    14,
+                    17,
+                    18
+                ]
+            },
+            {
+                "name": "run",
+                "fps": 4,
+                "loop": "true",
+                "frames": [
+                    19,
+                    20
+                ]
+            },
+            {
+                "name": "die",
+                "fps": 12,
+                "loop": "false",
+                "frames": [
+                    14,
+                    21,
+                    22,
+                    23,
+                    24
+                ]
+            }
+        ],
+        "sprite": "Assets.Sprites.SCORPIO",
+        "width": 18,
+        "height": 17
+    },
+    {
+        "file": "Skeleton",
+        "animations": [
+            {
+                "name": "run",
+                "fps": 15,
+                "loop": "true",
+                "frames": [
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9
+                ]
+            },
+            {
+                "name": "idle",
+                "fps": 12,
+                "loop": "true",
+                "frames": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    2,
+                    3
+                ]
+            },
+            {
+                "name": "attack",
+                "fps": 15,
+                "loop": "false",
+                "frames": [
+                    14,
+                    15,
+                    16
+                ]
+            },
+            {
+                "name": "die",
+                "fps": 12,
+                "loop": "false",
+                "frames": [
+                    10,
+                    11,
+                    12,
+                    13
+                ]
+            }
+        ],
+        "sprite": "Assets.Sprites.SKELETON",
+        "width": 12,
+        "height": 15
+    },
+    {
+        "file": "Statue",
+        "animations": [
+            {
+                "name": "run",
+                "fps": 15,
+                "loop": "true",
+                "frames": [
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7
+                ]
+            },
+            {
+                "name": "idle",
+                "fps": 2,
+                "loop": "true",
+                "frames": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    1
+                ]
+            },
+            {
+                "name": "die",
+                "fps": 5,
+                "loop": "false",
+                "frames": [
+                    11,
+                    12,
+                    13,
+                    14,
+                    15,
+                    15
+                ]
+            },
+            {
+                "name": "attack",
+                "fps": 12,
+                "loop": "false",
+                "frames": [
+                    8,
+                    9,
+                    10
+                ]
+            }
+        ],
+        "sprite": "Assets.Sprites.STATUE",
+        "width": 12,
+        "height": 15
+    },
+    {
+        "file": "Eye",
+        "animations": [
+            {
+                "name": "run",
+                "fps": 12,
+                "loop": "true",
+                "frames": [
+                    5,
+                    6
+                ]
+            },
+            {
+                "name": "idle",
+                "fps": 8,
+                "loop": "true",
+                "frames": [
+                    0,
+                    1,
+                    2
+                ]
+            },
+            {
+                "name": "charging",
+                "fps": 12,
+                "loop": "true",
+                "frames": [
+                    3,
+                    4
+                ]
+            },
+            {
+                "name": "attack",
+                "fps": 8,
+                "loop": "false",
+                "frames": [
+                    4,
+                    3
+                ]
+            },
+            {
+                "name": "die",
+                "fps": 8,
+                "loop": "false",
+                "frames": [
+                    7,
+                    8,
+                    9
+                ]
+            }
+        ],
+        "sprite": "Assets.Sprites.EYE",
+        "width": 16,
+        "height": 18
+    },
+    {
+        "file": "Wandmaker",
+        "animations": [
+            {
+                "name": "run",
+                "fps": 20,
+                "loop": "true",
+                "frames": [
+                    0
+                ]
+            },
+            {
+                "name": "idle",
+                "fps": 10,
+                "loop": "true",
+                "frames": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    2,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    2,
+                    1
+                ]
+            },
+            {
+                "name": "die",
+                "fps": 20,
+                "loop": "false",
+                "frames": [
+                    0
+                ]
+            }
+        ],
+        "sprite": "Assets.Sprites.MAKER",
+        "width": 12,
+        "height": 14
+    },
+    {
+        "file": "Blacksmith",
+        "animations": [
+            {
+                "name": "run",
+                "fps": 20,
+                "loop": "true",
+                "frames": [
+                    0
+                ]
+            },
+            {
+                "name": "die",
+                "fps": 20,
+                "loop": "false",
+                "frames": [
+                    0
+                ]
+            },
+            {
+                "name": "idle",
+                "fps": 15,
+                "loop": "true",
+                "frames": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    2,
+                    2,
+                    2,
+                    3
+                ]
+            }
+        ],
+        "sprite": "Assets.Sprites.TROLL",
+        "width": 13,
+        "height": 16
+    },
+    {
+        "file": "Prismatic",
+        "animations": [
+            {
+                "name": "attack",
+                "fps": 15,
+                "loop": "false",
+                "frames": [
+                    13,
+                    14,
+                    15,
+                    0
+                ]
+            },
+            {
+                "name": "run",
+                "fps": 20,
+                "loop": "true",
+                "frames": [
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7
+                ]
+            },
+            {
+                "name": "idle",
+                "fps": 1,
+                "loop": "true",
+                "frames": [
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    1,
+                    1
+                ]
+            },
+            {
+                "name": "die",
+                "fps": 20,
+                "loop": "false",
+                "frames": [
+                    0
+                ]
+            }
+        ]
+    },
+    {
+        "file": "Slime",
+        "animations": [
+            {
+                "name": "attack",
+                "fps": 15,
+                "loop": "false",
+                "frames": [
+                    2,
+                    3,
+                    4,
+                    6,
+                    5
+                ]
+            },
+            {
+                "name": "idle",
+                "fps": 3,
+                "loop": "true",
+                "frames": [
+                    0,
+                    1,
+                    1,
+                    0
+                ]
+            },
+            {
+                "name": "run",
+                "fps": 10,
+                "loop": "true",
+                "frames": [
+                    0,
+                    2,
+                    3,
+                    3,
+                    2,
+                    0
+                ]
+            },
+            {
+                "name": "die",
+                "fps": 10,
+                "loop": "false",
+                "frames": [
+                    0,
+                    5,
+                    6,
+                    7
+                ]
+            }
+        ],
+        "sprite": "Assets.Sprites.SLIME",
+        "width": 14,
+        "height": 12
+    },
+    {
+        "file": "Bandit",
+        "animations": [
+            {
+                "name": "die",
+                "fps": 10,
+                "loop": "false",
+                "frames": [
+                    25,
+                    27,
+                    28,
+                    29,
+                    30
+                ]
+            },
+            {
+                "name": "idle",
+                "fps": 1,
+                "loop": "true",
+                "frames": [
+                    21,
+                    21,
+                    21,
+                    22,
+                    21,
+                    21,
+                    21,
+                    21,
+                    22
+                ]
+            },
+            {
+                "name": "run",
+                "fps": 15,
+                "loop": "true",
+                "frames": [
+                    21,
+                    21,
+                    23,
+                    24,
+                    24,
+                    25
+                ]
+            },
+            {
+                "name": "attack",
+                "fps": 12,
+                "loop": "false",
+                "frames": [
+                    31,
+                    32,
+                    33
+                ]
+            }
+        ],
+        "sprite": "Assets.Sprites.THIEF",
+        "width": 12,
+        "height": 13
+    },
+    {
+        "file": "RotLasher",
+        "animations": [
+            {
+                "name": "attack",
+                "fps": 24,
+                "loop": "false",
+                "frames": [
+                    0,
+                    1,
+                    2,
+                    2,
+                    1
+                ]
+            },
+            {
+                "name": "idle",
+                "fps": 0,
+                "loop": "true",
+                "frames": [
+                    0
+                ]
+            },
+            {
+                "name": "die",
+                "fps": 12,
+                "loop": "false",
+                "frames": [
+                    3,
+                    4,
+                    5,
+                    6
+                ]
+            },
+            {
+                "name": "run",
+                "fps": 0,
+                "loop": "true",
+                "frames": [
+                    0
+                ]
+            }
+        ],
+        "sprite": "Assets.Sprites.ROT_LASH",
+        "width": 12,
+        "height": 16
+    },
+    {
+        "file": "Spawner",
+        "animations": [
+            {
+                "name": "idle",
+                "fps": 8,
+                "loop": "true",
+                "frames": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11,
+                    12,
+                    13,
+                    14,
+                    15
+                ]
+            }
+        ],
+        "sprite": "Assets.Sprites.SPAWNER",
+        "width": 16,
+        "height": 16
+    },
+    {
+        "file": "Snake",
+        "animations": [
+            {
+                "name": "die",
+                "fps": 10,
+                "loop": "false",
+                "frames": [
+                    11,
+                    12,
+                    13
+                ]
+            },
+            {
+                "name": "idle",
+                "fps": 10,
+                "loop": "true",
+                "frames": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    2,
+                    3,
+                    2,
+                    1,
+                    1
+                ]
+            },
+            {
+                "name": "run",
+                "fps": 8,
+                "loop": "true",
+                "frames": [
+                    4,
+                    5,
+                    6,
+                    7
+                ]
+            },
+            {
+                "name": "attack",
+                "fps": 15,
+                "loop": "false",
+                "frames": [
+                    8,
+                    9,
+                    10,
+                    9,
+                    0
+                ]
+            }
+        ],
+        "sprite": "Assets.Sprites.SNAKE",
+        "width": 12,
+        "height": 11
+    },
+    {
+        "file": "Warlock",
+        "animations": [
+            {
+                "name": "run",
+                "fps": 15,
+                "loop": "true",
+                "frames": [
+                    0,
+                    2,
+                    3,
+                    4
+                ]
+            },
+            {
+                "name": "die",
+                "fps": 15,
+                "loop": "false",
+                "frames": [
+                    0,
+                    7,
+                    8,
+                    8,
+                    9,
+                    10
+                ]
+            },
+            {
+                "name": "idle",
+                "fps": 2,
+                "loop": "true",
+                "frames": [
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    1,
+                    1
+                ]
+            },
+            {
+                "name": "attack",
+                "fps": 12,
+                "loop": "false",
+                "frames": [
+                    0,
+                    5,
+                    6
+                ]
+            }
+        ],
+        "sprite": "Assets.Sprites.WARLOCK",
+        "width": 12,
+        "height": 15
+    },
+    {
+        "file": "Rat",
+        "animations": [
+            {
+                "name": "attack",
+                "fps": 15,
+                "loop": "false",
+                "frames": [
+                    2,
+                    3,
+                    4,
+                    5,
+                    0
+                ]
+            },
+            {
+                "name": "die",
+                "fps": 10,
+                "loop": "false",
+                "frames": [
+                    11,
+                    12,
+                    13,
+                    14
+                ]
+            },
+            {
+                "name": "idle",
+                "fps": 2,
+                "loop": "true",
+                "frames": [
+                    0,
+                    0,
+                    0,
+                    1
+                ]
+            },
+            {
+                "name": "run",
+                "fps": 10,
+                "loop": "true",
+                "frames": [
+                    6,
+                    7,
+                    8,
+                    9,
+                    10
+                ]
+            }
+        ],
+        "sprite": "Assets.Sprites.RAT",
+        "width": 16,
+        "height": 15
+    },
+    {
+        "file": "Ghost",
+        "animations": [
+            {
+                "name": "run",
+                "fps": 10,
+                "loop": "true",
+                "frames": [
+                    0,
+                    1
+                ]
+            },
+            {
+                "name": "die",
+                "fps": 8,
+                "loop": "false",
+                "frames": [
+                    0,
+                    4,
+                    5,
+                    6,
+                    7
+                ]
+            },
+            {
+                "name": "idle",
+                "fps": 5,
+                "loop": "true",
+                "frames": [
+                    0,
+                    1
+                ]
+            },
+            {
+                "name": "attack",
+                "fps": 10,
+                "loop": "false",
+                "frames": [
+                    0,
+                    2,
+                    3
+                ]
+            }
+        ],
+        "sprite": "Assets.Sprites.GHOST",
+        "width": 14,
+        "height": 15
+    },
+    {
+        "file": "Sheep",
+        "animations": [
+            {
+                "name": "idle",
+                "fps": 8,
+                "loop": "true",
+                "frames": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    2,
+                    3,
+                    0
+                ]
+            },
+            {
+                "name": "die",
+                "fps": 20,
+                "loop": "false",
+                "frames": [
+                    0
+                ]
+            }
+        ],
+        "sprite": "Assets.Sprites.SHEEP",
+        "width": 16,
+        "height": 15
+    },
+    {
+        "file": "Larva",
+        "animations": [
+            {
+                "name": "run",
+                "fps": 12,
+                "loop": "true",
+                "frames": [
+                    0,
+                    1,
+                    2,
+                    3
+                ]
+            },
+            {
+                "name": "attack",
+                "fps": 15,
+                "loop": "false",
+                "frames": [
+                    6,
+                    5,
+                    7
+                ]
+            },
+            {
+                "name": "die",
+                "fps": 10,
+                "loop": "false",
+                "frames": [
+                    8
+                ]
+            },
+            {
+                "name": "idle",
+                "fps": 5,
+                "loop": "true",
+                "frames": [
+                    4,
+                    4,
+                    4,
+                    4,
+                    4,
+                    5,
+                    5
+                ]
+            }
+        ],
+        "sprite": "Assets.Sprites.LARVA",
+        "width": 12,
+        "height": 8
+    },
+    {
+        "file": "Gnoll",
+        "animations": [
+            {
+                "name": "idle",
+                "fps": 2,
+                "loop": "true",
+                "frames": [
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    1,
+                    1
+                ]
+            },
+            {
+                "name": "run",
+                "fps": 12,
+                "loop": "true",
+                "frames": [
+                    4,
+                    5,
+                    6,
+                    7
+                ]
+            },
+            {
+                "name": "die",
+                "fps": 12,
+                "loop": "false",
+                "frames": [
+                    8,
+                    9,
+                    10
+                ]
+            },
+            {
+                "name": "attack",
+                "fps": 12,
+                "loop": "false",
+                "frames": [
+                    2,
+                    3,
+                    0
+                ]
+            }
+        ],
+        "sprite": "Assets.Sprites.GNOLL",
+        "width": 12,
+        "height": 15
+    },
+    {
+        "file": "Item",
+        "animations": []
+    },
+    {
+        "file": "Senior",
+        "animations": [
+            {
+                "name": "idle",
+                "fps": 6,
+                "loop": "true",
+                "frames": [
+                    18,
+                    17,
+                    18,
+                    19
+                ]
+            },
+            {
+                "name": "kick",
+                "fps": 10,
+                "loop": "false",
+                "frames": [
+                    22,
+                    23,
+                    22
+                ]
+            },
+            {
+                "name": "run",
+                "fps": 15,
+                "loop": "true",
+                "frames": [
+                    28,
+                    29,
+                    30,
+                    31,
+                    32,
+                    33
+                ]
+            },
+            {
+                "name": "die",
+                "fps": 15,
+                "loop": "false",
+                "frames": [
+                    18,
+                    24,
+                    25,
+                    25,
+                    26,
+                    27
+                ]
+            },
+            {
+                "name": "attack",
+                "fps": 12,
+                "loop": "false",
+                "frames": [
+                    20,
+                    21,
+                    20,
+                    21
+                ]
+            }
+        ],
+        "sprite": "Assets.Sprites.MONK",
+        "width": 15,
+        "height": 14
+    },
+    {
+        "file": "Fist",
+        "animations": [
+            {
+                "name": "zap",
+                "fps": 8,
+                "loop": "false",
+                "frames": [
+                    "c+0",
+                    "c+5",
+                    "c+6"
+                ]
+            },
+            {
+                "name": "die",
+                "fps": 10,
+                "loop": "false",
+                "frames": [
+                    "c+0",
+                    "c+2",
+                    "c+3",
+                    "c+4"
+                ]
+            },
+            {
+                "name": "attack",
+                "fps": "Math.round(1 / SLAM_TIME)",
+                "loop": "false",
+                "frames": [
+                    "c+0"
+                ]
+            },
+            {
+                "name": "idle",
+                "fps": 2,
+                "loop": "true",
+                "frames": [
+                    "c+0",
+                    "c+0",
+                    "c+1"
+                ]
+            },
+            {
+                "name": "run",
+                "fps": 3,
+                "loop": "true",
+                "frames": [
+                    "c+0",
+                    "c+1"
+                ]
+            }
+        ],
+        "sprite": "Assets.Sprites.FISTS",
+        "width": 24,
+        "height": 17
+    },
+    {
+        "file": "Piranha",
+        "animations": [
+            {
+                "name": "die",
+                "fps": 4,
+                "loop": "false",
+                "frames": [
+                    12,
+                    13,
+                    14
+                ]
+            },
+            {
+                "name": "idle",
+                "fps": 8,
+                "loop": "true",
+                "frames": [
+                    0,
+                    1,
+                    2,
+                    1
+                ]
+            },
+            {
+                "name": "attack",
+                "fps": 20,
+                "loop": "false",
+                "frames": [
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11
+                ]
+            },
+            {
+                "name": "run",
+                "fps": 20,
+                "loop": "true",
+                "frames": [
+                    0,
+                    1,
+                    2,
+                    1
+                ]
+            }
+        ],
+        "sprite": "Assets.Sprites.PIRANHA",
+        "width": 12,
+        "height": 16
+    },
+    {
+        "file": "NewbornElemental",
+        "animations": [
+            {
+                "name": "idle",
+                "fps": 10,
+                "loop": "true",
+                "frames": [
+                    "ofs+0",
+                    "ofs+1",
+                    "ofs+2"
+                ]
+            },
+            {
+                "name": "run",
+                "fps": 12,
+                "loop": "true",
+                "frames": [
+                    "ofs+0",
+                    "ofs+1",
+                    "ofs+3"
+                ]
+            },
+            {
+                "name": "die",
+                "fps": 15,
+                "loop": "false",
+                "frames": [
+                    "ofs+7",
+                    "ofs+8",
+                    "ofs+9",
+                    "ofs+10",
+                    "ofs+11",
+                    "ofs+12",
+                    "ofs+13",
+                    "ofs+12"
+                ]
+            },
+            {
+                "name": "attack",
+                "fps": 15,
+                "loop": "false",
+                "frames": [
+                    "ofs+4",
+                    "ofs+5",
+                    "ofs+6"
+                ]
+            }
+        ],
+        "sprite": "Assets.Sprites.ELEMENTAL",
+        "width": 12,
+        "height": 14
+    },
+    {
+        "file": "DM201",
+        "animations": [
+            {
+                "name": "die",
+                "fps": 8,
+                "loop": "false",
+                "frames": [
+                    "c+9",
+                    "c+10",
+                    "c+11"
+                ]
+            },
+            {
+                "name": "attack",
+                "fps": 15,
+                "loop": "false",
+                "frames": [
+                    "c+4",
+                    "c+5",
+                    "c+6"
+                ]
+            },
+            {
+                "name": "idle",
+                "fps": 2,
+                "loop": "true",
+                "frames": [
+                    "c+0",
+                    "c+1"
+                ]
+            },
+            {
+                "name": "zap",
+                "fps": 15,
+                "loop": "false",
+                "frames": [
+                    "c+7",
+                    "c+8",
+                    "c+8",
+                    "c+7"
+                ]
+            }
+        ],
+        "sprite": "Assets.Sprites.DM200",
+        "width": 21,
+        "height": 18
+    },
+    {
+        "file": "CausticSlime",
+        "animations": [
+            {
+                "name": "run",
+                "fps": 10,
+                "loop": "true",
+                "frames": [
+                    "c+0",
+                    "c+2",
+                    "c+3",
+                    "c+3",
+                    "c+2",
+                    "c+0"
+                ]
+            },
+            {
+                "name": "idle",
+                "fps": 3,
+                "loop": "true",
+                "frames": [
+                    "c+0",
+                    "c+1",
+                    "c+1",
+                    "c+0"
+                ]
+            },
+            {
+                "name": "attack",
+                "fps": 15,
+                "loop": "false",
+                "frames": [
+                    "c+2",
+                    "c+3",
+                    "c+4",
+                    "c+6",
+                    "c+5"
+                ]
+            },
+            {
+                "name": "die",
+                "fps": 10,
+                "loop": "false",
+                "frames": [
+                    "c+0",
+                    "c+5",
+                    "c+6",
+                    "c+7"
+                ]
+            }
+        ],
+        "sprite": "Assets.Sprites.SLIME",
+        "width": 14,
+        "height": 12
+    },
+    {
+        "file": "Albino",
+        "animations": [
+            {
+                "name": "attack",
+                "fps": 15,
+                "loop": "false",
+                "frames": [
+                    18,
+                    19,
+                    20,
+                    21
+                ]
+            },
+            {
+                "name": "idle",
+                "fps": 2,
+                "loop": "true",
+                "frames": [
+                    16,
+                    16,
+                    16,
+                    17
+                ]
+            },
+            {
+                "name": "die",
+                "fps": 10,
+                "loop": "false",
+                "frames": [
+                    27,
+                    28,
+                    29,
+                    30
+                ]
+            },
+            {
+                "name": "run",
+                "fps": 10,
+                "loop": "true",
+                "frames": [
+                    22,
+                    23,
+                    24,
+                    25,
+                    26
+                ]
+            }
+        ],
+        "sprite": "Assets.Sprites.RAT",
+        "width": 16,
+        "height": 15
+    },
+    {
+        "file": "Swarm",
+        "animations": [
+            {
+                "name": "attack",
+                "fps": 20,
+                "loop": "false",
+                "frames": [
+                    6,
+                    7,
+                    8,
+                    9
+                ]
+            },
+            {
+                "name": "run",
+                "fps": 15,
+                "loop": "true",
+                "frames": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5
+                ]
+            },
+            {
+                "name": "idle",
+                "fps": 15,
+                "loop": "true",
+                "frames": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5
+                ]
+            },
+            {
+                "name": "die",
+                "fps": 15,
+                "loop": "false",
+                "frames": [
+                    10,
+                    11,
+                    12,
+                    13,
+                    14
+                ]
+            }
+        ],
+        "sprite": "Assets.Sprites.SWARM",
+        "width": 16,
+        "height": 16
+    },
+    {
+        "file": "Undead",
+        "animations": [
+            {
+                "name": "run",
+                "fps": 15,
+                "loop": "true",
+                "frames": [
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9
+                ]
+            },
+            {
+                "name": "idle",
+                "fps": 12,
+                "loop": "true",
+                "frames": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    2,
+                    3
+                ]
+            },
+            {
+                "name": "attack",
+                "fps": 15,
+                "loop": "false",
+                "frames": [
+                    14,
+                    15,
+                    16
+                ]
+            },
+            {
+                "name": "die",
+                "fps": 12,
+                "loop": "false",
+                "frames": [
+                    10,
+                    11,
+                    12,
+                    13
+                ]
+            }
+        ],
+        "sprite": "Assets.Sprites.UNDEAD",
+        "width": 12,
+        "height": 16
+    },
+    {
+        "file": "Elemental",
+        "animations": [
+            {
+                "name": "idle",
+                "fps": 10,
+                "loop": "true",
+                "frames": [
+                    "c+0",
+                    "c+1",
+                    "c+2"
+                ]
+            },
+            {
+                "name": "attack",
+                "fps": 15,
+                "loop": "false",
+                "frames": [
+                    "c+4",
+                    "c+5",
+                    "c+6"
+                ]
+            },
+            {
+                "name": "run",
+                "fps": 12,
+                "loop": "true",
+                "frames": [
+                    "c+0",
+                    "c+1",
+                    "c+3"
+                ]
+            },
+            {
+                "name": "die",
+                "fps": 15,
+                "loop": "false",
+                "frames": [
+                    "c+7",
+                    "c+8",
+                    "c+9",
+                    "c+10",
+                    "c+11",
+                    "c+12",
+                    "c+13",
+                    "c+12"
+                ]
+            }
+        ],
+        "sprite": "Assets.Sprites.ELEMENTAL",
+        "width": 12,
+        "height": 14
+    },
+    {
+        "file": "Tengu",
+        "animations": [
+            {
+                "name": "die",
+                "fps": 8,
+                "loop": "false",
+                "frames": [
+                    8,
+                    9,
+                    10,
+                    10,
+                    10,
+                    10,
+                    10,
+                    10
+                ]
+            },
+            {
+                "name": "attack",
+                "fps": 15,
+                "loop": "false",
+                "frames": [
+                    6,
+                    7,
+                    7,
+                    0
+                ]
+            },
+            {
+                "name": "idle",
+                "fps": 2,
+                "loop": "true",
+                "frames": [
+                    0,
+                    0,
+                    0,
+                    1
+                ]
+            },
+            {
+                "name": "run",
+                "fps": 15,
+                "loop": "false",
+                "frames": [
+                    2,
+                    3,
+                    4,
+                    5,
+                    0
+                ]
+            }
+        ],
+        "sprite": "Assets.Sprites.TENGU",
+        "width": 14,
+        "height": 16
+    },
+    {
+        "file": "Ripper",
+        "animations": [
+            {
+                "name": "leap",
+                "fps": 1,
+                "loop": "true",
+                "frames": [
+                    12
+                ]
+            },
+            {
+                "name": "attack",
+                "fps": 12,
+                "loop": "false",
+                "frames": [
+                    0,
+                    9,
+                    10,
+                    9
+                ]
+            },
+            {
+                "name": "stab",
+                "fps": 12,
+                "loop": "false",
+                "frames": [
+                    0,
+                    9,
+                    11,
+                    9
+                ]
+            },
+            {
+                "name": "prep",
+                "fps": 1,
+                "loop": "true",
+                "frames": [
+                    9
+                ]
+            },
+            {
+                "name": "die",
+                "fps": 15,
+                "loop": "false",
+                "frames": [
+                    1,
+                    13,
+                    14,
+                    15,
+                    16
+                ]
+            },
+            {
+                "name": "run",
+                "fps": 15,
+                "loop": "true",
+                "frames": [
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8
+                ]
+            },
+            {
+                "name": "idle",
+                "fps": 4,
+                "loop": "true",
+                "frames": [
+                    1,
+                    0,
+                    1,
+                    2
+                ]
+            }
+        ],
+        "sprite": "Assets.Sprites.RIPPER",
+        "width": 15,
+        "height": 14
+    },
+    {
+        "file": "Mimic",
+        "animations": [
+            {
+                "name": "hiding",
+                "fps": 1,
+                "loop": "true",
+                "frames": [
+                    "0+c",
+                    "0+c",
+                    "0+c",
+                    "0+c",
+                    "0+c",
+                    "1+c"
+                ]
+            },
+            {
+                "name": "run",
+                "fps": 10,
+                "loop": "true",
+                "frames": [
+                    "2+c",
+                    "3+c",
+                    "4+c",
+                    "5+c",
+                    "5+c",
+                    "4+c",
+                    "3+c"
+                ]
+            },
+            {
+                "name": "idle",
+                "fps": 5,
+                "loop": "true",
+                "frames": [
+                    "2+c",
+                    "2+c",
+                    "2+c",
+                    "3+c",
+                    "3+c"
+                ]
+            },
+            {
+                "name": "attack",
+                "fps": 10,
+                "loop": "false",
+                "frames": [
+                    "2+c",
+                    "6+c",
+                    "7+c",
+                    "8+c"
+                ]
+            },
+            {
+                "name": "die",
+                "fps": 5,
+                "loop": "false",
+                "frames": [
+                    "9+c",
+                    "10+c",
+                    "11+c"
+                ]
+            }
+        ],
+        "sprite": "Assets.Sprites.MIMIC",
+        "width": 16,
+        "height": 16
+    },
+    {
+        "file": "FetidRat",
+        "animations": [
+            {
+                "name": "idle",
+                "fps": 2,
+                "loop": "true",
+                "frames": [
+                    32,
+                    32,
+                    32,
+                    33
+                ]
+            },
+            {
+                "name": "attack",
+                "fps": 15,
+                "loop": "false",
+                "frames": [
+                    34,
+                    35,
+                    36,
+                    37,
+                    32
+                ]
+            },
+            {
+                "name": "run",
+                "fps": 10,
+                "loop": "true",
+                "frames": [
+                    38,
+                    39,
+                    40,
+                    41,
+                    42
+                ]
+            },
+            {
+                "name": "die",
+                "fps": 10,
+                "loop": "false",
+                "frames": [
+                    43,
+                    44,
+                    45,
+                    46
+                ]
+            }
+        ],
+        "sprite": "Assets.Sprites.RAT",
+        "width": 16,
+        "height": 15
+    },
+    {
+        "file": "Succubus",
+        "animations": [
+            {
+                "name": "run",
+                "fps": 15,
+                "loop": "true",
+                "frames": [
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8
+                ]
+            },
+            {
+                "name": "attack",
+                "fps": 12,
+                "loop": "false",
+                "frames": [
+                    9,
+                    10,
+                    11
+                ]
+            },
+            {
+                "name": "idle",
+                "fps": 8,
+                "loop": "true",
+                "frames": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    2,
+                    2,
+                    2,
+                    2,
+                    1
+                ]
+            },
+            {
+                "name": "die",
+                "fps": 10,
+                "loop": "false",
+                "frames": [
+                    12
+                ]
+            }
+        ],
+        "sprite": "Assets.Sprites.SUCCUBUS",
+        "width": 12,
+        "height": 15
+    },
+    {
+        "file": "Shielded",
+        "animations": [
+            {
+                "name": "die",
+                "fps": 12,
+                "loop": "false",
+                "frames": [
+                    29,
+                    30,
+                    31
+                ]
+            },
+            {
+                "name": "attack",
+                "fps": 12,
+                "loop": "false",
+                "frames": [
+                    23,
+                    24
+                ]
+            },
+            {
+                "name": "idle",
+                "fps": 2,
+                "loop": "true",
+                "frames": [
+                    21,
+                    21,
+                    21,
+                    22,
+                    21,
+                    21,
+                    22,
+                    22
+                ]
+            },
+            {
+                "name": "run",
+                "fps": 12,
+                "loop": "true",
+                "frames": [
+                    25,
+                    26,
+                    27,
+                    28
+                ]
+            }
+        ],
+        "sprite": "Assets.Sprites.BRUTE",
+        "width": 12,
+        "height": 16
+    },
+    {
+        "file": "Monk",
+        "animations": [
+            {
+                "name": "attack",
+                "fps": 12,
+                "loop": "false",
+                "frames": [
+                    3,
+                    4,
+                    3,
+                    4
+                ]
+            },
+            {
+                "name": "kick",
+                "fps": 10,
+                "loop": "false",
+                "frames": [
+                    5,
+                    6,
+                    5
+                ]
+            },
+            {
+                "name": "run",
+                "fps": 15,
+                "loop": "true",
+                "frames": [
+                    11,
+                    12,
+                    13,
+                    14,
+                    15,
+                    16
+                ]
+            },
+            {
+                "name": "die",
+                "fps": 15,
+                "loop": "false",
+                "frames": [
+                    1,
+                    7,
+                    8,
+                    8,
+                    9,
+                    10
+                ]
+            },
+            {
+                "name": "idle",
+                "fps": 6,
+                "loop": "true",
+                "frames": [
+                    1,
+                    0,
+                    1,
+                    2
+                ]
+            }
+        ],
+        "sprite": "Assets.Sprites.MONK",
+        "width": 15,
+        "height": 14
+    },
+    {
+        "file": "EarthGuardian",
+        "animations": [
+            {
+                "name": "attack",
+                "fps": 12,
+                "loop": "false",
+                "frames": [
+                    8,
+                    9,
+                    10
+                ]
+            },
+            {
+                "name": "die",
+                "fps": 5,
+                "loop": "false",
+                "frames": [
+                    11,
+                    12,
+                    13,
+                    14,
+                    15,
+                    15
+                ]
+            },
+            {
+                "name": "idle",
+                "fps": 2,
+                "loop": "true",
+                "frames": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    1
+                ]
+            },
+            {
+                "name": "run",
+                "fps": 15,
+                "loop": "true",
+                "frames": [
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7
+                ]
+            }
+        ],
+        "sprite": "Assets.Sprites.GUARDIAN",
+        "width": 12,
+        "height": 15
+    },
+    {
+        "file": "Ward",
+        "animations": []
+    },
+    {
+        "file": "Mob",
+        "animations": []
+    },
+    {
+        "file": "Yog",
+        "animations": [
+            {
+                "name": "idle",
+                "fps": 10,
+                "loop": "true",
+                "frames": [
+                    0,
+                    1,
+                    2,
+                    2,
+                    1,
+                    0,
+                    3,
+                    4,
+                    4,
+                    3,
+                    0,
+                    5,
+                    6,
+                    6,
+                    5
+                ]
+            },
+            {
+                "name": "attack",
+                "fps": 12,
+                "loop": "false",
+                "frames": [
+                    0
+                ]
+            },
+            {
+                "name": "die",
+                "fps": 10,
+                "loop": "false",
+                "frames": [
+                    0,
+                    7,
+                    8,
+                    9
+                ]
+            },
+            {
+                "name": "run",
+                "fps": 12,
+                "loop": "true",
+                "frames": [
+                    0
+                ]
+            }
+        ],
+        "sprite": "Assets.Sprites.YOG",
+        "width": 20,
+        "height": 19
+    },
+    {
+        "file": "Goo",
+        "animations": [
+            {
+                "name": "idle",
+                "fps": 10,
+                "loop": "true",
+                "frames": [
+                    2,
+                    1,
+                    0,
+                    0,
+                    1
+                ]
+            },
+            {
+                "name": "die",
+                "fps": 10,
+                "loop": "false",
+                "frames": [
+                    5,
+                    6,
+                    7
+                ]
+            },
+            {
+                "name": "pump",
+                "fps": 20,
+                "loop": "true",
+                "frames": [
+                    4,
+                    3,
+                    2,
+                    1,
+                    0
+                ]
+            },
+            {
+                "name": "attack",
+                "fps": 10,
+                "loop": "false",
+                "frames": [
+                    8,
+                    9,
+                    10
+                ]
+            },
+            {
+                "name": "run",
+                "fps": 15,
+                "loop": "true",
+                "frames": [
+                    3,
+                    2,
+                    1,
+                    2
+                ]
+            }
+        ],
+        "sprite": "Assets.Sprites.GOO",
+        "width": 20,
+        "height": 14
+    },
+    {
+        "file": "Hero",
+        "animations": [
+            {
+                "name": "fly",
+                "fps": 1,
+                "loop": "true",
+                "frames": [
+                    18
+                ]
+            },
+            {
+                "name": "attack",
+                "fps": 15,
+                "loop": "false",
+                "frames": [
+                    13,
+                    14,
+                    15,
+                    0
+                ]
+            },
+            {
+                "name": "idle",
+                "fps": 1,
+                "loop": "true",
+                "frames": [
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    1,
+                    1
+                ]
+            },
+            {
+                "name": "operate",
+                "fps": 8,
+                "loop": "false",
+                "frames": [
+                    16,
+                    17,
+                    16,
+                    17
+                ]
+            },
+            {
+                "name": "read",
+                "fps": 20,
+                "loop": "false",
+                "frames": [
+                    19,
+                    20,
+                    20,
+                    20,
+                    20,
+                    20,
+                    20,
+                    20,
+                    20,
+                    19
+                ]
+            },
+            {
+                "name": "die",
+                "fps": 20,
+                "loop": "false",
+                "frames": [
+                    8,
+                    9,
+                    10,
+                    11,
+                    12,
+                    11
+                ]
+            },
+            {
+                "name": "run",
+                "fps": "RUN_FRAMERATE",
+                "loop": "true",
+                "frames": [
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7
+                ]
+            }
+        ],
+        "sprite": "Dungeon.hero.heroClass.spritesheet()",
+        "width": "texture.width",
+        "height": "FRAME_HEIGHT"
+    },
+    {
+        "file": "Brute",
+        "animations": [
+            {
+                "name": "idle",
+                "fps": 2,
+                "loop": "true",
+                "frames": [
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    1,
+                    1
+                ]
+            },
+            {
+                "name": "run",
+                "fps": 12,
+                "loop": "true",
+                "frames": [
+                    4,
+                    5,
+                    6,
+                    7
+                ]
+            },
+            {
+                "name": "die",
+                "fps": 12,
+                "loop": "false",
+                "frames": [
+                    8,
+                    9,
+                    10
+                ]
+            },
+            {
+                "name": "attack",
+                "fps": 12,
+                "loop": "false",
+                "frames": [
+                    2,
+                    3,
+                    0
+                ]
+            }
+        ],
+        "sprite": "Assets.Sprites.BRUTE",
+        "width": 12,
+        "height": 16
+    },
+    {
+        "file": "Shopkeeper",
+        "animations": [
+            {
+                "name": "die",
+                "fps": 20,
+                "loop": "false",
+                "frames": [
+                    0
+                ]
+            },
+            {
+                "name": "idle",
+                "fps": 10,
+                "loop": "true",
+                "frames": [
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0
+                ]
+            }
+        ],
+        "sprite": "Assets.Sprites.KEEPER",
+        "width": 14,
+        "height": 14
+    },
+    {
+        "file": "Wraith",
+        "animations": [
+            {
+                "name": "die",
+                "fps": 8,
+                "loop": "false",
+                "frames": [
+                    0,
+                    4,
+                    5,
+                    6,
+                    7
+                ]
+            },
+            {
+                "name": "run",
+                "fps": 10,
+                "loop": "true",
+                "frames": [
+                    0,
+                    1
+                ]
+            },
+            {
+                "name": "idle",
+                "fps": 5,
+                "loop": "true",
+                "frames": [
+                    0,
+                    1
+                ]
+            },
+            {
+                "name": "attack",
+                "fps": 10,
+                "loop": "false",
+                "frames": [
+                    0,
+                    2,
+                    3
+                ]
+            }
+        ],
+        "sprite": "Assets.Sprites.WRAITH",
+        "width": 14,
+        "height": 15
+    },
+    {
+        "file": "DM200",
+        "animations": [
+            {
+                "name": "die",
+                "fps": 8,
+                "loop": "false",
+                "frames": [
+                    9,
+                    10,
+                    11
+                ]
+            },
+            {
+                "name": "attack",
+                "fps": 15,
+                "loop": "false",
+                "frames": [
+                    4,
+                    5,
+                    6
+                ]
+            },
+            {
+                "name": "run",
+                "fps": 10,
+                "loop": "true",
+                "frames": [
+                    2,
+                    3
+                ]
+            },
+            {
+                "name": "idle",
+                "fps": 10,
+                "loop": "true",
+                "frames": [
+                    0,
+                    1
+                ]
+            },
+            {
+                "name": "zap",
+                "fps": 15,
+                "loop": "false",
+                "frames": [
+                    7,
+                    8,
+                    8,
+                    7
+                ]
+            }
+        ],
+        "sprite": "Assets.Sprites.DM200",
+        "width": 21,
+        "height": 18
+    },
+    {
+        "file": "ItemSprit",
+        "animations": []
+    },
+    {
+        "file": "SpectralNecromancer",
+        "animations": [
+            {
+                "name": "die",
+                "fps": 10,
+                "loop": "false",
+                "frames": [
+                    "c+9",
+                    "c+10",
+                    "c+11",
+                    "c+12"
+                ]
+            },
+            {
+                "name": "run",
+                "fps": 8,
+                "loop": "true",
+                "frames": [
+                    "c+0",
+                    "c+0",
+                    "c+0",
+                    "c+2",
+                    "c+3",
+                    "c+4"
+                ]
+            },
+            {
+                "name": "zap",
+                "fps": 10,
+                "loop": "false",
+                "frames": [
+                    "c+5",
+                    "c+6",
+                    "c+7",
+                    "c+8"
+                ]
+            },
+            {
+                "name": "charging",
+                "fps": 5,
+                "loop": "true",
+                "frames": [
+                    "c+7",
+                    "c+8"
+                ]
+            },
+            {
+                "name": "idle",
+                "fps": 1,
+                "loop": "true",
+                "frames": [
+                    "c+0",
+                    "c+0",
+                    "c+0",
+                    "c+1",
+                    "c+0",
+                    "c+0",
+                    "c+0",
+                    "c+0",
+                    "c+1"
+                ]
+            }
+        ],
+        "sprite": "Assets.Sprites.NECRO",
+        "width": 16,
+        "height": 16
+    },
+    {
+        "file": "RotHeart",
+        "animations": [
+            {
+                "name": "die",
+                "fps": 8,
+                "loop": "false",
+                "frames": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    7,
+                    7
+                ]
+            },
+            {
+                "name": "run",
+                "fps": 1,
+                "loop": "true",
+                "frames": [
+                    0
+                ]
+            },
+            {
+                "name": "idle",
+                "fps": 1,
+                "loop": "true",
+                "frames": [
+                    0
+                ]
+            },
+            {
+                "name": "attack",
+                "fps": 1,
+                "loop": "false",
+                "frames": [
+                    0
+                ]
+            }
+        ],
+        "sprite": "Assets.Sprites.ROT_HEART",
+        "width": 16,
+        "height": 16
+    },
+    {
+        "file": "King",
+        "animations": [
+            {
+                "name": "run",
+                "fps": 15,
+                "loop": "true",
+                "frames": [
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8
+                ]
+            },
+            {
+                "name": "idle",
+                "fps": 12,
+                "loop": "true",
+                "frames": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    2
+                ]
+            },
+            {
+                "name": "die",
+                "fps": 8,
+                "loop": "false",
+                "frames": [
+                    12,
+                    13,
+                    14,
+                    15
+                ]
+            },
+            {
+                "name": "attack",
+                "fps": 15,
+                "loop": "false",
+                "frames": [
+                    9,
+                    10,
+                    11
+                ]
+            }
+        ],
+        "sprite": "Assets.Sprites.KING",
+        "width": 16,
+        "height": 16
+    },
+    {
+        "file": "Spinner",
+        "animations": [
+            {
+                "name": "die",
+                "fps": 12,
+                "loop": "false",
+                "frames": [
+                    6,
+                    7,
+                    8,
+                    9
+                ]
+            },
+            {
+                "name": "run",
+                "fps": 15,
+                "loop": "true",
+                "frames": [
+                    0,
+                    2,
+                    0,
+                    3
+                ]
+            },
+            {
+                "name": "attack",
+                "fps": 12,
+                "loop": "false",
+                "frames": [
+                    0,
+                    4,
+                    5,
+                    0
+                ]
+            },
+            {
+                "name": "idle",
+                "fps": 10,
+                "loop": "true",
+                "frames": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    1
+                ]
+            }
+        ],
+        "sprite": "Assets.Sprites.SPINNER",
+        "width": 16,
+        "height": 16
+    },
+    {
+        "file": "GnollTrickster",
+        "animations": [
+            {
+                "name": "die",
+                "fps": 12,
+                "loop": "false",
+                "frames": [
+                    29,
+                    30,
+                    31
+                ]
+            },
+            {
+                "name": "idle",
+                "fps": 2,
+                "loop": "true",
+                "frames": [
+                    21,
+                    21,
+                    21,
+                    22,
+                    21,
+                    21,
+                    22,
+                    22
+                ]
+            },
+            {
+                "name": "attack",
+                "fps": 12,
+                "loop": "false",
+                "frames": [
+                    23,
+                    24,
+                    21
+                ]
+            },
+            {
+                "name": "run",
+                "fps": 12,
+                "loop": "true",
+                "frames": [
+                    25,
+                    26,
+                    27,
+                    28
+                ]
+            }
+        ],
+        "sprite": "Assets.Sprites.GNOLL",
+        "width": 12,
+        "height": 15
+    },
+    {
+        "file": "Bat",
+        "animations": [
+            {
+                "name": "idle",
+                "fps": 8,
+                "loop": "true",
+                "frames": [
+                    0,
+                    1
+                ]
+            },
+            {
+                "name": "run",
+                "fps": 12,
+                "loop": "true",
+                "frames": [
+                    0,
+                    1
+                ]
+            },
+            {
+                "name": "attack",
+                "fps": 12,
+                "loop": "false",
+                "frames": [
+                    2,
+                    3,
+                    0,
+                    1
+                ]
+            },
+            {
+                "name": "die",
+                "fps": 12,
+                "loop": "false",
+                "frames": [
+                    4,
+                    5,
+                    6
+                ]
+            }
+        ],
+        "sprite": "Assets.Sprites.BAT",
+        "width": 15,
+        "height": 15
+    },
+    {
+        "file": "Pylon",
+        "animations": [
+            {
+                "name": "die",
+                "fps": 1,
+                "loop": "false",
+                "frames": [
+                    2
+                ]
+            },
+            {
+                "name": "activeIdle",
+                "fps": 1,
+                "loop": "false",
+                "frames": [
+                    1
+                ]
+            },
+            {
+                "name": "idle",
+                "fps": 1,
+                "loop": "false",
+                "frames": [
+                    0
+                ]
+            }
+        ],
+        "sprite": "Assets.Sprites.PYLON",
+        "width": 10,
+        "height": 20
+    },
+    {
+        "file": "Shaman",
+        "animations": [
+            {
+                "name": "die",
+                "fps": 12,
+                "loop": "false",
+                "frames": [
+                    "c+8",
+                    "c+9",
+                    "c+10"
+                ]
+            },
+            {
+                "name": "attack",
+                "fps": 12,
+                "loop": "false",
+                "frames": [
+                    "c+2",
+                    "c+3",
+                    "c+0"
+                ]
+            },
+            {
+                "name": "run",
+                "fps": 12,
+                "loop": "true",
+                "frames": [
+                    "c+4",
+                    "c+5",
+                    "c+6",
+                    "c+7"
+                ]
+            },
+            {
+                "name": "idle",
+                "fps": 2,
+                "loop": "true",
+                "frames": [
+                    "c+0",
+                    "c+0",
+                    "c+0",
+                    "c+1",
+                    "c+0",
+                    "c+0",
+                    "c+1",
+                    "c+1"
+                ]
+            }
+        ],
+        "sprite": "Assets.Sprites.SHAMAN",
+        "width": 12,
+        "height": 15
+    },
+    {
+        "file": "DM300",
+        "animations": [
+            {
+                "name": "die",
+                "fps": 20,
+                "loop": "false",
+                "frames": [
+                    0,
+                    10,
+                    0,
+                    10,
+                    0,
+                    10,
+                    0,
+                    10,
+                    0,
+                    10,
+                    0,
+                    10,
+                    0,
+                    10,
+                    0,
+                    10,
+                    0,
+                    10,
+                    0,
+                    10
+                ]
+            },
+            {
+                "name": "run",
+                "fps": "enraged ? 15 : 10",
+                "loop": "true",
+                "frames": [
+                    "c+0",
+                    "c+2"
+                ]
+            },
+            {
+                "name": "zap",
+                "fps": 15,
+                "loop": "false",
+                "frames": [
+                    6,
+                    7,
+                    7,
+                    6
+                ]
+            },
+            {
+                "name": "idle",
+                "fps": "enraged ? 15 : 10",
+                "loop": "true",
+                "frames": [
+                    "c+0",
+                    "c+1"
+                ]
+            },
+            {
+                "name": "attack",
+                "fps": 15,
+                "loop": "false",
+                "frames": [
+                    "c+3",
+                    "c+4",
+                    "c+5"
+                ]
+            }
+        ],
+        "sprite": "Assets.Sprites.DM300",
+        "width": 25,
+        "height": 22
+    },
+    {
+        "file": "Lotus",
+        "animations": [
+            {
+                "name": "run",
+                "fps": 1,
+                "loop": "true",
+                "frames": [
+                    0
+                ]
+            },
+            {
+                "name": "idle",
+                "fps": 1,
+                "loop": "true",
+                "frames": [
+                    0
+                ]
+            },
+            {
+                "name": "attack",
+                "fps": 1,
+                "loop": "false",
+                "frames": [
+                    0
+                ]
+            },
+            {
+                "name": "die",
+                "fps": 1,
+                "loop": "false",
+                "frames": [
+                    0
+                ]
+            }
+        ],
+        "sprite": "Assets.Sprites.LOTUS",
+        "width": 19,
+        "height": 16
+    },
+    {
+        "file": "Crab",
+        "animations": [
+            {
+                "name": "run",
+                "fps": 15,
+                "loop": "true",
+                "frames": [
+                    3,
+                    4,
+                    5,
+                    6
+                ]
+            },
+            {
+                "name": "die",
+                "fps": 12,
+                "loop": "false",
+                "frames": [
+                    10,
+                    11,
+                    12,
+                    13
+                ]
+            },
+            {
+                "name": "attack",
+                "fps": 12,
+                "loop": "false",
+                "frames": [
+                    7,
+                    8,
+                    9
+                ]
+            },
+            {
+                "name": "idle",
+                "fps": 5,
+                "loop": "true",
+                "frames": [
+                    0,
+                    1,
+                    0,
+                    2
+                ]
+            }
+        ],
+        "sprite": "Assets.Sprites.CRAB",
+        "width": 16,
+        "height": 16
+    },
+    {
+        "file": "Missile",
+        "animations": []
+    },
+    {
+        "file": "Char",
+        "animations": []
+    },
+    {
+        "file": "Ghoul",
+        "animations": [
+            {
+                "name": "run",
+                "fps": 12,
+                "loop": "true",
+                "frames": [
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7
+                ]
+            },
+            {
+                "name": "attack",
+                "fps": 12,
+                "loop": "false",
+                "frames": [
+                    0,
+                    8,
+                    9
+                ]
+            },
+            {
+                "name": "die",
+                "fps": 15,
+                "loop": "false",
+                "frames": [
+                    0,
+                    10,
+                    11,
+                    12,
+                    13
+                ]
+            },
+            {
+                "name": "crumple",
+                "fps": 15,
+                "loop": "false",
+                "frames": [
+                    0,
+                    10,
+                    11,
+                    12
+                ]
+            },
+            {
+                "name": "idle",
+                "fps": 2,
+                "loop": "true",
+                "frames": [
+                    0,
+                    0,
+                    0,
+                    1
+                ]
+            }
+        ],
+        "sprite": "Assets.Sprites.GHOUL",
+        "width": 12,
+        "height": 14
+    },
+    {
+        "file": "Golem",
+        "animations": [
+            {
+                "name": "attack",
+                "fps": 10,
+                "loop": "false",
+                "frames": [
+                    6,
+                    7,
+                    8
+                ]
+            },
+            {
+                "name": "idle",
+                "fps": 4,
+                "loop": "true",
+                "frames": [
+                    0,
+                    1
+                ]
+            },
+            {
+                "name": "die",
+                "fps": 15,
+                "loop": "false",
+                "frames": [
+                    9,
+                    10,
+                    11,
+                    12,
+                    13
+                ]
+            },
+            {
+                "name": "run",
+                "fps": 12,
+                "loop": "true",
+                "frames": [
+                    2,
+                    3,
+                    4,
+                    5
+                ]
+            }
+        ],
+        "sprite": "Assets.Sprites.GOLEM",
+        "width": 17,
+        "height": 19
+    },
+    {
+        "file": "GreatCrab",
+        "animations": [
+            {
+                "name": "attack",
+                "fps": 12,
+                "loop": "false",
+                "frames": [
+                    23,
+                    24,
+                    25
+                ]
+            },
+            {
+                "name": "die",
+                "fps": 12,
+                "loop": "false",
+                "frames": [
+                    26,
+                    27,
+                    28,
+                    29
+                ]
+            },
+            {
+                "name": "idle",
+                "fps": 5,
+                "loop": "true",
+                "frames": [
+                    16,
+                    17,
+                    16,
+                    18
+                ]
+            },
+            {
+                "name": "run",
+                "fps": 10,
+                "loop": "true",
+                "frames": [
+                    19,
+                    20,
+                    21,
+                    22
+                ]
+            }
+        ],
+        "sprite": "Assets.Sprites.CRAB",
+        "width": 16,
+        "height": 16
+    }
+]

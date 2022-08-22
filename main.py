@@ -1,16 +1,15 @@
 import pygame
+from dungeon import sprites_manager
 from dungeon.input_handler import MainEventHandler
 from dungeon.entity import Entity
 from dungeon.game_map import gen_gamemap
 from dungeon.engine import Engine
-from dungeon import sprites_manager
 from utils.compute_fov import compute_fov
 
 
 def main():
     map_width = 40
     map_height = 30
-    pygame.init()
     screen = pygame.display.set_mode((map_width*32, map_height*32))
     pygame.display.set_caption('Test Stage')
 
@@ -27,20 +26,7 @@ def main():
         gamemap=gamemap,
     )
 
-    compute_fov(origin=(rogue.x, rogue.y), gamemap=gamemap, radius=7)
-
-    gamemap.update_surface()
-
-    gamemap.render()
-
-    render_surface = pygame.transform.scale(
-        screen,
-        (screen.get_width()*2, screen.get_height()*2)
-    )
-    screen.fill((0, 0, 0))
-    screen.blit(render_surface, (0, 0))
-
-    pygame.display.flip()
+    gamemap.update_map()
 
     while True:
 

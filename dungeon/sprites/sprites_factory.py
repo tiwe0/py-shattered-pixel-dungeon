@@ -5,7 +5,7 @@ import json
 
 
 class SpriteManager:
-    def __init__(self, filepath):
+    def __init__(self, filepath: str):
         sprites = load_sprites_from_json(filepath)
         self._sprites_dict = {}
         for sprite in sprites:

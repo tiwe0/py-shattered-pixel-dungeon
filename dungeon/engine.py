@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Type
 
 if TYPE_CHECKING:
     from dungeon.entity import Entity
@@ -11,7 +11,7 @@ class Engine:
     def __init__(
             self,
             player: 'Entity',
-            input_handler: 'MainEventHandler',
+            input_handler: 'Type',
             gamemap: 'GameMap'
     ):
         """
@@ -23,7 +23,7 @@ class Engine:
         self.player: 'Entity' = player
 
         # 这里 input_handler 是个类, 因此初始化不太一样.
-        self.input_handler: 'MainEventHandler' = input_handler
+        self.input_handler: 'Type' = input_handler
         self.input_handler.player = player
 
         # 这里 gamemap 是个实例, 因此初始化不太一样.
@@ -35,8 +35,10 @@ class Engine:
         self.input_handler.handle_event()
 
     def render(self):
-        """渲染委托给地图."""
+        """渲染地图."""
         self.gamemap.render()
+        # 渲染 UI
+        # self.UI.render()
 
     def run(self):
         """引擎核心方法, 处理事件 + 渲染."""

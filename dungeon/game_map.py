@@ -4,6 +4,7 @@ from typing import Tuple, Iterator, List, TYPE_CHECKING, Set, Optional
 import numpy as np
 import pygame
 
+from dungeon import pre_screen
 from dungeon.assets import Assets
 from dungeon.dsprite import DSpriteSheetReader
 from dungeon.tileset.fog_of_war import FogOfWar
@@ -38,7 +39,7 @@ class GameMap:
         self.visiting = np.full((width, height), fill_value=False, order='F')
 
         # 负责优化渲染. 后续的 16 要抽象出来.
-        self.surface: 'pygame.Surface' = pygame.Surface((width*16, height*16))
+        self.surface: 'pygame.Surface' = pygame.Surface((width*16, height*16)).convert_alpha()
 
         # 其他信息
         self.entities: 'Set[Entity]' = set()
@@ -71,8 +72,7 @@ class GameMap:
 
     def render_map(self):
         """渲染自己."""
-        screen = pygame.display.get_surface()
-        screen.blit(self.surface, (0, 0))
+        pre_screen.blit(self.surface, (0, 0))
 
     def get_entities_in_xy(self, xy: Tuple[int, int]):
         """检索目标位置的第一个 entity."""

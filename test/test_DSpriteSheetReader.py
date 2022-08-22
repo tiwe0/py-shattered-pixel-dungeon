@@ -1,5 +1,4 @@
 from dungeon.dsprite import DSpriteSheetReader
-import pygame
 from test.test_stage import test_stage
 from dungeon.assets import Assets
 

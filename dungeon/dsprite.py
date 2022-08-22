@@ -4,6 +4,7 @@ from typing import List, TYPE_CHECKING, Dict, Optional, Tuple
 import pygame
 from pygame.sprite import Sprite
 
+from dungeon import pre_screen
 from dungeon.tweener.tweener import PosTweener
 
 if TYPE_CHECKING:
@@ -82,8 +83,7 @@ class DAnimation:
         :return:
         """
         current_frame = self.get_current_frame(sprite.direction)
-        screen = pygame.display.get_surface()
-        screen.blit(current_frame, sprite.pos)
+        pre_screen.blit(current_frame, sprite.pos)
 
 
 class DSprite(Sprite):
@@ -255,7 +255,7 @@ class DSpriteSheetReader:
 
         for r in range(row):
             for c in range(col):
-                surface_sheet.append(surface_total.subsurface(rect).copy())
+                surface_sheet.append(surface_total.subsurface(rect).copy().convert_alpha())
                 rect.move_ip(frame_width, 0)
             rect.move_ip(-frame_width*col, frame_height)
 

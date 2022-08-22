@@ -12,7 +12,7 @@ class SpriteManager:
             self._sprites_dict[sprite.name] = sprite
 
     def __getitem__(self, item):
-        return self._sprites_dict.get(item).clone()
+        return self._sprites_dict.get(item)
 
     def sprites(self):
         return list(self._sprites_dict.keys())

@@ -1,6 +1,7 @@
 import pygame
 from pygame.locals import *
 
+
 def test_stage(func):
     pygame.init()
     screen = pygame.display.set_mode((500, 500))

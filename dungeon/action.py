@@ -51,3 +51,8 @@ class MovementAction(ActionWithDirection):
             entity.move(self.direction)
         else:
             return
+
+
+class ToggleInventor(Action):
+    def exec(self, entity: 'Entity'):
+        entity.engine.ui.toggle_inventory()

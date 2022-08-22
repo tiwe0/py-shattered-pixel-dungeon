@@ -2,21 +2,14 @@ from typing import Tuple
 import pygame
 
 
-def load_image(filepath: str) -> pygame.Surface:
+def load_image_with_alpha(filepath: str) -> pygame.Surface:
     surface = pygame.image.load(filepath)
-    try:
-        surface.convert_alpha()
-    except Exception as e:
-        pass
+    surface = surface.convert_alpha()
     return surface
 
 
 def load_tile(filepath: str, pos: Tuple[int, int], size: Tuple[int, int]) -> pygame.Surface:
-    surface = load_image(filepath)
+    surface = load_image_with_alpha(filepath)
     tile_surface = surface.subsurface(*pos, *size).copy()
-    try:
-        tile_surface.convert_alpha()
-    except Exception as e:
-        pass
     return tile_surface
 

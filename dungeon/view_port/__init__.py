@@ -9,9 +9,12 @@ from utils.surface import get_scaled_surface
 
 
 class ViewPort:
-    def __init__(self, size: Tuple[int, int], render_pos: Tuple[int, int], inner_size: Tuple[int, int], output_size: Tuple[int, int],
-                 target: Optional[
-                     Union[Entity, Tuple[int, int]]] = (0, 0)):
+    def __init__(self,
+                 size: Tuple[int, int],
+                 render_pos: Tuple[int, int],
+                 inner_size: Tuple[int, int],
+                 output_size: Tuple[int, int],
+                 target: Optional[Union[Entity, Tuple[int, int]]] = (0, 0)):
         self.width, self.height = size
         self.inner_width, self.inner_height = inner_size
         self.border_width, self.border_height = (self.width - self.inner_width) // 2, (
@@ -24,7 +27,8 @@ class ViewPort:
         self.target = target
         self.screen = pre_screen
         self.child: Optional[Component] = None
-        self.fix_init()
+        #self.fix_init()
+        self.update_pos()
         self.output_size = output_size
 
     @property
@@ -37,7 +41,7 @@ class ViewPort:
     @property
     def target_y(self):
         if isinstance(self.target, Entity):
-            return self.target.y
+            return self.target.sprite.y
         else:
             return self.target[1]
 
@@ -67,23 +71,31 @@ class ViewPort:
         else:
             self._y = value
 
+    @property
+    def center_x(self):
+        return self.x+self.width//2
+
+    @property
+    def center_y(self):
+        return self.y+self.height//2
+
     def fix_init(self):
         """主要是防止动态属性在init中不生效."""
         self.x = self.target_x - (self.width // 2)
         self.y = self.target_y - (self.height // 2)
 
     def update_x(self):
-        if abs(self.target_x - self.x) <= self.inner_width // 2:
+        if abs(self.target_x - self.center_x) <= self.inner_width // 2:
             return
-        if self.target_x < self.x:
+        if self.target_x < self.center_x:
             self.x = self.target_x - self.border_width
         else:
             self.x = self.target_x - self.border_width - self.inner_width
 
     def update_y(self):
-        if abs(self.target_y - self.y) <= self.inner_height // 2:
+        if abs(self.target_y - self.center_y) <= self.inner_height // 2:
             return
-        if self.target_y < self.y:
+        if self.target_y < self.center_y:
             self.y = self.target_y - self.border_height
         else:
             self.y = self.target_y - self.border_height - self.inner_height

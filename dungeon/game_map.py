@@ -56,7 +56,7 @@ class GameMap:
 
     def update_surface(self):
         """负责更新应当渲染的 surface, 通常不需要每帧都渲染, 而是特定动作后渲染一次即可."""
-        self.surface.fill((0, 0, 0))
+        self.surface.fill((0, 0, 0, 255))
         for c in range(self.width):
             for r in range(self.height):
                 # 只渲染已访问地图

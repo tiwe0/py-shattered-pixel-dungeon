@@ -50,3 +50,4 @@ class Component:
     def add_child(self, component: 'Component'):
         self.children.append(component)
         component.parent = self
+        return self

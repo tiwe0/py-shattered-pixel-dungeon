@@ -1,11 +1,15 @@
-from dungeon import pre_screen
-from dungeon.entity import Entity
 from typing import Tuple, Optional, Union
+
 from pygame import Surface
+
+from dungeon import pre_screen
+from dungeon.components import Component
+from dungeon.entity import Entity
+from utils.surface import get_scaled_surface
 
 
 class ViewPort:
-    def __init__(self, size: Tuple[int, int], render_pos: Tuple[int, int], inner_size: Tuple[int, int],
+    def __init__(self, size: Tuple[int, int], render_pos: Tuple[int, int], inner_size: Tuple[int, int], output_size: Tuple[int, int],
                  target: Optional[
                      Union[Entity, Tuple[int, int]]] = (0, 0)):
         self.width, self.height = size
@@ -19,7 +23,9 @@ class ViewPort:
         self.followed = True if isinstance(target, Entity) else False
         self.target = target
         self.screen = pre_screen
+        self.child: Optional[Component] = None
         self.fix_init()
+        self.output_size = output_size
 
     @property
     def target_x(self):
@@ -88,12 +94,20 @@ class ViewPort:
 
     def render_view(self):
         self.update_pos()
-        render_surface = self.screen.subsurface(self.x, self.y, self.width, self.height).copy()
+        render_surface = get_scaled_surface(self.screen.subsurface(self.x, self.y, self.width, self.height).copy(), self.output_size)
+        self.screen.fill((0, 0, 0, 0))
         self.screen.blit(render_surface, self.render_pos)
 
     def render_gui(self, source: 'Surface', pos: Tuple[int, int]):
         pass
 
+    def render_components(self):
+        if self.child:
+            self.child.render_all()
+
+    def add_components(self, components_tree: 'Component'):
+        self.child = components_tree
+
     def render(self):
         self.render_view()
-        self.render_gui()
+        self.render_components()

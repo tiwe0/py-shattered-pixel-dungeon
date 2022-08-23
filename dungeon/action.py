@@ -41,6 +41,7 @@ class ActionWithTarget(Action):
 
 class MovementAction(ActionWithDirection):
     def exec(self, entity: 'Entity'):
+        print(self.direction)
         dx, dy = self.direction
         target_x, target_y = entity.x + dx, entity.y + dy
         # 防止跑出地图.

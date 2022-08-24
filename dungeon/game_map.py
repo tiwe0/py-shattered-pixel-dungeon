@@ -52,6 +52,14 @@ class GameMap:
     def add_room(self, room: 'RectangularRoom'):
         self.rooms.append(room)
 
+    def __getitem__(self, item: Tuple[int, int]):
+        x, y = item
+        if x < 0 or x >= self.width or y < 0 or y >= self.height:
+            return -1
+        else:
+            return self.tiles[x, y]
+
+
     def player(self):
         return self.engine.player
 
@@ -69,9 +77,15 @@ class GameMap:
                 if self.explored[c, r]:
                     # 根据 tiles 渲染.
                     if self.tiles[c, r] == Terrain.WALL:
-                        self.surface.blit(Tiles.get_tile(Tiles.FLAT_WALL), (c * GRID_SIZE, r * GRID_SIZE))
+                        # self.surface.blit(Tiles.get_tile(Tiles.FLAT_WALL), (c * GRID_SIZE, r * GRID_SIZE))
+                        tile = Tiles.get_tile(Tiles.get_Raised_tile_terrain(self, (c, r), self[c, r]))
+                        self.surface.blit(tile, (c * GRID_SIZE, r * GRID_SIZE))
                     else:
                         self.surface.blit(Tiles.get_tile(Tiles.FLOOR), (c * GRID_SIZE, r * GRID_SIZE))
+
+                    tile = Tiles.get_tile(Tiles.get_Raised_tile_wall(self, (c, r), self[c, r]))
+                    self.surface.blit(tile, (c * GRID_SIZE, r * GRID_SIZE))
+
                     # 若该块没有正在视野中, 再加一层记忆遮罩.
                     if not self.visiting[c, r]:
                         self.surface.blit(FogOfWar.explored_surface, (c * GRID_SIZE, r * GRID_SIZE))

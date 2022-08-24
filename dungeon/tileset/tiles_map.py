@@ -21,17 +21,17 @@ assert cr(4, 2) == 49
 class Tiles:
     # GROUND
     wall_stitcheable_list = [
-                         Terrain.WALL, Terrain.WALL_DECO, Terrain.SECRET_DOOR,
-                         Terrain.LOCKED_EXIT, Terrain.UNLOCKED_EXIT, Terrain.BOOKSHELF
-                            ]
+        Terrain.WALL, Terrain.WALL_DECO, Terrain.SECRET_DOOR,
+        Terrain.LOCKED_EXIT, Terrain.UNLOCKED_EXIT, Terrain.BOOKSHELF
+    ]
 
     door_tiles_list = [
-                   Terrain.DOOR, Terrain.LOCKED_DOOR, Terrain.CRYSTAL_DOOR, Terrain.OPEN_DOOR
-                      ]
+        Terrain.DOOR, Terrain.LOCKED_DOOR, Terrain.CRYSTAL_DOOR, Terrain.OPEN_DOOR
+    ]
 
     floor_tiles_list = [
-                    Terrain.WATER,
-                       ]
+        Terrain.WATER,
+    ]
 
     @classmethod
     def get_tile(cls, tile: int) -> 'Surface':
@@ -39,11 +39,11 @@ class Tiles:
 
     @classmethod
     def door_tile(cls, tile: int):
-                              return tile in cls.door_tiles_list
+        return tile in cls.door_tiles_list
 
     @classmethod
     def wall_stitcheable(cls, tile: int):
-                                     return tile in cls.wall_stitcheable_list
+        return tile in cls.wall_stitcheable_list
 
     @classmethod
     def stitch_WallOverhang_tile(cls, tile: int, right_below: int, below: int, left_below: int) -> int:
@@ -52,9 +52,9 @@ class Tiles:
         elif tile == Terrain.OPEN_DOOR:
             visual = cls.DOOR_SIDEWAYS_OVERHANG_OPEN
         elif tile == Terrain.LOCKED_DOOR:
-            visual = cls.DOOR_SIDEWAYS_OVERHANG_OPEN
-        elif tile == Terrain.CRYSTAL_DOOR:
             visual = cls.DOOR_SIDEWAYS_OVERHANG_LOCKED
+        elif tile == Terrain.CRYSTAL_DOOR:
+            visual = cls.DOOR_SIDEWAYS_OVERHANG_CRYSTAL
         elif below == Terrain.BOOKSHELF:
             visual = cls.WALL_OVERHANG_WOODEN
         else:
@@ -75,7 +75,7 @@ class Tiles:
             result = cls.WALL_INTERNAL
 
         if not cls.wall_stitcheable(right):
-            right += 1
+            result += 1
         if not cls.wall_stitcheable(right_below):
             result += 2
         if not cls.wall_stitcheable(left_below):
@@ -97,8 +97,6 @@ class Tiles:
             result = cls.RAISED_WALL_DECO
         elif tile == Terrain.BOOKSHELF:
             result = cls.RAISED_WALL_BOOKSHELF
-        else:
-            return -1
 
         # TODO
 
@@ -123,6 +121,57 @@ class Tiles:
             return cls.RAISED_DOOR_CRYSTAL
         else:
             return -1
+
+    @classmethod
+    def get_Raised_tile_terrain(cls, gamemap: 'GameMap', pos: Tuple[int, int], tile: int):
+        x, y = pos
+        if cls.door_tile(tile):
+            return cls.get_RaisedDoor_tile(tile, gamemap[x, y-1])
+        elif cls.wall_stitcheable(tile):
+            return cls.get_RaisedWall_tile(tile, pos, gamemap[x+1, y], gamemap[x, y+1], gamemap[x-1, y])
+        elif tile == Terrain.SIGN:
+            return cls.RAISED_SIGN
+        elif tile == Terrain.STATUE:
+            return cls.RAISED_STATUE
+        elif tile == Terrain.STATUE_SP:
+            return cls.RAISED_STATUE_SP
+        elif tile == Terrain.ALCHEMY:
+            return cls.RAISED_ALCHEMY_POT
+        elif tile == Terrain.BARRICADE:
+            return cls.RAISED_BARRICADE
+        elif tile == Terrain.HIGH_GRASS:
+            return cls.RAISED_HIGH_GRASS
+        elif tile == Terrain.FURROWED_GRASS:
+            return cls.RAISED_FURROWED_GRASS
+        else:
+            # TODO check
+            return -1
+
+    @classmethod
+    def get_Raised_tile_wall(cls, gamemap: 'GameMap', pos: Tuple[int, int], tile: int):
+        x, y = pos
+        if cls.wall_stitcheable(tile):
+            if y + 1 < gamemap.height and not cls.wall_stitcheable(gamemap[x, y+1]):
+                tile_ = gamemap[x, y+1]
+                if tile_ == Terrain.DOOR:
+                    return cls.DOOR_SIDEWAYS
+                elif tile_ == Terrain.LOCKED_DOOR:
+                    return cls.DOOR_SIDEWAYS_LOCKED
+                elif tile_ == Terrain.CRYSTAL_DOOR:
+                    return cls.DOOR_SIDEWAYS_CRYSTAL
+                elif tile_ == Terrain.OPEN_DOOR:
+                    return -1
+            else:
+                return cls.stitch_InternalWall_tile(
+                    tile, gamemap[x+1, y], gamemap[x+1, y+1], gamemap[x, y+1], gamemap[x-1, y+1], gamemap[x-1, y]
+                )
+
+        if y + 1 < gamemap.height and cls.wall_stitcheable(gamemap[x, y+1]):
+            return cls.stitch_WallOverhang_tile(
+                tile, gamemap[x+1, y+1], gamemap[x, y+1], gamemap[x-1, y+1]
+            )
+
+        return -1
 
     GROUND = cr(1, 1)
     FLOOR = GROUND+0

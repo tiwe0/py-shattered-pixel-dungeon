@@ -1,9 +1,9 @@
 from typing import Tuple, TYPE_CHECKING
+
 from pygame import Surface
 
 from dungeon.components import Component
 from dungeon.tileset.tiles_ui import Tiles
-
 from utils.surface import get_scaled_surface
 
 if TYPE_CHECKING:
@@ -42,6 +42,9 @@ class StatusPanel(HUDComponent):
         super(StatusPanel, self).__init__(tile=tile, pos=pos, **kwargs)
 
 
+# TODO 用元编程写HUDBar
+
+
 class HealthBar(HUDComponent):
     def __init__(self, **kwargs):
         tile = Tiles.Interface.health_bar
@@ -57,4 +60,4 @@ class HealthBar(HUDComponent):
         self.health_ratio = ratio
 
     def before_render(self) -> Surface:
-        return get_scaled_surface(self._tile, (self.width*self.health_ratio, self.height))
+        return get_scaled_surface(self._tile, (self.width * self.health_ratio, self.height))

@@ -25,6 +25,8 @@ Issue reports of all kinds (bug reports, feature requests, etc.) are welcome.
 
 ## Todo
 
-- [ ] refract the bad code.
-- [ ] UI.
+- [ ] refract the bad code. (working)
+- [ ] UI. (working)
+- [ ] TimeSystem
+- [ ] ActionSystem
 - [ ] ...

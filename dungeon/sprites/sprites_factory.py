@@ -1,7 +1,8 @@
-from typing import TYPE_CHECKING, List, Dict
-from dungeon.dsprite import DSpriteSheetReader, DSprite, DAnimation
-from dungeon.assets import Assets
 import json
+from typing import List, Dict
+
+from dungeon.assets import Assets
+from dungeon.dsprite import DSpriteSheetReader, DSprite, DAnimation
 
 
 class SpriteManager:
@@ -38,7 +39,7 @@ def load_sprites_from_json(filepath: str):
         yield sprite
 
 
-def gen_sprites(filepath: str, width: int, height: int, animations: List[Dict], name: str=''):
+def gen_sprites(filepath: str, width: int, height: int, animations: List[Dict], name: str = ''):
     sprite = DSprite(name=name, width=width, height=height)
     sprite_sheet = DSpriteSheetReader(
         filename=filepath,

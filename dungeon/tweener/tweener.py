@@ -1,6 +1,8 @@
-from utils.position import Position
 from typing import Tuple, TYPE_CHECKING
+
 from pygame.time import Clock
+
+from utils.position import Position
 
 if TYPE_CHECKING:
     from dungeon.dsprite import DSprite

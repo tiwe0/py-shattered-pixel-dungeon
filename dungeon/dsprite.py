@@ -5,6 +5,7 @@ import pygame
 from pygame.sprite import Sprite
 
 from dungeon import pre_screen
+from dungeon.config import GRID_SIZE
 from dungeon.tweener.tweener import PosTweener
 
 if TYPE_CHECKING:
@@ -13,6 +14,7 @@ if TYPE_CHECKING:
 
 class DAnimation:
     """负责动画渲染，绝大多数的动画最终均由该类负责渲染."""
+
     def __init__(self, status: str, frames: 'DSpriteSheetReader', fps: 'int', key_frame: 'List[int]', loop: 'bool'):
         """
 
@@ -27,7 +29,7 @@ class DAnimation:
         self.loop = loop
         self.frames = frames
         self.key_frame = key_frame
-        self.delay = float(1.0/fps) * 1000  # 由帧数计算而来, 控制动画速度.
+        self.delay = float(1.0 / fps) * 1000  # 由帧数计算而来, 控制动画速度.
         self.time: 'float' = 0.0
         # 对 `elapsed` 属性负责.
         self._timer: 'pygame.time.Clock' = pygame.time.Clock()
@@ -54,7 +56,7 @@ class DAnimation:
         if self.loop:
             self._current_index = value % len(self.key_frame)
         else:
-            self._current_index = min(value, len(self.key_frame)-1)
+            self._current_index = min(value, len(self.key_frame) - 1)
 
     def update_index(self):
         """根据累积时间更新当前index."""
@@ -88,7 +90,9 @@ class DAnimation:
 
 class DSprite(Sprite):
     """Sprite 类, 主要负责追踪 `Entity` 实例 并管理对应的 `DAnimation`."""
-    def __init__(self, name: str = '', width: int = 16, height: int = 16, offset_grid: 'Tuple[int, int]' = (16, 16)):
+
+    def __init__(self, name: str = '', width: int = GRID_SIZE, height: int = GRID_SIZE,
+                 offset_grid: 'Tuple[int, int]' = (GRID_SIZE, GRID_SIZE)):
         """初始化函数.
 
         :param name: 名称, 主要用于加载与调试.
@@ -118,7 +122,7 @@ class DSprite(Sprite):
     def compute_offset(self, offset_grid: Tuple[int, int]) -> tuple[int, int]:
         """计算偏移量."""
         grid_width, grid_height = offset_grid
-        offset_x, offset_y = (grid_width-self.width) // 2, (grid_height-self.height-1)
+        offset_x, offset_y = (grid_width - self.width) // 2, (grid_height - self.height - 1)
         return offset_x, offset_y
 
     def clone(self):
@@ -156,11 +160,11 @@ class DSprite(Sprite):
     @property
     def pos(self):
         """返回偏移后的位置."""
-        return self.x+self.offset[0], self.y+self.offset[1]
+        return self.x + self.offset[0], self.y + self.offset[1]
 
     def update_pos(self):
         """手动更新位置."""
-        self.x, self.y = 16*self.entity.x, 16*self.entity.y
+        self.x, self.y = GRID_SIZE * self.entity.x, GRID_SIZE * self.entity.y
 
     def __getitem__(self, item: str):
         return self.animation.get(item, None)
@@ -183,7 +187,7 @@ class DSprite(Sprite):
     def move(self, direction: 'Tuple[int, int]'):
         """移动."""
         self.status = 'run'  # 切换到 run 动画.
-        target_pos = self.x+16*direction[0], self.y+16*direction[1]  # 计算目标位置.
+        target_pos = self.x + GRID_SIZE * direction[0], self.y + GRID_SIZE * direction[1]  # 计算目标位置.
         # 生成 位置调分器. 移动结束后, 该调分器负责将 该 DSprite 状态切换为 'idle'.
         self.pos_tweener = PosTweener(self, target_pos, 200)
         # 更新自己的方向.
@@ -196,6 +200,7 @@ class DSprite(Sprite):
 class DSpriteSheetReader:
     """SpriteSheet读取器, 主要负责动画的读取, 因为这些图片大小和间隔往往都固定.
     对于不规则的Sprite读取, 使用 load_image."""
+
     def __init__(self, filename: 'str', frame_width: 'int', frame_height: 'int', row: 'int' = -1, col: 'int' = -1):
         """
 
@@ -257,7 +262,7 @@ class DSpriteSheetReader:
             for c in range(col):
                 surface_sheet.append(surface_total.subsurface(rect).copy().convert_alpha())
                 rect.move_ip(frame_width, 0)
-            rect.move_ip(-frame_width*col, frame_height)
+            rect.move_ip(-frame_width * col, frame_height)
 
         return surface_sheet
 

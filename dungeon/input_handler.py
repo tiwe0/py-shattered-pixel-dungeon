@@ -1,27 +1,26 @@
 import sys
 from typing import TYPE_CHECKING, Optional
 
-
 import pygame.event
-from dungeon.action import Action, MovementAction, WaitAction, EscapeAction
 from pygame.event import Event
 from pygame.locals import *
 
+from dungeon.action import Action, MovementAction, WaitAction, EscapeAction
+
 if TYPE_CHECKING:
-    from entity import Entity
+    from dungeon.actor import Actor
 
 
 class EventHandler:
     """事件处理器基类."""
 
-    @classmethod
-    def dispatch_event(cls, event: 'Event') -> 'Optional[Action]':
+    def dispatch_event(self, event: 'Event') -> 'Optional[Action]':
         """事件分发. `Event` -> `Action` """
         raise NotImplementedError()
 
 
+# TODO 后续用单例模式重写, 并将按键映射抽象出来
 class MainEventHandler(EventHandler):
-    """主事件处理器."""
     key_map = {
         # VI Movement
         K_y: MovementAction(direction=(-1, -1)),
@@ -47,30 +46,37 @@ class MainEventHandler(EventHandler):
 
         K_ESCAPE: EscapeAction(),
     }
-    player: 'Entity'
 
-    @classmethod
-    def dispatch_event(cls, event: 'Event'):
+    def __init__(self):
+        self.current_action_for_player: 'Optional[Action]' = None
+        """主事件处理器."""
+        self.player: 'Optional[Actor]' = None
+
+    def set_action(self, action: 'Action'):
+        self.current_action_for_player = action
+
+    def consume_action(self):
+        self.player.current_action = self.current_action_for_player
+        self.current_action_for_player = None
+
+    def dispatch_event(self, event: 'Event'):
+        # if self.player.gamemap.engine.time_manager.is_busy:
+        #     return None
         # 如果移动动画还没结束, 则屏蔽输入.
-        if cls.player.sprite.is_moving:
+        if self.player.sprite.is_moving:
             return None
-        # 按键按下, 返回按键对应的动作.
-        if event.type == KEYDOWN:
-            action = cls.key_map.get(event.key)
-            return action
-        elif event.type == QUIT:
+        # 点击 关闭 按钮.
+        if event.type == QUIT:
             pygame.quit()
             sys.exit()
+        # 按键按下, 返回按键对应的动作.
+        if event.type == KEYDOWN:
+            action = self.key_map.get(event.key)
+            return action
 
-    @classmethod
-    def execute_action(cls, action: 'Action'):
-        # 将action作用在player上.
-        action.exec(cls.player)
-
-    @classmethod
-    def handle_event(cls):
+    def handle_event(self):
         """处理事件."""
         for event in pygame.event.get():
-            action = cls.dispatch_event(event)
+            action = self.dispatch_event(event)
             if action:
-                cls.execute_action(action)
+                self.set_action(action)

@@ -18,7 +18,7 @@ class ViewPort:
         self.width, self.height = size
         self.inner_width, self.inner_height = inner_size
         self.border_width, self.border_height = (self.width - self.inner_width) // 2, (
-                    self.height - self.inner_height) // 2
+                self.height - self.inner_height) // 2
         self._x, self._y = 0, 0
         # for render.
         self.render_pos = render_pos
@@ -27,7 +27,7 @@ class ViewPort:
         self.target = target
         self.screen = pre_screen
         self.child: Optional[Component] = None
-        #self.fix_init()
+        # self.fix_init()
         self.update_pos()
         self.output_size = output_size
 
@@ -73,11 +73,11 @@ class ViewPort:
 
     @property
     def center_x(self):
-        return self.x+self.width//2
+        return self.x + self.width // 2
 
     @property
     def center_y(self):
-        return self.y+self.height//2
+        return self.y + self.height // 2
 
     def fix_init(self):
         """主要是防止动态属性在init中不生效."""
@@ -106,7 +106,8 @@ class ViewPort:
 
     def render_view(self):
         self.update_pos()
-        render_surface = get_scaled_surface(self.screen.subsurface(self.x, self.y, self.width, self.height).copy(), self.output_size)
+        render_surface = get_scaled_surface(self.screen.subsurface(self.x, self.y, self.width, self.height).copy(),
+                                            self.output_size)
         self.screen.fill((0, 0, 0, 0))
         self.screen.blit(render_surface, self.render_pos)
 

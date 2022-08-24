@@ -1,6 +1,7 @@
 import sys
-import pygame
 from typing import Tuple, TYPE_CHECKING
+
+import pygame
 
 if TYPE_CHECKING:
     from entity import Entity

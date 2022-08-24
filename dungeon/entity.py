@@ -1,6 +1,6 @@
 from typing import Tuple, TYPE_CHECKING, Optional
 
-from utils.compute_fov import compute_fov
+from dungeon.config import GRID_SIZE
 
 if TYPE_CHECKING:
     from dungeon.game_map import GameMap
@@ -10,6 +10,7 @@ if TYPE_CHECKING:
 
 class Entity:
     """游戏中实体的抽象模型."""
+
     def __init__(self, x: int = 0, y: int = 0, sprite: 'Optional[DSprite]' = None):
         """
 
@@ -32,6 +33,15 @@ class Entity:
         # 用于游戏内回合数判断.
         self.game_time = 0
 
+    def __lt__(self, other: 'Entity'):
+        return self.game_time < other.game_time
+
+    def __eq__(self, other: 'Entity'):
+        return self.game_time == other.game_time
+
+    def action_override(self, action_name: str):
+        return f'exec_{action_name.lower()}' in self.__dir__()
+
     @property
     def xy(self):
         return self.x, self.y
@@ -39,10 +49,10 @@ class Entity:
     @property
     def pos(self):
         """返回对应的渲染位置."""
-        return 16*self.x, 16*self.y
+        return GRID_SIZE * self.x, GRID_SIZE * self.y
 
     def update_sprite_pos(self):
-        self.sprite.x, self.sprite.y = 16*self.x, 16*self.y
+        self.sprite.x, self.sprite.y = GRID_SIZE * self.x, GRID_SIZE * self.y
 
     def render(self):
         """render 委托给 sprite."""

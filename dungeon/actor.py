@@ -1,20 +1,49 @@
-from dungeon.entity import Entity
 from typing import TYPE_CHECKING, Optional
+
+from dungeon.entity import Entity
 
 if TYPE_CHECKING:
     from dungeon.components.HUD import HealthBar
+    from dungeon.action import Action
 
 
 class Actor(Entity):
     def __init__(self, hp: int, mp: int, san: int, *args, **kwargs):
         super(Actor, self).__init__(*args, **kwargs)
+        self.current_action: 'Optional[Action]' = None
         self.max_hp, self.max_mp, self.max_san = hp, mp, san
         self._hp, self._mp, self._san = hp, mp, san
         self.health_bar: 'Optional[HealthBar]' = None
 
     def update_health_bar(self):
         if self.health_bar:
-            self.health_bar.update_health_bar(self.hp//self.max_hp)
+            self.health_bar.update_health_bar(self.hp // self.max_hp)
+
+    def override_action(self):
+        action_name = self.current_action.__class__.__name__.lower()
+        return f'exec_{action_name}' in self.__dir__()
+
+    def act(self):
+        if self.current_action is None:
+            return
+        # check action is override or not.
+        if self.override_action():
+            action_name = self.current_action.__class__.__name__.lower()
+            override_method = getattr(self, f'exec_{action_name}')
+            override_method(self)
+        else:
+            self.current_action.exec(self)
+        self.current_action = None
+
+    def fetch_action(self):
+        # must override for NPC, mobs...
+        # maybe fetch action from its AI, set it to current_action
+        # waiting to be executed.
+        if self.is_player():
+            # 这个实现不咋好
+            self.engine.input_handler.consume_action()
+        else:
+            raise NotImplementedError()
 
     @property
     def hp(self):
@@ -31,7 +60,6 @@ class Actor(Entity):
         if self.is_player():
             pass
         # trigger to render hp bar
-
 
     @property
     def mp(self):
@@ -62,4 +90,3 @@ class Actor(Entity):
         if self.is_player():
             pass
         # trigger to render san bar
-

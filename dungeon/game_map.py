@@ -49,6 +49,9 @@ class GameMap:
         self.rooms: 'List[RectangularRoom]' = []
         self.engine: 'Optional[Engine]' = None
 
+    def add_room(self, room: 'RectangularRoom'):
+        self.rooms.append(room)
+
     def player(self):
         return self.engine.player
 
@@ -104,10 +107,34 @@ class GameMap:
 class RectangularRoom:
     """游戏内房间的抽象模型."""
 
-    def __init__(self, x: int, y: int, width: int, height: int):
+    def __init__(self, x: int, y: int, width: int, height: int, *, gamemap: 'Optional[GameMap]' = None):
+        self._gamemap = gamemap
         self.x1, self.y1 = x, y
         self.width, self.height = width, height
         self.x2, self.y2 = x + width, y + height
+
+    @property
+    def gamemap(self):
+        return self._gamemap
+
+    @gamemap.setter
+    def gamemap(self, value: 'Optional[GameMap]'):
+        if value:
+            value.add_room(self)
+        else:
+            if self.gamemap:
+                self.gamemap.rooms.remove(self)
+        self._gamemap = value
+
+    @property
+    def tiles(self):
+        if self.gamemap:
+            return self.gamemap.tiles
+
+    @property
+    def walkable(self):
+        if self.gamemap:
+            return self.gamemap.walkable
 
     @property
     def center_xy(self) -> Tuple[int, int]:
@@ -141,6 +168,7 @@ def tunnel_between(
 
 def gen_gamemap(map_width: int, map_height: int):
     """基础地图生成算法."""
+    # TODO Bad Code
     gamemap = GameMap(map_width, map_height)
     rooms_list: 'List[RectangularRoom]' = []
 
@@ -149,23 +177,23 @@ def gen_gamemap(map_width: int, map_height: int):
         room_height = random.randint(gamemap.min_room_height, gamemap.max_room_height)
         room_x = random.randint(1, gamemap.width - room_width - 1)
         room_y = random.randint(1, gamemap.height - room_height - 1)
-        new_room = RectangularRoom(room_x, room_y, room_width, room_height)
+        new_room = RectangularRoom(room_x, room_y, room_width, room_height, gamemap=gamemap)
 
         if any(new_room.intersects(r) for r in rooms_list):
+            new_room.gamemap = None
             continue
 
-        gamemap.tiles[new_room.inner] = Terrain.EMPTY
-        gamemap.tiles[new_room.corner] = Terrain.WALL
-        gamemap.walkable[new_room.inner] = True
+        new_room.tiles[new_room.inner] = Terrain.EMPTY
+        new_room.tiles[new_room.corner] = Terrain.WALL
+        new_room.walkable[new_room.inner] = True
+        new_room.walkable[new_room.corner] = False
 
         if len(rooms_list) != 0:
             for x, y in tunnel_between(new_room.center_xy, rooms_list[-1].center_xy):
-                gamemap.tiles[x, y] = 0
-                gamemap.walkable[x, y] = True
+                new_room.tiles[x, y] = Terrain.EMPTY
+                new_room.walkable[x, y] = True
 
-        rooms_list.append(new_room)
-
-    gamemap.rooms = rooms_list
+    gamemap.add_room(new_room)
     gamemap.update_surface()
 
     return gamemap

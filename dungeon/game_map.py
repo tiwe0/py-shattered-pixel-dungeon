@@ -193,7 +193,8 @@ def gen_gamemap(map_width: int, map_height: int):
                 new_room.tiles[x, y] = Terrain.EMPTY
                 new_room.walkable[x, y] = True
 
-    gamemap.add_room(new_room)
+        gamemap.add_room(new_room)
+
     gamemap.update_surface()
 
     return gamemap

@@ -1,5 +1,9 @@
 # py-shattered-pixel-dungeon
 
+screenshot for current version:
+
+![screenshot](doc/screenshot/version_0_1_0.png)
+
 This is a shattered-pixel-dungeon demo (just begin) writen in python3 with pygame and love.
 
 The code is based on 
@@ -9,7 +13,7 @@ The code is based on
 [Watabou](https://github.com/watabou). I do not ues the code directly, but read and rewrite instead.
 (when I have no idea, I use the source.)
 I learned a lot. Besides, the fov algorithm used is based on an article 
-[Symmetric Shadowcasting](https://www.albertford.com/shadowcasting/). Really a good article. 
+[Symmetric ShadowCasting](https://www.albertford.com/shadowcasting/). Really a good article. 
 This [tcod tutorial](https://rogueliketutorials.com/tutorials/tcod/v2) also teaches me a lot.
 
 Note that __this repository does not accept pull requests!__ The code here is provided in hopes that 
@@ -18,7 +22,7 @@ Issue reports of all kinds (bug reports, feature requests, etc.) are welcome.
 
 ## what has been done
 
-- [x] a simple input handler.
+- [x] a simple input handler. (refracted version)
 - [x] a simple SpriteSheet loader.
 - [x] a simple map generator.
 - [x] basic fov.
@@ -27,6 +31,11 @@ Issue reports of all kinds (bug reports, feature requests, etc.) are welcome.
 
 - [ ] refract the bad code. (working)
 - [ ] UI. (working)
-- [ ] TimeSystem
-- [ ] ActionSystem
+- [x] TimeSystem. (almost done!)
+- [ ] ActionSystem. (working)
+- [ ] Tiles. (working)
+- [ ] AI extensions. (designing)
+- [ ] Better Room class.
+- [ ] Better and more flexible map generator.
+- [ ] Music and Sound.
 - [ ] ...

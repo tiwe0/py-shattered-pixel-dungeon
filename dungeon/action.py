@@ -42,7 +42,6 @@ class ActionWithTarget(Action):
 
 class MovementAction(ActionWithDirection):
     def exec(self, entity: 'Entity'):
-        print(self.direction)
         dx, dy = self.direction
         target_x, target_y = entity.x + dx, entity.y + dy
         # 防止跑出地图.
@@ -53,6 +52,11 @@ class MovementAction(ActionWithDirection):
             entity.move(self.direction)
         else:
             return
+
+
+class DebugAction(Action):
+    def exec(self, entity: 'Entity'):
+        print('message from DebugAction.')
 
 
 class ToggleInventor(Action):

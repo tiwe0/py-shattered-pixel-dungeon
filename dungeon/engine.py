@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Optional
 
 from dungeon.time_manager import TimeManager
 
@@ -10,6 +10,12 @@ if TYPE_CHECKING:
 
 class Engine:
     """负责集中管理、调度 事件处理器、动画渲染、地图、玩家等资源."""
+    _instance: 'Optional[Engine]' = None
+
+    def __new__(cls, *args, **kwargs):
+        if cls._instance is None:
+            cls._instance = super().__new__(cls)
+        return cls._instance
 
     def __init__(
             self,

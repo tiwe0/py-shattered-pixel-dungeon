@@ -9,6 +9,8 @@ from dungeon.assets import Assets
 from dungeon.config import GRID_SIZE
 from dungeon.dsprite import DSpriteSheetReader
 from dungeon.tileset.fog_of_war import FogOfWar
+from dungeon.tileset.terrain import Terrain
+from dungeon.tileset.tiles_map import Tiles
 from utils.compute_fov import compute_fov
 from utils.line import line
 
@@ -35,7 +37,7 @@ class GameMap:
         self.width, self.height = width, height
 
         # 地图信息.
-        self.tiles = np.full((width, height), fill_value=1, order='F')
+        self.tiles = np.full((width, height), fill_value=Terrain.WALL, order='F')
         self.walkable = np.full((width, height), fill_value=False, order='F')
         self.explored = np.full((width, height), fill_value=False, order='F')
         self.visiting = np.full((width, height), fill_value=False, order='F')
@@ -63,10 +65,10 @@ class GameMap:
                 # 只渲染已访问地图
                 if self.explored[c, r]:
                     # 根据 tiles 渲染.
-                    if self.tiles[c, r] == 1:
-                        self.surface.blit(wall_tile, (c * GRID_SIZE, r * GRID_SIZE))
+                    if self.tiles[c, r] == Terrain.WALL:
+                        self.surface.blit(Tiles.get_tile(Tiles.FLAT_WALL), (c * GRID_SIZE, r * GRID_SIZE))
                     else:
-                        self.surface.blit(floor_tile, (c * GRID_SIZE, r * GRID_SIZE))
+                        self.surface.blit(Tiles.get_tile(Tiles.FLOOR), (c * GRID_SIZE, r * GRID_SIZE))
                     # 若该块没有正在视野中, 再加一层记忆遮罩.
                     if not self.visiting[c, r]:
                         self.surface.blit(FogOfWar.explored_surface, (c * GRID_SIZE, r * GRID_SIZE))
@@ -117,6 +119,10 @@ class RectangularRoom:
         """房间内部."""
         return slice(self.x1 + 1, self.x2), slice(self.y1 + 1, self.y2)
 
+    @property
+    def corner(self) -> Tuple[slice, slice]:
+        return slice(self.x1, self.x2+1, self.width), slice(self.y1, self.y2+1, self.height)
+
     def intersects(self, other_room: 'RectangularRoom') -> bool:
         """判断房间是否重叠."""
         return (
@@ -148,7 +154,8 @@ def gen_gamemap(map_width: int, map_height: int):
         if any(new_room.intersects(r) for r in rooms_list):
             continue
 
-        gamemap.tiles[new_room.inner] = 0
+        gamemap.tiles[new_room.inner] = Terrain.EMPTY
+        gamemap.tiles[new_room.corner] = Terrain.WALL
         gamemap.walkable[new_room.inner] = True
 
         if len(rooms_list) != 0:

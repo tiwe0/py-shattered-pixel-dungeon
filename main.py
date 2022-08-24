@@ -58,7 +58,6 @@ def main():
         pre_screen.blit(cursor, pygame.mouse.get_pos())
         ScaledRender.render(scale=1)
 
-
         pygame.display.flip()
 
 

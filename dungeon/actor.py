@@ -5,6 +5,7 @@ from dungeon.entity import Entity
 if TYPE_CHECKING:
     from dungeon.components.HUD import HealthBar
     from dungeon.action import Action
+    from dungeon.ai import AI, AIForDebug
 
 
 class Actor(Entity):
@@ -14,6 +15,7 @@ class Actor(Entity):
         self.max_hp, self.max_mp, self.max_san = hp, mp, san
         self._hp, self._mp, self._san = hp, mp, san
         self.health_bar: 'Optional[HealthBar]' = None
+        self.ai: 'Optional[AI]' = None
 
     def update_health_bar(self):
         if self.health_bar:
@@ -43,7 +45,8 @@ class Actor(Entity):
             # 这个实现不咋好
             self.engine.input_handler.consume_action()
         else:
-            raise NotImplementedError()
+            if self.ai:
+                self.ai.fetch_action(self)
 
     @property
     def hp(self):

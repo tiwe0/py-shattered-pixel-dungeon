@@ -4,7 +4,7 @@ from typing import List, TYPE_CHECKING, Dict, Optional, Tuple
 import pygame
 from pygame.sprite import Sprite
 
-from dungeon import pre_screen
+from dungeon import pre_screen_middle
 from dungeon.config import GRID_SIZE
 from dungeon.tweener.tweener import PosTweener
 
@@ -85,7 +85,7 @@ class DAnimation:
         :return:
         """
         current_frame = self.get_current_frame(sprite.direction)
-        pre_screen.blit(current_frame, sprite.pos)
+        pre_screen_middle.blit(current_frame, sprite.pos)
 
 
 class DSprite(Sprite):

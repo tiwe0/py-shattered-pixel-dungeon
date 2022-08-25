@@ -4,7 +4,7 @@ from typing import Tuple, TYPE_CHECKING
 import numpy as np
 
 if TYPE_CHECKING:
-    from dungeon.game_map import GameMap
+    from dungeon.gamemap.__init__ import GameMap
 
 
 def round_ties_up(n):

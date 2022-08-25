@@ -1,26 +1,38 @@
-from typing import Tuple, TYPE_CHECKING
+from typing import Tuple, TYPE_CHECKING, Optional
+import random
 from dungeon.dsprite import DSpriteSheetReader
 from dungeon.tileset.terrain import Terrain
+from dungeon.config import GRID_SIZE
 
 if TYPE_CHECKING:
-    from dungeon.game_map import GameMap
+    from dungeon.gamemap.__init__ import GameMap
     from pygame import Surface
-
-tiles_sewers = DSpriteSheetReader("assets/environment/tiles_sewers.png", frame_width=16, frame_height=16)
 
 
 def cr(row: int, col: int) -> int:
     return (row-1)*16+col-1
 
 
-assert cr(1, 1) == 0
-assert cr(1, 5) == 4
-assert cr(4, 2) == 49
-
-
 class Tiles:
+
+    _instances = {
+        'sewers': None,
+        'prison': None,
+        'caves': None,
+        'city': None,
+        'halls': None,
+    }
+
+    tiles_dict = {
+        "sewers": DSpriteSheetReader("assets/environment/tiles_sewers.png", frame_width=16, frame_height=16),
+        "prison": DSpriteSheetReader("assets/environment/tiles_prison.png", frame_width=16, frame_height=16),
+        "city": DSpriteSheetReader("assets/environment/tiles_city.png", frame_width=16, frame_height=16),
+        "halls": DSpriteSheetReader("assets/environment/tiles_halls.png", frame_width=16, frame_height=16),
+        "caves": DSpriteSheetReader("assets/environment/tiles_caves.png", frame_width=16, frame_height=16),
+    }
+
     # GROUND
-    wall_stitcheable_list = [
+    wall_stitchable_list = [
         Terrain.WALL, Terrain.WALL_DECO, Terrain.SECRET_DOOR,
         Terrain.LOCKED_EXIT, Terrain.UNLOCKED_EXIT, Terrain.BOOKSHELF
     ]
@@ -33,145 +45,7 @@ class Tiles:
         Terrain.WATER,
     ]
 
-    @classmethod
-    def get_tile(cls, tile: int) -> 'Surface':
-        return tiles_sewers[tile]
-
-    @classmethod
-    def door_tile(cls, tile: int):
-        return tile in cls.door_tiles_list
-
-    @classmethod
-    def wall_stitcheable(cls, tile: int):
-        return tile in cls.wall_stitcheable_list
-
-    @classmethod
-    def stitch_WallOverhang_tile(cls, tile: int, right_below: int, below: int, left_below: int) -> int:
-        if tile == Terrain.DOOR:
-            visual = cls.DOOR_SIDEWAYS_OVERHANG
-        elif tile == Terrain.OPEN_DOOR:
-            visual = cls.DOOR_SIDEWAYS_OVERHANG_OPEN
-        elif tile == Terrain.LOCKED_DOOR:
-            visual = cls.DOOR_SIDEWAYS_OVERHANG_LOCKED
-        elif tile == Terrain.CRYSTAL_DOOR:
-            visual = cls.DOOR_SIDEWAYS_OVERHANG_CRYSTAL
-        elif below == Terrain.BOOKSHELF:
-            visual = cls.WALL_OVERHANG_WOODEN
-        else:
-            visual = cls.WALL_OVERHANG
-
-        if not cls.wall_stitcheable(right_below):
-            visual += 1
-        if not cls.wall_stitcheable(left_below):
-            visual += 2
-
-        return visual
-
-    @classmethod
-    def stitch_InternalWall_tile(cls, tile: int, right: int, right_below: int, below: int, left_below: int, left: int) -> int:
-        if tile == Terrain.BOOKSHELF or below == Terrain.BOOKSHELF:
-            result = cls.WALL_INTERNAL_WOODEN
-        else:
-            result = cls.WALL_INTERNAL
-
-        if not cls.wall_stitcheable(right):
-            result += 1
-        if not cls.wall_stitcheable(right_below):
-            result += 2
-        if not cls.wall_stitcheable(left_below):
-            result += 4
-        if not cls.wall_stitcheable(left):
-            result += 8
-
-        return result
-
-    @classmethod
-    def get_RaisedWall_tile(cls, tile: int, pos: Tuple[int, int], right: int, below: int, left: int,) -> int:
-        if below == -1 or cls.wall_stitcheable(below):
-            return -1
-        elif cls.door_tile(below):
-            result = cls.RAISED_WALL_DOOR
-        elif tile == Terrain.WALL or tile == Terrain.SECRET_DOOR:
-            result = cls.RAISED_WALL
-        elif tile == Terrain.WALL_DECO:
-            result = cls.RAISED_WALL_DECO
-        elif tile == Terrain.BOOKSHELF:
-            result = cls.RAISED_WALL_BOOKSHELF
-
-        # TODO
-
-        if not cls.wall_stitcheable(right):
-            result += 1
-        if not cls.wall_stitcheable(left):
-            result += 2
-
-        return result
-
-    @classmethod
-    def get_RaisedDoor_tile(cls, tile: int, below: int):
-        if cls.wall_stitcheable(below):
-            return cls.RAISED_DOOR_SIDEWAYS
-        elif tile == Terrain.DOOR:
-            return cls.RAISED_DOOR
-        elif tile == Terrain.OPEN_DOOR:
-            return cls.RAISED_DOOR_OPEN
-        elif tile == Terrain.LOCKED_DOOR:
-            return cls.RAISED_DOOR_LOCKED
-        elif tile == Terrain.CRYSTAL_DOOR:
-            return cls.RAISED_DOOR_CRYSTAL
-        else:
-            return -1
-
-    @classmethod
-    def get_Raised_tile_terrain(cls, gamemap: 'GameMap', pos: Tuple[int, int], tile: int):
-        x, y = pos
-        if cls.door_tile(tile):
-            return cls.get_RaisedDoor_tile(tile, gamemap[x, y-1])
-        elif cls.wall_stitcheable(tile):
-            return cls.get_RaisedWall_tile(tile, pos, gamemap[x+1, y], gamemap[x, y+1], gamemap[x-1, y])
-        elif tile == Terrain.SIGN:
-            return cls.RAISED_SIGN
-        elif tile == Terrain.STATUE:
-            return cls.RAISED_STATUE
-        elif tile == Terrain.STATUE_SP:
-            return cls.RAISED_STATUE_SP
-        elif tile == Terrain.ALCHEMY:
-            return cls.RAISED_ALCHEMY_POT
-        elif tile == Terrain.BARRICADE:
-            return cls.RAISED_BARRICADE
-        elif tile == Terrain.HIGH_GRASS:
-            return cls.RAISED_HIGH_GRASS
-        elif tile == Terrain.FURROWED_GRASS:
-            return cls.RAISED_FURROWED_GRASS
-        else:
-            # TODO check
-            return -1
-
-    @classmethod
-    def get_Raised_tile_wall(cls, gamemap: 'GameMap', pos: Tuple[int, int], tile: int):
-        x, y = pos
-        if cls.wall_stitcheable(tile):
-            if y + 1 < gamemap.height and not cls.wall_stitcheable(gamemap[x, y+1]):
-                tile_ = gamemap[x, y+1]
-                if tile_ == Terrain.DOOR:
-                    return cls.DOOR_SIDEWAYS
-                elif tile_ == Terrain.LOCKED_DOOR:
-                    return cls.DOOR_SIDEWAYS_LOCKED
-                elif tile_ == Terrain.CRYSTAL_DOOR:
-                    return cls.DOOR_SIDEWAYS_CRYSTAL
-                elif tile_ == Terrain.OPEN_DOOR:
-                    return -1
-            else:
-                return cls.stitch_InternalWall_tile(
-                    tile, gamemap[x+1, y], gamemap[x+1, y+1], gamemap[x, y+1], gamemap[x-1, y+1], gamemap[x-1, y]
-                )
-
-        if y + 1 < gamemap.height and cls.wall_stitcheable(gamemap[x, y+1]):
-            return cls.stitch_WallOverhang_tile(
-                tile, gamemap[x+1, y+1], gamemap[x, y+1], gamemap[x-1, y+1]
-            )
-
-        return -1
+    NULL_TILE = -1
 
     GROUND = cr(1, 1)
     FLOOR = GROUND+0
@@ -298,7 +172,262 @@ class Tiles:
     HIGH_GRASS_OVERHANG_ALT = WALLS_OVERHANG+38
     FURROWED_OVERHANG_ALT = WALLS_OVERHANG+39
 
+    # 直接查询
+    direct_tiles_dict = {
+        Terrain.EMPTY: FLOOR,
+        Terrain.GRASS: GRASS,
+        Terrain.EMPTY_WELL: EMPTY_WELL,
+        Terrain.ENTRANCE: ENTRANCE,
+        Terrain.EXIT: EXIT,
+        Terrain.EMBERS: EMBERS,
+        Terrain.PEDESTAL: PEDESTAL,
+        Terrain.EMPTY_SP: FLOOR_SP,
 
+        Terrain.SECRET_TRAP: FLOOR,
+        Terrain.TRAP: FLOOR,
+        Terrain.INACTIVE_TRAP: FLOOR,
 
+        Terrain.EMPTY_DECO: FLOOR_DECO,
+        Terrain.LOCKED_EXIT: LOCKED_EXIT,
+        Terrain.UNLOCKED_EXIT: UNLOCKED_EXIT,
+        Terrain.WELL: WELL,
+    }
+
+    # 可替换
+    common_alt_tiles_dict = {
+        FLOOR: FLOOR_ALT_1,
+        GRASS: GRASS_ALT,
+        FLAT_WALL: FLAT_WALL_ALT,
+        EMBERS: EMBERS_ALT,
+        FLAT_WALL_DECO: FLAT_WALL_DECO_ALT,
+        FLOOR_SP: FLOOR_SP_ALT,
+        FLOOR_DECO: FLOOR_DECO_ALT,
+
+        FLAT_BOOKSHELF: FLAT_BOOKSHELF_ALT,
+        FLAT_HIGH_GRASS: FLAT_HIGH_GRASS_ALT,
+        FLAT_FURROWED_GRASS: FLAT_FURROWED_ALT,
+
+        RAISED_WALL: RAISED_WALL_ALT,
+        RAISED_WALL_DECO: RAISED_WALL_DECO_ALT,
+        RAISED_WALL_BOOKSHELF: RAISED_WALL_BOOKSHELF_ALT,
+
+        RAISED_HIGH_GRASS: RAISED_HIGH_GRASS_ALT,
+        RAISED_FURROWED_GRASS: RAISED_FURROWED_ALT,
+        HIGH_GRASS_OVERHANG: HIGH_GRASS_OVERHANG_ALT,
+        FURROWED_OVERHANG: FURROWED_OVERHANG_ALT,
+    }
+
+    @classmethod
+    def is_door_tile(cls, tile: int):
+        return tile in cls.door_tiles_list
+
+    @classmethod
+    def is_wall_stitchable(cls, tile: int):
+        return tile in cls.wall_stitchable_list
+
+    @classmethod
+    def compute_wall_overhang_tile(cls, tile: int, right_below: int, below: int, left_below: int) -> int:
+        """
+        计算应当使用的 WallOverhang 贴图.
+        :param tile: 当前位置材质.
+        :param right_below: 右下角材质.
+        :param below: 下方材质.
+        :param left_below: 左下角材质.
+        :return: 返回应当使用的贴图索引.
+        """
+        # 先根据当前位置的材质找到对应的贴图基索引.
+        if tile == Terrain.DOOR:
+            visual = cls.DOOR_SIDEWAYS_OVERHANG
+        elif tile == Terrain.OPEN_DOOR:
+            visual = cls.DOOR_SIDEWAYS_OVERHANG_OPEN
+        elif tile == Terrain.LOCKED_DOOR:
+            visual = cls.DOOR_SIDEWAYS_OVERHANG_LOCKED
+        elif tile == Terrain.CRYSTAL_DOOR:
+            visual = cls.DOOR_SIDEWAYS_OVERHANG_CRYSTAL
+        elif below == Terrain.BOOKSHELF:
+            visual = cls.WALL_OVERHANG_WOODEN
+        else:
+            visual = cls.WALL_OVERHANG
+
+        # 再根据左下和右下的材质计算偏移量.
+        if not cls.is_wall_stitchable(right_below):
+            visual += 1
+        if not cls.is_wall_stitchable(left_below):
+            visual += 2
+
+        return visual
+
+    @classmethod
+    def compute_internal_wall_tile(cls, tile: int, right: int, right_below: int, below: int, left_below: int, left: int)-> int:
+        # 通向先计算基础贴图
+        if tile == Terrain.BOOKSHELF or below == Terrain.BOOKSHELF:
+            result = cls.WALL_INTERNAL_WOODEN
+        else:
+            result = cls.WALL_INTERNAL
+
+        # 计算偏移.
+        if not cls.is_wall_stitchable(right):
+            result += 1
+        if not cls.is_wall_stitchable(right_below):
+            result += 2
+        if not cls.is_wall_stitchable(left_below):
+            result += 4
+        if not cls.is_wall_stitchable(left):
+            result += 8
+
+        return result
+
+    @classmethod
+    def compute_raised_wall_tile(cls, tile: int, right: int, below: int, left: int,) -> int:
+        # 计算基
+        if below == -1 or cls.is_wall_stitchable(below):
+            return -1
+        elif cls.is_door_tile(below):
+            result = cls.RAISED_WALL_DOOR
+        elif tile == Terrain.WALL or tile == Terrain.SECRET_DOOR:
+            result = cls.RAISED_WALL
+        elif tile == Terrain.WALL_DECO:
+            result = cls.RAISED_WALL_DECO
+        elif tile == Terrain.BOOKSHELF:
+            result = cls.RAISED_WALL_BOOKSHELF
+
+        # 计算偏移.
+        if not cls.is_wall_stitchable(right):
+            result += 1
+        if not cls.is_wall_stitchable(left):
+            result += 2
+
+        return result
+
+    @classmethod
+    def compute_raised_door_tile(cls, tile: int, below: int):
+        if cls.is_wall_stitchable(below):
+            return cls.RAISED_DOOR_SIDEWAYS
+        elif tile == Terrain.DOOR:
+            return cls.RAISED_DOOR
+        elif tile == Terrain.OPEN_DOOR:
+            return cls.RAISED_DOOR_OPEN
+        elif tile == Terrain.LOCKED_DOOR:
+            return cls.RAISED_DOOR_LOCKED
+        elif tile == Terrain.CRYSTAL_DOOR:
+            return cls.RAISED_DOOR_CRYSTAL
+        else:
+            return -1
+
+    @classmethod
+    def compute_raised_tile_from_terrain(cls, gamemap: 'GameMap', pos: Tuple[int, int], tile: int):
+        x, y = pos
+
+        # 处理直接与可替换.
+        visual = cls.direct_tiles_dict.get(tile, -1)
+        if visual != -1:
+            return visual if gamemap.random[pos] > 0.5 else cls.common_alt_tiles_dict.get(visual, visual)
+
+        if cls.is_door_tile(tile):
+            return cls.compute_raised_door_tile(tile, gamemap[x, y-1])
+        elif cls.is_wall_stitchable(tile):
+            return cls.compute_raised_wall_tile(tile, gamemap[x+1, y], gamemap[x, y+1], gamemap[x-1, y])
+        elif tile == Terrain.SIGN:
+            return cls.RAISED_SIGN
+        elif tile == Terrain.STATUE:
+            return cls.RAISED_STATUE
+        elif tile == Terrain.STATUE_SP:
+            return cls.RAISED_STATUE_SP
+        elif tile == Terrain.ALCHEMY:
+            return cls.RAISED_ALCHEMY_POT
+        elif tile == Terrain.BARRICADE:
+            return cls.RAISED_BARRICADE
+        elif tile == Terrain.HIGH_GRASS:
+            return tile if gamemap.random[pos] > 0.5 else cls.common_alt_tiles_dict.get(tile, tile)
+        elif tile == Terrain.FURROWED_GRASS:
+            return tile if gamemap.random[pos] > 0.5 else cls.common_alt_tiles_dict.get(tile, tile)
+        else:
+            # TODO check
+            print(pos)
+            return cls.NULL_TILE
+
+    @classmethod
+    def compute_raised_tile_from_wall(cls, gamemap: 'GameMap', pos: Tuple[int, int], tile: int):
+        x, y = pos
+        if cls.is_wall_stitchable(tile):
+            if y + 1 < gamemap.height and not cls.is_wall_stitchable(gamemap[x, y + 1]):
+                tile_ = gamemap[x, y+1]
+                if tile_ == Terrain.DOOR:
+                    return cls.DOOR_SIDEWAYS
+                elif tile_ == Terrain.LOCKED_DOOR:
+                    return cls.DOOR_SIDEWAYS_LOCKED
+                elif tile_ == Terrain.CRYSTAL_DOOR:
+                    return cls.DOOR_SIDEWAYS_CRYSTAL
+                elif tile_ == Terrain.OPEN_DOOR:
+                    return -1
+            else:
+                # 计算墙内
+                return cls.compute_internal_wall_tile(
+                    tile, gamemap[x+1, y], gamemap[x+1, y+1], gamemap[x, y+1], gamemap[x-1, y+1], gamemap[x-1, y]
+                )
+
+        if y + 1 < gamemap.height and cls.is_wall_stitchable(gamemap[x, y + 1]):
+            return cls.compute_wall_overhang_tile(
+                tile, gamemap[x+1, y+1], gamemap[x, y+1], gamemap[x-1, y+1],
+            )
+
+        # 计算 wall_overhang
+        if y + 1 < gamemap.height and cls.is_wall_stitchable(gamemap[x, y + 1]):
+            return cls.compute_wall_overhang_tile(
+                tile, gamemap[x+1, y+1], gamemap[x, y+1], gamemap[x-1, y+1]
+            )
+
+        return -1
+
+    def __new__(cls, tileset: 'str' = 'sewers'):
+        if cls._instances[tileset] is None:
+            cls._instances[tileset] = super().__new__(cls)
+        return cls._instances[tileset]
+
+    def __init__(self, tileset: 'str' = 'sewers'):
+        self.tileset = self.tiles_dict[tileset]
+
+    def __getitem__(self, tile_code: int) -> 'Surface':
+        return self.tileset[tile_code]
+
+    def get_raised_tile_from_terrain(self, gamemap: 'GameMap', pos: Tuple[int, int], tile: int) -> 'Surface':
+        raised_tile = self.compute_raised_tile_from_terrain(gamemap, pos, tile)
+        return self[raised_tile]
+
+    def get_raised_tile_from_wall(self, gamemap: 'GameMap', pos: Tuple[int, int], tile: int) -> 'Optional[Surface]':
+        raised_tile_from_wall = self.compute_raised_tile_from_wall(gamemap, pos, tile)
+        if raised_tile_from_wall == -1:
+            return None
+        return self[raised_tile_from_wall]
+
+    def get_raised_door_tile(self, tile: int, below: int) -> 'Surface':
+        raised_door_tile = self.compute_raised_door_tile(tile, below)
+        return self[raised_door_tile]
+
+    def get_wall_overhang_tile(self, tile: int, right_below: int, below: int, left_below: int) -> 'Surface':
+        wall_overhang_tile = self.compute_wall_overhang_tile(tile, right_below, below, left_below)
+        return self[wall_overhang_tile]
+
+    def get_internal_wall_tile(self, tile: int, right: int, right_below: int, below: int, left_below: int, left: int) \
+            -> 'Surface':
+        internal_wall_tile = self.compute_internal_wall_tile(tile, right, right_below, below, left_below, left)
+        return self[internal_wall_tile]
+
+    def get_raised_wall_tile(self, tile: int, right: int, below: int, left: int,) -> 'Surface':
+        raised_wall_tile = self.compute_raised_wall_tile(tile, right, below, left)
+        return self[raised_wall_tile]
+
+    def render_gamemap_tiles(self, gamemap: 'GameMap', pos: Tuple[int, int]):
+        self.render_gamemap_tiles_down_layer(gamemap, pos)
+        self.render_gamemap_tiles_up_layer(gamemap, pos)
+
+    def render_gamemap_tiles_down_layer(self, gamemap: 'GameMap', pos: Tuple[int, int]):
+        down_tile = self.get_raised_tile_from_terrain(gamemap, pos, gamemap[pos])
+        gamemap.blit_down(down_tile, pos)
+
+    def render_gamemap_tiles_up_layer(self, gamemap: 'GameMap', pos: Tuple[int, int]):
+        up_tile = self.get_raised_tile_from_wall(gamemap, pos, gamemap[pos])
+        if up_tile:
+            gamemap.blit_up(up_tile, pos)
 
 

@@ -4,7 +4,7 @@ from typing import Tuple, Iterator, List, TYPE_CHECKING, Optional
 import numpy as np
 import pygame
 
-from dungeon import pre_screen
+from dungeon import pre_screen_middle, pre_screen_down, pre_screen_up
 from dungeon.assets import Assets
 from dungeon.config import GRID_SIZE
 from dungeon.dsprite import DSpriteSheetReader
@@ -15,7 +15,8 @@ from utils.compute_fov import compute_fov
 from utils.line import line
 
 if TYPE_CHECKING:
-    from entity import Entity
+    from pygame import Surface
+    from dungeon.entity import Entity
     from dungeon.engine import Engine
 
 # for test
@@ -41,13 +42,18 @@ class GameMap:
         self.walkable = np.full((width, height), fill_value=False, order='F')
         self.explored = np.full((width, height), fill_value=False, order='F')
         self.visiting = np.full((width, height), fill_value=False, order='F')
+        self.random = np.random.random((width, height))
 
-        self.surface: 'pygame.Surface' = pygame.Surface((width * GRID_SIZE, height * GRID_SIZE)).convert_alpha()
+        self.surface_middle: 'pygame.Surface' = pygame.Surface((width * GRID_SIZE, height * GRID_SIZE)).convert_alpha()
+        self.surface_down: 'pygame.Surface' = pygame.Surface((width * GRID_SIZE, height * GRID_SIZE)).convert_alpha()
+        self.surface_up: 'pygame.Surface' = pygame.Surface((width * GRID_SIZE, height * GRID_SIZE)).convert_alpha()
 
         # 其他信息
         self.entities: 'List[Entity]' = []
         self.rooms: 'List[RectangularRoom]' = []
         self.engine: 'Optional[Engine]' = None
+        self.gamemap_render: 'Optional' = None
+        self.tileset_test = Tiles()
 
     def add_room(self, room: 'RectangularRoom'):
         self.rooms.append(room)
@@ -55,10 +61,9 @@ class GameMap:
     def __getitem__(self, item: Tuple[int, int]):
         x, y = item
         if x < 0 or x >= self.width or y < 0 or y >= self.height:
-            return -1
+            return Terrain.WALL
         else:
             return self.tiles[x, y]
-
 
     def player(self):
         return self.engine.player
@@ -70,29 +75,45 @@ class GameMap:
 
     def update_surface(self):
         """负责更新应当渲染的 surface, 通常不需要每帧都渲染, 而是特定动作后渲染一次即可."""
-        self.surface.fill((0, 0, 0, 255))
+        self.surface_down.fill((0, 0, 0, 0))
+        self.surface_middle.fill((0, 0, 0, 0))
+        self.surface_up.fill((0, 0, 0, 0))
         for c in range(self.width):
             for r in range(self.height):
                 # 只渲染已访问地图
                 if self.explored[c, r]:
-                    # 根据 tiles 渲染.
-                    if self.tiles[c, r] == Terrain.WALL:
-                        # self.surface.blit(Tiles.get_tile(Tiles.FLAT_WALL), (c * GRID_SIZE, r * GRID_SIZE))
-                        tile = Tiles.get_tile(Tiles.get_Raised_tile_terrain(self, (c, r), self[c, r]))
-                        self.surface.blit(tile, (c * GRID_SIZE, r * GRID_SIZE))
-                    else:
-                        self.surface.blit(Tiles.get_tile(Tiles.FLOOR), (c * GRID_SIZE, r * GRID_SIZE))
-
-                    tile = Tiles.get_tile(Tiles.get_Raised_tile_wall(self, (c, r), self[c, r]))
-                    self.surface.blit(tile, (c * GRID_SIZE, r * GRID_SIZE))
+                    # 使用 tileset_test 渲染地图
+                    self.tileset_test.render_gamemap_tiles(self, (c, r))
 
                     # 若该块没有正在视野中, 再加一层记忆遮罩.
                     if not self.visiting[c, r]:
-                        self.surface.blit(FogOfWar.explored_surface, (c * GRID_SIZE, r * GRID_SIZE))
+                        self.blit_middle(FogOfWar.explored_surface, (c, r))
+
+    def blit_up(self, tile: 'Surface', pos: Tuple[int, int]):
+        self.surface_up.blit(tile, (pos[0] * GRID_SIZE, pos[1] * GRID_SIZE))
+
+    def blit_middle(self, tile: 'Surface', pos: Tuple[int, int]):
+        self.surface_middle.blit(tile, (pos[0] * GRID_SIZE, pos[1] * GRID_SIZE))
+
+    def blit_down(self, tile: 'Surface', pos: Tuple[int, int]):
+        self.surface_down.blit(tile, (pos[0] * GRID_SIZE, pos[1] * GRID_SIZE))
+
+    def render_map_up(self):
+        """渲染自己."""
+        pre_screen_up.blit(self.surface_up, (0, 0))
+
+    def render_map_middle(self):
+        """渲染自己."""
+        pre_screen_middle.blit(self.surface_middle, (0, 0))
+
+    def render_map_down(self):
+        """渲染自己."""
+        pre_screen_down.blit(self.surface_down, (0, 0))
 
     def render_map(self):
-        """渲染自己."""
-        pre_screen.blit(self.surface, (0, 0))
+        self.render_map_up()
+        self.render_map_middle()
+        self.render_map_down()
 
     def get_entities_in_xy(self, xy: Tuple[int, int]):
         """检索目标位置的第一个 entity."""
@@ -103,6 +124,7 @@ class GameMap:
 
     def render(self):
         """先渲染地图, 再渲染实体."""
+        # TODO 修改: 先渲染底层, 再渲染实体, 再渲染顶层, 后续用 with 协议重写
         self.render_map()
         for entity in self.entities:
             entity.render()
@@ -137,7 +159,8 @@ class RectangularRoom:
             value.add_room(self)
         else:
             if self.gamemap:
-                self.gamemap.rooms.remove(self)
+                if self in self.gamemap.rooms:
+                    self.gamemap.rooms.remove(self)
         self._gamemap = value
 
     @property
@@ -184,7 +207,6 @@ def gen_gamemap(map_width: int, map_height: int):
     """基础地图生成算法."""
     # TODO Bad Code
     gamemap = GameMap(map_width, map_height)
-    rooms_list: 'List[RectangularRoom]' = []
 
     for i in range(gamemap.max_room):
         room_width = random.randint(gamemap.min_room_width, gamemap.max_room_width)
@@ -193,17 +215,18 @@ def gen_gamemap(map_width: int, map_height: int):
         room_y = random.randint(1, gamemap.height - room_height - 1)
         new_room = RectangularRoom(room_x, room_y, room_width, room_height, gamemap=gamemap)
 
-        if any(new_room.intersects(r) for r in rooms_list):
+        if any(new_room.intersects(r) for r in gamemap.rooms):
             new_room.gamemap = None
             continue
 
         new_room.tiles[new_room.inner] = Terrain.EMPTY
-        new_room.tiles[new_room.corner] = Terrain.WALL
         new_room.walkable[new_room.inner] = True
+
+        new_room.tiles[new_room.corner] = Terrain.WALL
         new_room.walkable[new_room.corner] = False
 
-        if len(rooms_list) != 0:
-            for x, y in tunnel_between(new_room.center_xy, rooms_list[-1].center_xy):
+        if len(gamemap.rooms) != 0:
+            for x, y in tunnel_between(new_room.center_xy, gamemap.rooms[-1].center_xy):
                 new_room.tiles[x, y] = Terrain.EMPTY
                 new_room.walkable[x, y] = True
 

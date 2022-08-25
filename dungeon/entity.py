@@ -3,7 +3,7 @@ from typing import Tuple, TYPE_CHECKING, Optional
 from dungeon.config import GRID_SIZE
 
 if TYPE_CHECKING:
-    from dungeon.game_map import GameMap
+    from dungeon.gamemap.__init__ import GameMap
     from dungeon.dsprite import DSprite
     from dungeon.engine import Engine
 

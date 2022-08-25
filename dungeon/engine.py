@@ -5,7 +5,7 @@ from dungeon.time_manager import TimeManager
 if TYPE_CHECKING:
     from dungeon.input_handler import MainEventHandler
     from dungeon.entity import Entity
-    from dungeon.game_map import GameMap
+    from dungeon.gamemap.__init__ import GameMap
 
 
 class Engine:

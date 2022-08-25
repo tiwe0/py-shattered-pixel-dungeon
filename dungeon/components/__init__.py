@@ -2,7 +2,7 @@ from typing import List, Optional
 
 from pygame import Surface
 
-from dungeon import pre_screen
+from dungeon import screen, pre_screen
 from utils.surface import get_scaled_surface_by_factor_
 
 

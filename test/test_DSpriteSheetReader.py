@@ -11,7 +11,7 @@ test_dspritesheetreader = DSpriteSheetReader(Assets.Sprites.bat, frame_width, fr
 def test_func(screen):
     x = 0
     for sur in test_dspritesheetreader:
-        screen.blit(sur, (x, x))
+        screen.blit_middle(sur, (x, x))
         x += 16
 
 

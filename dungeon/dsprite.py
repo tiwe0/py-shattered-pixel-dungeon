@@ -187,6 +187,7 @@ class DSprite(Sprite):
     def move(self, direction: 'Tuple[int, int]'):
         """移动."""
         self.status = 'run'  # 切换到 run 动画.
+        self.entity.time_manager.is_busy = True
         target_pos = self.x + GRID_SIZE * direction[0], self.y + GRID_SIZE * direction[1]  # 计算目标位置.
         # 生成 位置调分器. 移动结束后, 该调分器负责将 该 DSprite 状态切换为 'idle'.
         self.pos_tweener = PosTweener(self, target_pos, 200)

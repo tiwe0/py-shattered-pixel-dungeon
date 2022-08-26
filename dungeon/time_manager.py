@@ -23,15 +23,14 @@ class TimeManager:
 
     def add_actor(self, actor: 'Actor'):
         heapq.heappush(self.activated_entities, actor)
+        actor.time_manager = self
 
     def run(self):
         while True:
-            self.is_busy = True
             actor = heapq.heappop(self.activated_entities)
             actor.fetch_action()
             if actor.is_player() and actor.current_action is None:
                 heapq.heappush(self.activated_entities, actor)
-                self.is_busy = False
                 return
             actor.act()
             heapq.heappush(self.activated_entities, actor)

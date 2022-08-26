@@ -39,3 +39,4 @@ class PosTweener(Tweener):
         if frac == 1:
             self.sprite.pos_tweener = None
             self.sprite.status = 'idle'
+            self.sprite.entity.time_manager.is_busy = False

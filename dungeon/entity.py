@@ -32,6 +32,7 @@ class Entity:
 
         # 用于游戏内回合数判断.
         self.game_time = 0
+        self.time_manager = None
 
     def spend(self, time):
         self.game_time += time

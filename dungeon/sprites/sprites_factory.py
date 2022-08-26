@@ -35,6 +35,8 @@ def load_sprites_from_json(filepath: str):
             )
         except Exception as e:
             print(f"error while loading {sprite_info}, skip it.")
+            print(f"error: {e}.")
+            print('-'*100)
             continue
         yield sprite
 

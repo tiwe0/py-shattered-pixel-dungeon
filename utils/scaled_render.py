@@ -30,17 +30,17 @@ class MultipleSurfaceManager:
 
 
 class CompressRender:
+    pre_screens = [pre_screen_down, pre_screen_middle, pre_screen_up, pre_screen, screen]
 
     @staticmethod
     def render():
-        pre_screen.blit(pre_screen_down, (0, 0))
-        pre_screen.blit(pre_screen_middle, (0, 0))
-        pre_screen.blit(pre_screen_up, (0, 0))
+        pre_screen.blits(blit_sequence=(
+            (pre_screen_down, (0, 0)),
+            (pre_screen_middle, (0, 0)),
+            (pre_screen_up, (0, 0)),
+        ))
 
-    @staticmethod
-    def clear():
-        pre_screen_down.fill((0, 0, 0, 0))
-        pre_screen_middle.fill((0, 0, 0, 0))
-        pre_screen_up.fill((0, 0, 0, 0))
-        pre_screen.fill((0, 0, 0, 0))
-        screen.fill((0, 0, 0, 0))
+    @classmethod
+    def clear(cls):
+        for _screen in cls.pre_screens:
+            _screen.fill((0, 0, 0, 0))

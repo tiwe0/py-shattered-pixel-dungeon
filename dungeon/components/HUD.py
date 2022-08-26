@@ -2,6 +2,7 @@ from typing import Tuple, TYPE_CHECKING
 
 from pygame import Surface
 
+from dungeon import screen_width, screen_height
 from dungeon.components import Component
 from dungeon.tileset.tiles_ui import Tiles
 from utils.surface import get_scaled_surface
@@ -61,3 +62,21 @@ class HealthBar(HUDComponent):
 
     def before_render(self) -> Surface:
         return get_scaled_surface(self._tile, (self.width * self.health_ratio, self.height))
+
+class BagButton(HUDComponent):
+    def __init__(self, **kwargs):
+        tile = Tiles.Interface.bag_button
+        super(BagButton, self).__init__(tile=tile, **kwargs)
+        self.pos = (0, screen_height-tile.get_height())
+
+class WaitButton(HUDComponent):
+    def __init__(self, **kwargs):
+        tile = Tiles.Interface.wait_button
+        super(WaitButton, self).__init__(tile=tile, **kwargs)
+        self.pos = (24, screen_height-tile.get_height())
+
+class SearchButton(HUDComponent):
+    def __init__(self, **kwargs):
+        tile = Tiles.Interface.search_button
+        super(SearchButton, self).__init__(tile=tile, **kwargs)
+        self.pos = (24+20, screen_height-tile.get_height())

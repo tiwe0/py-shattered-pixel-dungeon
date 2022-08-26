@@ -1,8 +1,12 @@
 # py-shattered-pixel-dungeon
 
-screenshot for current version:
+screenshot for version 0.1.0 :
 
 ![screenshot](doc/screenshot/version_0_1_0.png)
+
+screenshot for version 0.1.1 :
+
+![screenshot](doc/screenshot/version_0_1_1.png)
 
 This is a shattered-pixel-dungeon demo (just begin) writen in python3 with pygame and love.
 
@@ -33,9 +37,18 @@ Issue reports of all kinds (bug reports, feature requests, etc.) are welcome.
 - [ ] UI. (working)
 - [x] TimeSystem. (almost done!)
 - [ ] ActionSystem. (working)
-- [ ] Tiles. (working)
+- [x] Tiles. (almost done!)
 - [ ] AI extensions. (designing)
 - [ ] Better Room class.
 - [ ] Better and more flexible map generator.
+- [ ] Better FOW.
+- [ ] Mobs.
+- [ ] NPCs.
+- [ ] Request System.
+- [ ] Magic System.
+- [ ] SAN System.
+- [ ] Inventory System.
 - [ ] Music and Sound.
+- [ ] Interface for Machine Learning.
+- [ ] Stories.
 - [ ] ...

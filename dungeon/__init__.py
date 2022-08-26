@@ -11,10 +11,12 @@ time_manager = TimeManager()
 pygame.init()
 map_width = 70
 map_height = 42
-screen = pygame.display.set_mode((map_width * GRID_SIZE, map_height * GRID_SIZE))
-pre_screen = Surface((screen.get_width(), screen.get_height())).convert_alpha()
-pre_screen_middle = Surface((screen.get_width(), screen.get_height())).convert_alpha()
-pre_screen_down = Surface((screen.get_width(), screen.get_height())).convert_alpha()
-pre_screen_up = Surface((screen.get_width(), screen.get_height())).convert_alpha()
+screen_width = map_width * GRID_SIZE
+screen_height = map_height * GRID_SIZE
+screen = pygame.display.set_mode((screen_width, screen_height))
+pre_screen = Surface((screen_width, screen_height)).convert_alpha()
+pre_screen_middle = Surface((screen_width, screen_height)).convert_alpha()
+pre_screen_down = Surface((screen_width, screen_height)).convert_alpha()
+pre_screen_up = Surface((screen_width, screen_height)).convert_alpha()
 pygame.display.set_caption('Test Stage')
 pygame.mouse.set_visible(False)

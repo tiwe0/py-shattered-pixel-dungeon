@@ -60,8 +60,8 @@ class MainEventHandler(EventHandler):
         self.current_action_for_player = None
 
     def dispatch_event(self, event: 'Event'):
-        # if self.player.gamemap.engine.time_manager.is_busy:
-        #     return None
+        if self.player.gamemap.engine.time_manager.is_busy:
+            return None
         # 如果移动动画还没结束, 则屏蔽输入.
         if self.player.sprite.is_moving:
             return None

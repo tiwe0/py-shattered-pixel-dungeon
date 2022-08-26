@@ -11,7 +11,7 @@ class Assets:
         AVATARS = 'assets/sprites/avatars.png'
         BAT = 'assets/sprites/bat.png'
         BEE = 'assets/sprites/bee.png'
-        BLACKSMITH = 'assets/sprites/blacksmith.png'
+        TROLL = BLACKSMITH = 'assets/sprites/blacksmith.png'
         BRUTE = 'assets/sprites/brute.png'
         CRAB = 'assets/sprites/crab.png'
         DEMON = 'assets/sprites/demon.png'
@@ -34,7 +34,7 @@ class Assets:
         LOTUS = 'assets/sprites/lotus.png'
         MIMIC = 'assets/sprites/mimic.png'
         MONK = 'assets/sprites/monk.png'
-        NECROMANCER = 'assets/sprites/necromancer.png'
+        NECRO = NECROMANCER = 'assets/sprites/necromancer.png'
         NINJA_LOG = 'assets/sprites/ninja_log.png'
         PET = 'assets/sprites/pet.png'
         PIRANHA = 'assets/sprites/piranha.png'
@@ -44,11 +44,11 @@ class Assets:
         RED_SENTRY = 'assets/sprites/red_sentry.png'
         RIPPER = 'assets/sprites/ripper.png'
         ROT_HEART = 'assets/sprites/rot_heart.png'
-        ROT_LASHER = 'assets/sprites/rot_lasher.png'
+        ROT_LASH = ROT_LASHER = 'assets/sprites/rot_lasher.png'
         SCORPIO = 'assets/sprites/scorpio.png'
         SHAMAN = 'assets/sprites/shaman.png'
         SHEEP = 'assets/sprites/sheep.png'
-        SHOPKEEPER = 'assets/sprites/shopkeeper.png'
+        KEEPER = SHOPKEEPER = 'assets/sprites/shopkeeper.png'
         SKELETON = 'assets/sprites/skeleton.png'
         SLIME = 'assets/sprites/slime.png'
         SNAKE = 'assets/sprites/snake.png'
@@ -61,12 +61,12 @@ class Assets:
         TENGU = 'assets/sprites/tengu.png'
         THIEF = 'assets/sprites/thief.png'
         UNDEAD = 'assets/sprites/undead.png'
-        WANDMAKER = 'assets/sprites/wandmaker.png'
+        MAKER = WANDMAKER = 'assets/sprites/wandmaker.png'
         WARDS = 'assets/sprites/wards.png'
         WARLOCK = 'assets/sprites/warlock.png'
         WRAITH = 'assets/sprites/wraith.png'
         YOG = 'assets/sprites/yog.png'
-        YOG_FISTS = 'assets/sprites/yog_fists.png'
+        YOG_FISTS = FISTS = 'assets/sprites/yog_fists.png'
 
     class Environment:
         """16x16"""
@@ -85,3 +85,37 @@ class Assets:
         water2 = 'assets/environment/water2.png'
         water3 = 'assets/environment/water3.png'
         water4 = 'assets/environment/water4.png'
+
+    class Interface:
+        ARCS_BG = "interfaces/arcs1.png"
+
+        BANNERS = "interfaces/banners.png"
+        BADGES = "interfaces/badges.png"
+        LOCKED = "interfaces/locked_badge.png"
+        CHROME = "interfaces/chrome.png"
+        ICONS = "interfaces/icons.png"
+        STATUS = "interfaces/status_pane.png"
+        MENU = "interfaces/menu_pane.png"
+        MENU_BTN = "interfaces/menu_button.png"
+        TOOLBAR = "interfaces/toolbar.png"
+        SHADOW = "interfaces/shadow.png"
+        BOSSHP = "interfaces/boss_hp.png"
+
+        SURFACE = "interfaces/surface.png"
+
+        LOADING_SEWERS = "interfaces/loading_sewers.png"
+        LOADING_PRISON = "interfaces/loading_prison.png"
+        LOADING_CAVES = "interfaces/loading_caves.png"
+        LOADING_CITY = "interfaces/loading_city.png"
+        LOADING_HALLS = "interfaces/loading_halls.png"
+
+        BUFFS_SMALL = "interfaces/buffs.png"
+        BUFFS_LARGE = "interfaces/large_buffs.png"
+
+        TALENT_ICONS = "interfaces/talent_icons.png"
+        TALENT_BUTTON = "interfaces/talent_button.png"
+
+        HERO_ICONS = "interfaces/hero_icons.png"
+
+        RADIAL_MENU = "interfaces/radial_menu.png"
+

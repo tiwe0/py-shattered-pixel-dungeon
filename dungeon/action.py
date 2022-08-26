@@ -9,25 +9,27 @@ if TYPE_CHECKING:
 
 class Action:
     def __init__(self, *args):
+        self.time = 1
         pass
 
     def exec(self, entity: 'Entity'):
-        raise NotImplementedError()
+        entity.spend(self.time)
 
 
 class EscapeAction(Action):
     def exec(self, entity: 'Entity'):
+        super().exec(entity)
         pygame.quit()
         sys.exit()
 
 
 class WaitAction(Action):
-    def exec(self, entity: 'Entity'):
-        pass
+    pass
 
 
 class ActionWithDirection(Action):
     def exec(self, entity: 'Entity'):
+        super().exec(entity)
         pass
 
     def __init__(self, direction: Tuple[int, int]):
@@ -37,11 +39,13 @@ class ActionWithDirection(Action):
 
 class ActionWithTarget(Action):
     def exec(self, entity: 'Entity'):
+        super().exec(entity)
         pass
 
 
 class MovementAction(ActionWithDirection):
     def exec(self, entity: 'Entity'):
+        super().exec(entity)
         dx, dy = self.direction
         target_x, target_y = entity.x + dx, entity.y + dy
         # 防止跑出地图.

@@ -33,6 +33,9 @@ class Entity:
         # 用于游戏内回合数判断.
         self.game_time = 0
 
+    def spend(self, time):
+        self.game_time += time
+
     def __lt__(self, other: 'Entity'):
         return self.game_time < other.game_time
 
@@ -60,7 +63,7 @@ class Entity:
 
     def is_player(self):
         """判断自己是否为玩家控制的entity."""
-        return self == self.gamemap.player()
+        return self is self.gamemap.player()
 
     def move(self, direction: 'Tuple[int, int]'):
         """移动函数, 这里不作任何判断, 位置是否合法, 判断应当由事件处理器或AI自行判断."""

@@ -1,6 +1,7 @@
 from typing import Tuple, TYPE_CHECKING, Optional
 import random
 from dungeon.dsprite import DSpriteSheetReader
+from dungeon.tileset.fog_of_war import FogOfWar
 from dungeon.tileset.terrain import Terrain
 from dungeon.config import GRID_SIZE
 
@@ -417,9 +418,19 @@ class Tiles:
         raised_wall_tile = self.compute_raised_wall_tile(tile, right, below, left)
         return self[raised_wall_tile]
 
+    # 下面这部分代码不应该在这个模块, 后续应当重构
     def render_gamemap_tiles(self, gamemap: 'GameMap', pos: Tuple[int, int]):
-        self.render_gamemap_tiles_down_layer(gamemap, pos)
-        self.render_gamemap_tiles_up_layer(gamemap, pos)
+        """合理的逻辑应该是这样，可见部分分层渲染，不可见部分重叠渲染"""
+        if gamemap.visiting[pos]:
+            self.render_gamemap_tiles_down_layer(gamemap, pos)
+            self.render_gamemap_tiles_up_layer(gamemap, pos)
+        else:
+            down_tile = self.get_raised_tile_from_terrain(gamemap, pos, gamemap[pos])
+            gamemap.blit_up(down_tile, pos)
+            up_tile = self.get_raised_tile_from_wall(gamemap, pos, gamemap[pos])
+            if up_tile:
+                gamemap.blit_up(up_tile, pos)
+            gamemap.blit_up(FogOfWar.explored_surface, pos)
 
     def render_gamemap_tiles_down_layer(self, gamemap: 'GameMap', pos: Tuple[int, int]):
         down_tile = self.get_raised_tile_from_terrain(gamemap, pos, gamemap[pos])

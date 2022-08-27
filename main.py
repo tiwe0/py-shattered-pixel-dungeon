@@ -26,11 +26,12 @@ def main():
     mob.game_time = 2
 
     gui_components = Component(scale=3)
-    gui_components.add_child(StatusPanel().add_child(HealthBar().attach_actor(rogue)))
     gui_components.add_child(BagButton()).add_child(WaitButton()).add_child(SearchButton())
+    gui_components.add_child(StatusPanel().add_child(HealthBar().attach_actor(rogue)))
 
     view_port = ViewPort(
         size=(pre_screen_middle.get_width() // 2, pre_screen_middle.get_height() // 2),
+        # size=(pre_screen_middle.get_width(), pre_screen_middle.get_height()),
         render_pos=(0, 0),
         inner_size=(10, 10),
         target=rogue,

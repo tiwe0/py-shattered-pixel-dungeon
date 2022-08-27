@@ -86,10 +86,6 @@ class GameMap:
                     # 使用 tileset_test 渲染地图
                     self.tileset_test.render_gamemap_tiles(self, (c, r))
 
-                    # 若该块没有正在视野中, 再加一层记忆遮罩.
-                    if not self.visiting[c, r]:
-                        self.blit_middle(FogOfWar.explored_surface, (c, r))
-
     def blit_up(self, tile: 'Surface', pos: Tuple[int, int]):
         self.surface_up.blit(tile, (pos[0] * GRID_SIZE, pos[1] * GRID_SIZE))
 

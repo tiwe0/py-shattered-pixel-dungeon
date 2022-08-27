@@ -63,17 +63,20 @@ class HealthBar(HUDComponent):
     def before_render(self) -> Surface:
         return get_scaled_surface(self._tile, (self.width * self.health_ratio, self.height))
 
+
 class BagButton(HUDComponent):
     def __init__(self, **kwargs):
         tile = Tiles.Interface.bag_button
         super(BagButton, self).__init__(tile=tile, **kwargs)
         self.pos = (0, screen_height-tile.get_height())
 
+
 class WaitButton(HUDComponent):
     def __init__(self, **kwargs):
         tile = Tiles.Interface.wait_button
         super(WaitButton, self).__init__(tile=tile, **kwargs)
         self.pos = (24, screen_height-tile.get_height())
+
 
 class SearchButton(HUDComponent):
     def __init__(self, **kwargs):

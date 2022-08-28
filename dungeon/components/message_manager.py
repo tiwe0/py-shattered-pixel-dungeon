@@ -1,8 +1,6 @@
-from typing import List
+from typing import List, TYPE_CHECKING
 from dungeon.components import TileComponent
 from dungeon.fonts import ipix_font
-from pygame import Surface
-from dungeon import pre_screen
 
 
 class MessageLog(TileComponent):
@@ -16,23 +14,29 @@ class MessageLog(TileComponent):
     def __init__(self, message: 'str', width: 'int', **kwargs):
         super(MessageLog, self).__init__(**kwargs)
         self.message = message
-        self.local_surface = ipix_font.render(message, False, (255, 255, 255))
+        self.tile = ipix_font.render(message, True, (255, 255, 255))
 
 
 class MessageManager(TileComponent):
+    _instance = None
+
+    def __new__(cls, *args, **kwargs):
+        if cls._instance is None:
+            cls._instance = super().__new__(cls)
+        return cls._instance
+
     def __init__(self, width: int, height: int, **kwargs):
         super(MessageManager, self).__init__(**kwargs)
         self.width, self.height = width, height
         self.message_history: List[MessageLog] = []
 
-    def render(self):
+    def before_render(self):
         x, y = 0, 0
-        self.clear_children()
+        self.children = []
         for message in self.message_history[-5:]:
             message.pos = (x, y)
             y += 13
             self.add_child(message)
-        return self.local_surface
 
     def log(self, message: 'str'):
         self.message_history.append(MessageLog(message, self.width))

@@ -426,10 +426,10 @@ class Tiles:
         else:
             down_tile = self.get_raised_tile_from_terrain(gamemap, pos, gamemap[pos])
             gamemap.blit_up(down_tile, pos)
+            gamemap.blit_up(FogOfWar.explored_surface, pos)
             up_tile = self.get_raised_tile_from_wall(gamemap, pos, gamemap[pos])
             if up_tile:
                 gamemap.blit_up(up_tile, pos)
-            gamemap.blit_up(FogOfWar.explored_surface, pos)
 
     def render_gamemap_tiles_down_layer(self, gamemap: 'GameMap', pos: Tuple[int, int]):
         down_tile = self.get_raised_tile_from_terrain(gamemap, pos, gamemap[pos])

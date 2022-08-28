@@ -2,7 +2,7 @@ from typing import List, Optional, Tuple
 
 from pygame import Surface
 
-from dungeon import screen, pre_screen
+from dungeon import pre_screen
 from utils.surface import get_scaled_surface_by_factor_with_cut, get_scaled_surface_by_factor
 
 
@@ -10,6 +10,7 @@ class TileComponent:
     def __init__(self, *, scale: int = 1, tile: 'Optional[Surface]' = None, pos: 'Tuple[int, int]' = (0, 0)):
         self.children: 'List[TileComponent]' = []
         self.parent: 'Optional[TileComponent]' = None
+        self._tile = tile
         if tile:
             self.local_surface = tile
         else:
@@ -22,6 +23,8 @@ class TileComponent:
         return self.parent is None
 
     def clear_local(self):
+        if self.tile:
+            return
         self.local_surface.fill((0, 0, 0, 0))
 
     @property
@@ -31,13 +34,30 @@ class TileComponent:
         else:
             return self.parent.local_surface
 
+    @property
+    def tile(self):
+        return self._tile
+
+    @tile.setter
+    def tile(self, value: Surface):
+        self._tile = value
+        self.local_surface = value
+
     def render_all(self):
-        if self.is_root():
-            self.clear_local()
+        """
+        1. 清空 render tree 的所有 local_surface, 并做预处理.
+        2. 由底向上一次渲染.
+        :return:
+        """
+        self.clear_local()
+        self.before_render()
         for child in self.children:
             child.render_all()
         rendered = self.render()
         self.update_parent(self.scale(rendered))
+
+    def before_render(self):
+        pass
 
     def render(self):
         return self.local_surface
@@ -49,7 +69,6 @@ class TileComponent:
         return get_scaled_surface_by_factor_with_cut(rendered, self.scale_factor)
 
     def update_parent(self, update: 'Surface'):
-        print(self.__class__.__name__)
         if update:
             self.parent_surface.blit(update, self.pos)
 

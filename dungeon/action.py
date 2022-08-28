@@ -1,5 +1,6 @@
 import sys
 from typing import Tuple, TYPE_CHECKING
+from dungeon.components.message_manager import MessageManager
 
 import pygame
 
@@ -64,7 +65,7 @@ class MovementAction(ActionWithDirection):
 
 class AttackAction(ActionWithDirection):
     def exec(self, entity: 'Entity'):
-        print(f"{entity} attacked {entity.gamemap.get_entities_in_xy(self.target(entity))}")
+        MessageManager._instance.log(f"{entity} attacked {entity.gamemap.get_entities_in_xy(self.target(entity))}")
         entity.spend(self.time)
 
 

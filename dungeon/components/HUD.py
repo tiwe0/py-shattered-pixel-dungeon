@@ -26,6 +26,8 @@ class HealthBar(TileComponent):
         super(HealthBar, self).__init__(tile=tile, **kwargs)
         self.health_ratio = 1.0
         self.pos = (30, 3)
+        self.width = tile.get_width()
+        self.height = tile.get_height()
 
     def attach_actor(self, actor: 'Actor'):
         actor.heal_bar = self

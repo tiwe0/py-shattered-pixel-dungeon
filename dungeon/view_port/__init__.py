@@ -3,7 +3,7 @@ from typing import Tuple, Optional, Union
 from pygame import Surface
 
 from dungeon import pre_screen
-from dungeon.components import Component
+from dungeon.components import TileComponent
 from dungeon.entity import Entity
 from utils.surface import get_scaled_surface
 
@@ -26,7 +26,7 @@ class ViewPort:
         self.followed = True if isinstance(target, Entity) else False
         self.target = target
         self.screen = pre_screen
-        self.child: Optional[Component] = None
+        self.child: 'Optional[TileComponent]' = None
         # self.fix_init()
         self.update_pos()
         self.output_size = output_size
@@ -118,7 +118,7 @@ class ViewPort:
         if self.child:
             self.child.render_all()
 
-    def add_components(self, components_tree: 'Component'):
+    def add_components(self, components_tree: 'TileComponent'):
         self.child = components_tree
 
     def render(self):

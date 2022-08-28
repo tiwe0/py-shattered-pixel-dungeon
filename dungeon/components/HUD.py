@@ -3,7 +3,7 @@ from typing import Tuple, TYPE_CHECKING
 from pygame import Surface
 
 from dungeon import screen_width, screen_height
-from dungeon.components import Component
+from dungeon.components import TileComponent
 from dungeon.tileset.tiles_ui import Tiles
 from utils.surface import get_scaled_surface
 
@@ -11,33 +11,7 @@ if TYPE_CHECKING:
     from dungeon.actor import Actor
 
 
-class HUDComponent(Component):
-
-    def __init__(self, tile: 'Surface', pos: Tuple[int, int] = (0, 0), **kwargs):
-        super(HUDComponent, self).__init__(**kwargs)
-        self._tile: 'Surface' = tile
-        self.pos = pos
-
-    @property
-    def tile(self) -> Surface:
-        return self.before_render()
-
-    @property
-    def width(self):
-        return self._tile.get_width()
-
-    @property
-    def height(self):
-        return self._tile.get_height()
-
-    def before_render(self) -> Surface:
-        return self._tile
-
-    def render(self) -> None:
-        self.pre_surface.blit(self.tile, self.pos)
-
-
-class StatusPanel(HUDComponent):
+class StatusPanel(TileComponent):
     def __init__(self, pos: Tuple[int, int] = (0, 0), **kwargs):
         tile = Tiles.Interface.status_panel
         super(StatusPanel, self).__init__(tile=tile, pos=pos, **kwargs)
@@ -46,7 +20,7 @@ class StatusPanel(HUDComponent):
 # TODO 用元编程写HUDBar
 
 
-class HealthBar(HUDComponent):
+class HealthBar(TileComponent):
     def __init__(self, **kwargs):
         tile = Tiles.Interface.health_bar
         super(HealthBar, self).__init__(tile=tile, **kwargs)
@@ -64,22 +38,25 @@ class HealthBar(HUDComponent):
         return get_scaled_surface(self._tile, (self.width * self.health_ratio, self.height))
 
 
-class BagButton(HUDComponent):
+class BagButton(TileComponent):
     def __init__(self, **kwargs):
         tile = Tiles.Interface.bag_button
-        super(BagButton, self).__init__(tile=tile, **kwargs)
-        self.pos = (0, screen_height-tile.get_height())
+        pos = (0, 198)
+        # pos = (0, screen_height-tile.get_height())
+        super(BagButton, self).__init__(tile=tile, pos=pos, **kwargs)
 
 
-class WaitButton(HUDComponent):
+class WaitButton(TileComponent):
     def __init__(self, **kwargs):
         tile = Tiles.Interface.wait_button
-        super(WaitButton, self).__init__(tile=tile, **kwargs)
-        self.pos = (24, screen_height-tile.get_height())
+        pos = (24, 198)
+        # pos = (24, screen_height-tile.get_height())
+        super(WaitButton, self).__init__(tile=tile, pos=pos, **kwargs)
 
 
-class SearchButton(HUDComponent):
+class SearchButton(TileComponent):
     def __init__(self, **kwargs):
         tile = Tiles.Interface.search_button
-        super(SearchButton, self).__init__(tile=tile, **kwargs)
-        self.pos = (24+20, screen_height-tile.get_height())
+        pos = (24+20, 198)
+        # pos = (24+20, screen_height-tile.get_height())
+        super(SearchButton, self).__init__(tile=tile, pos=pos, **kwargs)

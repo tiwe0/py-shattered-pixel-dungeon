@@ -13,12 +13,11 @@ class Action:
         pass
 
     def exec(self, entity: 'Entity'):
-        entity.spend(self.time)
+        pass
 
 
 class EscapeAction(Action):
     def exec(self, entity: 'Entity'):
-        super().exec(entity)
         pygame.quit()
         sys.exit()
 
@@ -29,33 +28,44 @@ class WaitAction(Action):
 
 class ActionWithDirection(Action):
     def exec(self, entity: 'Entity'):
-        super().exec(entity)
         pass
 
     def __init__(self, direction: Tuple[int, int]):
         super(ActionWithDirection, self).__init__()
         self.direction = direction
 
+    def target(self, entity: 'Entity'):
+        return self.direction[0]+entity.x, self.direction[1]+entity.y
+
 
 class ActionWithTarget(Action):
     def exec(self, entity: 'Entity'):
-        super().exec(entity)
         pass
 
 
-class MovementAction(ActionWithDirection):
+class HeadToAction(ActionWithDirection):
     def exec(self, entity: 'Entity'):
-        super().exec(entity)
         dx, dy = self.direction
         target_x, target_y = entity.x + dx, entity.y + dy
         # 防止跑出地图.
         if target_x < 0 or target_x >= entity.gamemap.width or target_y < 0 or target_y >= entity.gamemap.height:
             return
-        # check 目标位置 walkable.
+        if entity.gamemap.get_entities_in_xy((target_x, target_y)):
+            return AttackAction(self.direction).exec(entity)
         if entity.gamemap.walkable[target_x, target_y]:
-            entity.move(self.direction)
-        else:
-            return
+            entity.spend(self.time)
+            return MovementAction(self.direction).exec(entity)
+
+
+class MovementAction(ActionWithDirection):
+    def exec(self, entity: 'Entity'):
+        entity.move(self.direction)
+
+
+class AttackAction(ActionWithDirection):
+    def exec(self, entity: 'Entity'):
+        print(f"{entity} attacked {entity.gamemap.get_entities_in_xy(self.target(entity))}")
+        entity.spend(self.time)
 
 
 class DebugAction(Action):

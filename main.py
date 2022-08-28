@@ -1,10 +1,12 @@
 import pygame
 from dungeon import map_width, map_height, pre_screen_middle, screen, pre_screen
+from dungeon.fonts import ipix_font
 from dungeon.sprites.sprites_factory import SpriteManager
 from dungeon.input_handler import MainEventHandler
 from dungeon.gamemap import gen_gamemap
 from dungeon.engine import Engine
-from dungeon.components import Component
+from dungeon.components.message_manager import MessageManager
+from dungeon.components import TileComponent
 from dungeon.components.HUD import StatusPanel, HealthBar, BagButton, WaitButton, SearchButton
 from dungeon.view_port import ViewPort
 from dungeon.time_manager import TimeManager
@@ -25,9 +27,17 @@ def main():
     mob = Actor(x=0, y=0, sprite=mob_sprite, hp=2, mp=2, san=10)
     mob.game_time = 2
 
-    gui_components = Component(scale=3)
-    gui_components.add_child(BagButton()).add_child(WaitButton()).add_child(SearchButton())
+    message_manager = MessageManager(width=200, height=60, pos=(400, 600))
+
+    gui_components = TileComponent(scale=3)
     gui_components.add_child(StatusPanel().add_child(HealthBar().attach_actor(rogue)))
+    gui_components.add_child(BagButton())
+    gui_components.add_child(WaitButton())
+    gui_components.add_child(SearchButton())
+
+    message_manager.log("test 1")
+    message_manager.log("test 2")
+    message_manager.log("test 3")
 
     view_port = ViewPort(
         size=(pre_screen_middle.get_width() // 2, pre_screen_middle.get_height() // 2),
@@ -63,6 +73,7 @@ def main():
         engine.run()
         CompressRender.render()
         view_port.render()
+        message_manager.render_all()
         pre_screen.blit(cursor, pygame.mouse.get_pos())
 
         screen.blit(pre_screen, (0, 0))

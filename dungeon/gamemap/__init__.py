@@ -9,7 +9,6 @@ from dungeon.assets import Assets
 from dungeon.config import GRID_SIZE
 from dungeon.dsprite import DSpriteSheetReader
 from dungeon.gamemap.rooms import RectangularRoom
-from dungeon.tileset.fog_of_war import FogOfWar
 from dungeon.tileset.terrain import Terrain
 from dungeon.tileset.tiles_map import Tiles
 from utils.compute_fov import compute_fov
@@ -85,6 +84,9 @@ class GameMap:
                 if self.explored[c, r]:
                     # 使用 tileset_test 渲染地图
                     self.tileset_test.render_gamemap_tiles(self, (c, r))
+                # 渲染迷雾
+                else:
+                    self.tileset_test.render_gamemap_fow(self, (c, r))
 
     def blit_up(self, tile: 'Surface', pos: Tuple[int, int]):
         self.surface_up.blit(tile, (pos[0] * GRID_SIZE, pos[1] * GRID_SIZE))

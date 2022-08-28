@@ -1,9 +1,7 @@
 from typing import Tuple, TYPE_CHECKING, Optional
-import random
 from dungeon.dsprite import DSpriteSheetReader
 from dungeon.tileset.fog_of_war import FogOfWar
 from dungeon.tileset.terrain import Terrain
-from dungeon.config import GRID_SIZE
 
 if TYPE_CHECKING:
     from dungeon.gamemap.__init__ import GameMap
@@ -259,7 +257,7 @@ class Tiles:
         return visual
 
     @classmethod
-    def compute_internal_wall_tile(cls, tile: int, right: int, right_below: int, below: int, left_below: int, left: int)-> int:
+    def compute_internal_wall_tile(cls, tile: int, right: int, right_below: int, below: int, left_below: int, left: int) -> int:
         # 通向先计算基础贴图
         if tile == Terrain.BOOKSHELF or below == Terrain.BOOKSHELF:
             result = cls.WALL_INTERNAL_WOODEN
@@ -281,6 +279,7 @@ class Tiles:
     @classmethod
     def compute_raised_wall_tile(cls, tile: int, right: int, below: int, left: int,) -> int:
         # 计算基
+        result = 0
         if below == -1 or cls.is_wall_stitchable(below):
             return -1
         elif cls.is_door_tile(below):
@@ -441,4 +440,5 @@ class Tiles:
         if up_tile:
             gamemap.blit_up(up_tile, pos)
 
-
+    def render_gamemap_fow(self, gamemap: 'GameMap', pos: Tuple[int, int]):
+        gamemap.blit_up(FogOfWar.unknown_surface, pos)

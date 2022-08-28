@@ -5,7 +5,7 @@ import pygame.event
 from pygame.event import Event
 from pygame.locals import *
 
-from dungeon.action import Action, MovementAction, WaitAction, EscapeAction
+from dungeon.action import Action, MovementAction, WaitAction, EscapeAction, HeadToAction
 
 if TYPE_CHECKING:
     from dungeon.actor import Actor
@@ -23,25 +23,25 @@ class EventHandler:
 class MainEventHandler(EventHandler):
     key_map = {
         # VI Movement
-        K_y: MovementAction(direction=(-1, -1)),
-        K_u: MovementAction(direction=(+1, -1)),
-        K_h: MovementAction(direction=(-1, 0)),
-        K_j: MovementAction(direction=(0, +1)),
-        K_k: MovementAction(direction=(0, -1)),
-        K_l: MovementAction(direction=(+1, 0)),
-        K_b: MovementAction(direction=(-1, +1)),
-        K_n: MovementAction(direction=(+1, +1)),
+        K_y: HeadToAction(direction=(-1, -1)),
+        K_u: HeadToAction(direction=(+1, -1)),
+        K_h: HeadToAction(direction=(-1, 0)),
+        K_j: HeadToAction(direction=(0, +1)),
+        K_k: HeadToAction(direction=(0, -1)),
+        K_l: HeadToAction(direction=(+1, 0)),
+        K_b: HeadToAction(direction=(-1, +1)),
+        K_n: HeadToAction(direction=(+1, +1)),
         K_PERIOD: WaitAction(),
 
-        # number Movement
-        K_7: MovementAction(direction=(-1, -1)),
-        K_9: MovementAction(direction=(+1, -1)),
-        K_4: MovementAction(direction=(-1, 0)),
-        K_2: MovementAction(direction=(0, +1)),
-        K_8: MovementAction(direction=(0, -1)),
-        K_6: MovementAction(direction=(+1, 0)),
-        K_1: MovementAction(direction=(-1, +1)),
-        K_3: MovementAction(direction=(+1, +1)),
+        # number Punch
+        K_7: HeadToAction(direction=(-1, -1)),
+        K_9: HeadToAction(direction=(+1, -1)),
+        K_4: HeadToAction(direction=(-1, 0)),
+        K_2: HeadToAction(direction=(0, +1)),
+        K_8: HeadToAction(direction=(0, -1)),
+        K_6: HeadToAction(direction=(+1, 0)),
+        K_1: HeadToAction(direction=(-1, +1)),
+        K_3: HeadToAction(direction=(+1, +1)),
         K_5: WaitAction(),
 
         K_ESCAPE: EscapeAction(),

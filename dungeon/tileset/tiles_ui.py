@@ -9,7 +9,7 @@ class Tiles:
         interfaces_path = "assets/interfaces/"
 
         # status_pane
-        status_panel = load_tile(interfaces_path + "status_pane.png", (0, 0), (128, 34))
+        status_panel = load_tile(interfaces_path + "status_pane.png", (0, 0), (128, 35))
         health_bar = load_tile(interfaces_path + "status_pane.png", (0, 36), (50, 4))
         shield_bar = load_tile(interfaces_path + "status_pane.png", (0, 40), (50, 4))
         experience_bar = load_tile(interfaces_path + "status_pane.png", (0, 44), (16, 1))

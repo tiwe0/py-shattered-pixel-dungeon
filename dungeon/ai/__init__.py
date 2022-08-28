@@ -1,5 +1,5 @@
 from typing import TYPE_CHECKING, Optional
-from dungeon.action import Action, DebugAction, MovementAction
+from dungeon.action import Action, DebugAction, MovementAction, HeadToAction
 from utils.path import Path, Position
 import random
 
@@ -29,4 +29,4 @@ class AIWonder(AI):
     def generate_action(self, actor: 'Actor') -> 'Optional[Action]':
         position_walkable = Path.path_walkable_direction(actor.gamemap, Position(actor.x, actor.y))
         random_target = position_walkable[random.randint(0, len(position_walkable)-1)]
-        return MovementAction(direction=random_target)
+        return HeadToAction(direction=random_target)

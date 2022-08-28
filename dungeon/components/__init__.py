@@ -12,7 +12,7 @@ class TileComponent:
         self.parent: 'Optional[TileComponent]' = None
         self._tile = tile
         if tile:
-            self.local_surface = tile
+            self.local_surface = tile.copy()
         else:
             self.local_surface = Surface((pre_screen.get_width(), pre_screen.get_height())).convert_alpha()
             self.clear_local()
@@ -23,8 +23,6 @@ class TileComponent:
         return self.parent is None
 
     def clear_local(self):
-        if self.tile:
-            return
         self.local_surface.fill((0, 0, 0, 0))
 
     @property
@@ -41,7 +39,7 @@ class TileComponent:
     @tile.setter
     def tile(self, value: Surface):
         self._tile = value
-        self.local_surface = value
+        self.local_surface = value.copy()
 
     def render_all(self):
         """
@@ -57,7 +55,8 @@ class TileComponent:
         self.update_parent(self.scale(rendered))
 
     def before_render(self):
-        pass
+        if self.tile:
+            self.local_surface.blit(self.tile, (0, 0))
 
     def render(self):
         return self.local_surface

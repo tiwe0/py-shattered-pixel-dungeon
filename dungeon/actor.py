@@ -69,6 +69,9 @@ class Actor(Entity):
             pass
         # trigger to render hp bar
 
+    def set_hp(self, value):
+        self._hp = value
+
     @property
     def mp(self):
         return self._mp

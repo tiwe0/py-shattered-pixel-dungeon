@@ -2,7 +2,6 @@ from typing import Tuple, TYPE_CHECKING
 
 from pygame import Surface
 
-from dungeon import screen_width, screen_height
 from dungeon.components import TileComponent
 from dungeon.tileset.tiles_ui import Tiles
 from utils.surface import get_scaled_surface
@@ -24,20 +23,21 @@ class HealthBar(TileComponent):
     def __init__(self, **kwargs):
         tile = Tiles.Interface.health_bar
         super(HealthBar, self).__init__(tile=tile, **kwargs)
-        self.health_ratio = 1.0
+        self.health_ratio = 0
         self.pos = (30, 3)
         self.width = tile.get_width()
         self.height = tile.get_height()
+        self.actor = None
 
     def attach_actor(self, actor: 'Actor'):
-        actor.heal_bar = self
+        self.actor = actor
         return self
 
-    def update_health_bar(self, ratio: float):
-        self.health_ratio = ratio
+    def before_render(self):
+        self.health_ratio = (float(self.actor.hp)/self.actor.max_hp)
 
-    def before_render(self) -> Surface:
-        return get_scaled_surface(self._tile, (self.width * self.health_ratio, self.height))
+    def render(self) -> Surface:
+        return get_scaled_surface(self.tile, (self.width * self.health_ratio, self.height))
 
 
 class BagButton(TileComponent):

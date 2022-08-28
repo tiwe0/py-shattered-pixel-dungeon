@@ -29,6 +29,7 @@ Issue reports of all kinds (bug reports, feature requests, etc.) are welcome.
 - [x] a simple input handler. (refracted version)
 - [x] a simple SpriteSheet loader.
 - [x] a simple map generator.
+- [x] a simple Log System.
 - [x] basic fov.
 
 ## Todo

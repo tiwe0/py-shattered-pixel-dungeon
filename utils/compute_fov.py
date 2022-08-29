@@ -144,3 +144,6 @@ class FOV:
             first_row = Row(1, Fraction(-1), Fraction(1))
             scan(first_row, 0)
         return self.to_set()
+
+    def player_in_fov(self) -> bool:
+        return self._gamemap.player().xy in self.to_set()

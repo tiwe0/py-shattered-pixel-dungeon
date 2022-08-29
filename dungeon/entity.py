@@ -1,6 +1,7 @@
 from typing import Tuple, TYPE_CHECKING, Optional
 
 from dungeon.config import GRID_SIZE
+from utils.path import Position
 
 if TYPE_CHECKING:
     from dungeon.gamemap.__init__ import GameMap
@@ -48,7 +49,7 @@ class Entity:
 
     @property
     def xy(self):
-        return self.x, self.y
+        return Position(x=self.x, y=self.y)
 
     @property
     def pos(self):

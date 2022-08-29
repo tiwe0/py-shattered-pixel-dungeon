@@ -24,7 +24,8 @@ class EscapeAction(Action):
 
 
 class WaitAction(Action):
-    pass
+    def exec(self, entity: 'Entity'):
+        entity.spend(1)
 
 
 class ActionWithDirection(Action):

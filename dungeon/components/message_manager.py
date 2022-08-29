@@ -1,7 +1,7 @@
 from typing import List, TYPE_CHECKING
 from io import StringIO
 from dungeon.components import TileComponent
-from dungeon.fonts import ipix_font, ark_font
+from dungeon.fonts import ark_font
 from pygame import Surface
 
 
@@ -12,8 +12,9 @@ class MessageLog(TileComponent):
         'full': 12,
     }
 
-    half_word = "abdcefghijklmnopqrstuvwxyz -_.()/\\<>0123456789"\
-                "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    half_word = "abdcefghijklmnopqrstuvwxyz"\
+                "ABCDEFGHIJKLMNOPQRSTUVWXYZ"\
+                " -_.()/\\<>0123456789"
 
     def __init__(self, message: 'str', width: 'int', **kwargs):
         super(MessageLog, self).__init__(**kwargs)

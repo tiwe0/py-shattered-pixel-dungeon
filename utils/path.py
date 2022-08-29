@@ -1,6 +1,8 @@
 from collections import namedtuple, deque
-from typing import List, Any, Set
+from typing import List, Any, Set, TYPE_CHECKING
 from dungeon.gamemap import GameMap
+if TYPE_CHECKING:
+    from utils.compute_fov import FOV
 
 Position = namedtuple("Position", ["x", "y"])
 Position.__add__ = lambda self, other: Position(x=self.x+other.x, y=self.y+other.y)
@@ -32,13 +34,17 @@ class Path:
         return [d for d in cls.directions_pos if gamemap.walkable[d+pos]]
 
     @classmethod
-    def path_to(cls, fov: 'Set[Position]', start: 'Position', end: 'Position', strict_mode: bool = False) -> list[tuple[Any, Any, int, int]]:
+    def path_to(cls, fov: 'FOV', start: 'Position', end: 'Position', strict_mode: bool = False) -> list[tuple[Any, Any, int, int]]:
         """寻路算法."""
+        fov = fov.to_set()
         if strict_mode:
             path = cls._path_to_strict_mode(fov=fov, start=start, end=end)
         else:
             path = cls._path_to_unstrict_mode(fov=fov, start=start, end=end)
-        return path
+        if path:
+            return path
+        else:
+            return []
 
     @classmethod
     def _path_to_strict_mode(cls, fov: 'Set[Position]', start: 'Position', end: 'Position'):
@@ -51,18 +57,20 @@ class Path:
     @classmethod
     def _path_to_with_directions(cls, fov: 'Set[Position]', start: 'Position', end: 'Position', directions: 'List[Position]'):
         q = deque([start])
+        visited = [start]
         track = {start: None}
 
         while len(q) != 0:
-            current = q.pop()
+            current = q.popleft()
 
             if current == end:
                 break
 
             for next_pos in [current+d for d in directions]:
-                if next_pos in fov and next_pos not in track.keys():
+                if next_pos in fov and next_pos not in visited:
                     q.append(next_pos)
                     track[next_pos] = current
+            visited.append(current)
 
         if end not in track.keys():
             return None

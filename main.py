@@ -28,9 +28,7 @@ def main():
 
     gui_components = TileComponent(scale=3)
     gui_components.add_child(StatusPanel().add_child(HealthBar().attach_actor(rogue)))
-    gui_components.add_child(BagButton())
-    gui_components.add_child(WaitButton())
-    gui_components.add_child(SearchButton())
+    gui_components.add_child(BagButton()).add_child(WaitButton()).add_child(SearchButton())
 
     message_manager = MessageManager(width=650, height=77, pos=(280, 600))
 

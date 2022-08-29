@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING, Optional, Tuple, Set
 
 from dungeon.entity import Entity
-from dungeon.ai import AIWonder
+from dungeon.ai import AIWonder, AIAttack
 from dungeon.components.message_manager import MessageManager
 from utils.compute_fov import FOV
 
@@ -43,6 +43,9 @@ class Actor(Entity):
             self.current_action.exec(self)
         self.update_fov()
         self.current_action = None
+        # debug
+        if self.fov.player_in_fov():
+            MessageManager.instance.log(f"{self.__class__.__name__} see you!")
 
     def fetch_action(self):
         # must override for NPC, mobs...

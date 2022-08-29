@@ -2,6 +2,8 @@ from typing import TYPE_CHECKING, Optional, Tuple, Set
 
 from dungeon.entity import Entity
 from dungeon.ai import AIWonder
+from dungeon.components.message_manager import MessageManager
+from utils.compute_fov import FOV
 
 if TYPE_CHECKING:
     from dungeon.components.HUD import HealthBar
@@ -10,6 +12,7 @@ if TYPE_CHECKING:
 
 
 class Actor(Entity):
+
     def __init__(self, hp: int, mp: int, san: int, *args, **kwargs):
         super(Actor, self).__init__(*args, **kwargs)
         self.current_action: 'Optional[Action]' = None
@@ -17,14 +20,12 @@ class Actor(Entity):
         self._hp, self._mp, self._san = hp, mp, san
         self.health_bar: 'Optional[HealthBar]' = None
         self.ai: 'Optional[AI]' = AIWonder()
-        self.fov: 'Set[Tuple[int, int]]' = set()
-
-    def update_health_bar(self):
-        if self.health_bar:
-            self.health_bar.update_health_bar(self.hp // self.max_hp)
+        self.fov: 'Optional[FOV]' = None
+        self.fov_set: 'Optional[Set[Tuple[int, int]]]' = None
+        self.radius: int = 7
 
     def update_fov(self):
-        pass
+        self.fov_set = self.fov.compute_fov(self.xy, self.radius)
 
     def override_action(self):
         action_name = self.current_action.__class__.__name__.lower()
@@ -40,6 +41,7 @@ class Actor(Entity):
             override_method(self)
         else:
             self.current_action.exec(self)
+        self.update_fov()
         self.current_action = None
 
     def fetch_action(self):
@@ -101,3 +103,7 @@ class Actor(Entity):
         if self.is_player():
             pass
         # trigger to render san bar
+
+    def die(self):
+        self.status = 'die'
+        # self.sprite.die()

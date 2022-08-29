@@ -22,15 +22,18 @@ class Path:
 
     @classmethod
     def path_walkable(cls, gamemap: 'GameMap', pos: 'Position') -> list[tuple[Any, Any, int, int]]:
+        """寻找周围8格中可走格子."""
         positions = [pos+direction for direction in cls.directions_pos]
         return [position for position in positions if gamemap.walkable[position]]
 
     @classmethod
     def path_walkable_direction(cls, gamemap: 'GameMap', pos: 'Position'):
+        """寻找周围8格中可走方向."""
         return [d for d in cls.directions_pos if gamemap.walkable[d+pos]]
 
     @classmethod
     def path_to(cls, fov: 'Set[Position]', start: 'Position', end: 'Position', strict_mode: bool = False) -> list[tuple[Any, Any, int, int]]:
+        """寻路算法."""
         if strict_mode:
             path = cls._path_to_strict_mode(fov=fov, start=start, end=end)
         else:

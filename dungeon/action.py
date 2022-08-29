@@ -65,7 +65,7 @@ class MovementAction(ActionWithDirection):
 
 class AttackAction(ActionWithDirection):
     def exec(self, entity: 'Entity'):
-        MessageManager._instance.log(f"{entity} attacked {entity.gamemap.get_entities_in_xy(self.target(entity))}")
+        MessageManager.instance.log(f"{entity} attacked {entity.gamemap.get_entities_in_xy(self.target(entity))}")
         entity.spend(self.time)
 
 

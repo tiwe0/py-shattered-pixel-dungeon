@@ -32,7 +32,7 @@ def main():
     gui_components.add_child(WaitButton())
     gui_components.add_child(SearchButton())
 
-    message_manager = MessageManager(width=200, height=60, pos=(280, 600))
+    message_manager = MessageManager(width=650, height=77, pos=(280, 600))
 
     view_port = ViewPort(
         size=(pre_screen_middle.get_width() // 2, pre_screen_middle.get_height() // 2),

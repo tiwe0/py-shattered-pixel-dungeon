@@ -11,7 +11,7 @@ from dungeon.dsprite import DSpriteSheetReader
 from dungeon.gamemap.rooms import RectangularRoom
 from dungeon.tileset.terrain import Terrain
 from dungeon.tileset.tiles_map import Tiles
-from utils.compute_fov import compute_fov
+from utils.compute_fov import FOV
 from utils.line import line
 
 if TYPE_CHECKING:
@@ -54,6 +54,7 @@ class GameMap:
         self.engine: 'Optional[Engine]' = None
         self.gamemap_render: 'Optional' = None
         self.tileset_test = Tiles()
+        self.fov = None
 
     def add_room(self, room: 'RectangularRoom'):
         self.rooms.append(room)
@@ -69,7 +70,10 @@ class GameMap:
         return self.engine.player
 
     def update_map(self):
-        self.visiting[:] = compute_fov(origin=(self.player().x, self.player().y), gamemap=self, radius=7)
+        if self.fov is None:
+            self.fov = FOV(self)
+        self.fov.compute_fov(self.player().xy, self.player().radius)
+        self.visiting[:] = self.fov.fov
         self.explored |= self.visiting
         self.update_surface()
 
@@ -134,6 +138,7 @@ class GameMap:
         self.entities.append(entity)
         # 再放置.
         entity.x, entity.y = position
+        entity.fov = FOV(self)
         # 最后更新 sprite 位置.
         entity.update_sprite_pos()
 

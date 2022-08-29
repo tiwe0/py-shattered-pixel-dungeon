@@ -30,3 +30,9 @@ class AIWonder(AI):
         position_walkable = Path.path_walkable_direction(actor.gamemap, Position(actor.x, actor.y))
         random_target = position_walkable[random.randint(0, len(position_walkable)-1)]
         return HeadToAction(direction=random_target)
+
+
+class AIAttack(AI):
+    def generate_action(self, actor: 'Actor') -> 'Optional[Action]':
+        position_walkable = Path.path_walkable_direction(actor.gamemap, Position(actor.x, actor.y))
+        pass

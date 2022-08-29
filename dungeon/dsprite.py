@@ -113,6 +113,7 @@ class DSprite(Sprite):
         self.animation: 'Dict[str, DAnimation]' = {}
         # 位置调分器, 用于处理移动.
         self.pos_tweener: 'Optional[PosTweener]' = None
+        self.die_tweener: 'Optional[DieTweener]' = None
 
         self._entity = None
 

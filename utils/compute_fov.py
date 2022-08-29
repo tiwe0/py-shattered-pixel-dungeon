@@ -70,59 +70,77 @@ class Row:
         )
 
 
-def compute_fov(origin: Tuple[int, int], radius: int, gamemap: 'GameMap'):
+class FOV:
+    def __init__(self, gamemap: 'GameMap'):
+        self.fov = np.full((gamemap.width, gamemap.height), fill_value=False, order='F')
+        self.block = gamemap.walkable.copy()
+        self._gamemap = gamemap
 
-    new_fov = np.full((gamemap.width, gamemap.height), fill_value=False, order='F')
+    def __getitem__(self, item: 'Tuple[int, int]'):
+        return self.fov[item]
 
-    mark_visible(new_fov, origin)
+    def __setitem__(self, key, value):
+        self.fov[key] = value
 
-    for i in range(4):
-        quadrant = Quadrant(i, origin)
+    def is_blocking(self, pos: 'Tuple[int, int]'):
+        return not self.block[pos]
 
-        def reveal(tile: Tuple[int, int]):
-            x, y = quadrant.transform(tile)
-            mark_visible(new_fov, (x, y))
+    def mark_visible(self, pos: 'Tuple[int, int]'):
+        self[pos] = True
 
-        def is_wall(tile: Tuple[int, int]):
-            if tile is None:
-                return False
-            x, y = quadrant.transform(tile)
-            return is_blocking(gamemap.walkable, (x, y))
+    def to_set(self):
+        visible = set()
+        for y in range(self._gamemap.height):
+            for x in range(self._gamemap.width):
+                if self[x, y]:
+                    visible.add((x, y))
+        return visible
 
-        def is_floor(tile: Tuple[int, int]):
-            if tile is None:
-                return False
-            x, y = quadrant.transform(tile)
-            return not is_blocking(gamemap.walkable, (x, y))
+    def compute_fov(self, origin: 'Tuple[int, int]', radius: 'int'):
 
-        def scan(row: Row, current_radius: int):
-            try:
-                if current_radius >= radius:
+        self.fov.fill(False)
+
+        self.mark_visible(origin)
+
+        for i in range(4):
+            quadrant = Quadrant(i, origin)
+
+            def reveal(tile: Tuple[int, int]):
+                x, y = quadrant.transform(tile)
+                self.mark_visible((x, y))
+
+            def is_wall(tile: Tuple[int, int]):
+                if tile is None:
+                    return False
+                x, y = quadrant.transform(tile)
+                return self.is_blocking((x, y))
+
+            def is_floor(tile: Tuple[int, int]):
+                if tile is None:
+                    return False
+                x, y = quadrant.transform(tile)
+                return not self.is_blocking((x, y))
+
+            def scan(row: Row, current_radius: int):
+                try:
+                    if current_radius >= radius:
+                        return
+                    prev_tile = None
+                    for tile in row.tiles():
+                        if is_wall(tile) or is_symmetric(row, tile):
+                            reveal(tile)
+                        if is_wall(prev_tile) and is_floor(tile):
+                            row.start_slope = slope(tile)
+                        if is_floor(prev_tile) and is_wall(tile):
+                            new_row = row.next()
+                            new_row.end_slope = slope(tile)
+                            scan(new_row, current_radius + 1)
+                        prev_tile = tile
+                    if is_floor(prev_tile):
+                        scan(row.next(), current_radius + 1)
+                except Exception:
                     return
-                prev_tile = None
-                for tile in row.tiles():
-                    if is_wall(tile) or is_symmetric(row, tile):
-                        reveal(tile)
-                    if is_wall(prev_tile) and is_floor(tile):
-                        row.start_slope = slope(tile)
-                    if is_floor(prev_tile) and is_wall(tile):
-                        new_row = row.next()
-                        new_row.end_slope = slope(tile)
-                        scan(new_row, current_radius+1)
-                    prev_tile = tile
-                if is_floor(prev_tile):
-                    scan(row.next(), current_radius+1)
-            except Exception:
-                return
 
-        first_row = Row(1, Fraction(-1), Fraction(1))
-        scan(first_row, 0)
-    return new_fov
-
-
-def is_blocking(gamemap: 'GameMap', pos: Tuple[int, int]):
-    return not gamemap[pos]
-
-
-def mark_visible(gamemap: 'GameMap', pos: Tuple[int, int]):
-    gamemap[pos] = True
+            first_row = Row(1, Fraction(-1), Fraction(1))
+            scan(first_row, 0)
+        return self.to_set()

@@ -57,7 +57,7 @@ class Path:
     @classmethod
     def _path_to_with_directions(cls, fov: 'Set[Position]', start: 'Position', end: 'Position', directions: 'List[Position]'):
         q = deque([start])
-        visited = [start]
+        visited = []
         track = {start: None}
 
         while len(q) != 0:

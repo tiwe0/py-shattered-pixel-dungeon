@@ -28,6 +28,7 @@ class AIForDebug(AI):
 
 class AIWonder(AI):
     def generate_action(self, actor: 'Actor') -> 'Optional[Action]':
+        print(self.__class__.__name__)
         actor.update_fov()
         if actor.fov.player_in_fov():
             actor.ai = AIAttack()
@@ -40,6 +41,7 @@ class AIWonder(AI):
 
 class AIAttack(AI):
     def generate_action(self, actor: 'Actor') -> 'Optional[Action]':
+        print(self.__class__.__name__)
         actor.update_fov()
         position_walkable = Path.path_walkable(actor.gamemap, Position(actor.x, actor.y))
         if actor.fov.player_in_fov():

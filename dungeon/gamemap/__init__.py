@@ -4,7 +4,6 @@ from typing import Tuple, Iterator, List, TYPE_CHECKING, Optional
 import numpy as np
 import pygame
 
-from dungeon import pre_screen_middle, pre_screen_down, pre_screen_up
 from dungeon.assets import Assets
 from dungeon.config import GRID_SIZE
 from dungeon.dsprite import DSpriteSheetReader
@@ -13,9 +12,9 @@ from dungeon.tileset.terrain import Terrain
 from dungeon.tileset.tiles_map import Tiles
 from utils.compute_fov import FOV
 from utils.line import line
+from dungeon.gamemap.gamemap_render import GameMapRender
 
 if TYPE_CHECKING:
-    from pygame import Surface
     from dungeon.entity import Entity
     from dungeon.engine import Engine
 
@@ -52,7 +51,7 @@ class GameMap:
         self.entities: 'List[Entity]' = []
         self.rooms: 'List[RectangularRoom]' = []
         self.engine: 'Optional[Engine]' = None
-        self.gamemap_render: 'Optional' = None
+        self.gamemap_render: 'Optional[GameMapRender]' = None
         self.tileset_test = Tiles()
         self.fov = None
 
@@ -78,45 +77,12 @@ class GameMap:
         self.update_surface()
 
     def update_surface(self):
-        """负责更新应当渲染的 surface, 通常不需要每帧都渲染, 而是特定动作后渲染一次即可."""
-        self.surface_down.fill((0, 0, 0, 0))
-        self.surface_middle.fill((0, 0, 0, 0))
-        self.surface_up.fill((0, 0, 0, 0))
-        for c in range(self.width):
-            for r in range(self.height):
-                # 只渲染已访问地图
-                if self.explored[c, r]:
-                    # 使用 tileset_test 渲染地图
-                    self.tileset_test.render_gamemap_tiles(self, (c, r))
-                # 渲染迷雾
-                else:
-                    self.tileset_test.render_gamemap_fow(self, (c, r))
-
-    def blit_up(self, tile: 'Surface', pos: Tuple[int, int]):
-        self.surface_up.blit(tile, (pos[0] * GRID_SIZE, pos[1] * GRID_SIZE))
-
-    def blit_middle(self, tile: 'Surface', pos: Tuple[int, int]):
-        self.surface_middle.blit(tile, (pos[0] * GRID_SIZE, pos[1] * GRID_SIZE))
-
-    def blit_down(self, tile: 'Surface', pos: Tuple[int, int]):
-        self.surface_down.blit(tile, (pos[0] * GRID_SIZE, pos[1] * GRID_SIZE))
-
-    def render_map_up(self):
-        """渲染自己."""
-        pre_screen_up.blit(self.surface_up, (0, 0))
-
-    def render_map_middle(self):
-        """渲染自己."""
-        pre_screen_middle.blit(self.surface_middle, (0, 0))
-
-    def render_map_down(self):
-        """渲染自己."""
-        pre_screen_down.blit(self.surface_down, (0, 0))
+        if self.gamemap_render is None:
+            self.gamemap_render = GameMapRender(self)
+        self.gamemap_render.update_surface()
 
     def render_map(self):
-        self.render_map_up()
-        self.render_map_middle()
-        self.render_map_down()
+        self.gamemap_render.render()
 
     def get_entities_in_xy(self, xy: Tuple[int, int]):
         """检索目标位置的第一个 entity."""
@@ -125,11 +91,14 @@ class GameMap:
                 return entity
         return None
 
+    def render_entity(self):
+        for entity in self.entities:
+            entity.render()
+
     def render(self):
         """分层渲染, 不需要考虑地图与实体顺序"""
         self.render_map()
-        for entity in self.entities:
-            entity.render()
+        self.render_entity()
 
     def place_entity(self, *, entity: 'Entity', position: 'Tuple[int, int]'):
         """将实体放入地图的某个位置."""
@@ -177,6 +146,9 @@ def gen_gamemap(map_width: int, map_height: int):
                 new_room.walkable[x, y] = True
 
         gamemap.add_room(new_room)
+
+    gamemap.rooms[-1].tiles[gamemap.rooms[-1].center_xy] = Terrain.ENTRANCE
+    gamemap.rooms[0].tiles[gamemap.rooms[0].center_xy] = Terrain.EXIT
 
     gamemap.update_surface()
 

@@ -78,3 +78,35 @@ class DebugAction(Action):
 class ToggleInventor(Action):
     def exec(self, entity: 'Entity'):
         entity.engine.ui.toggle_inventory()
+
+
+class UpStairAction(Action):
+    pass
+
+
+class DownStairAction(Action):
+    pass
+
+
+class DrinkAction(Action):
+    pass
+
+
+class EatAction(Action):
+    pass
+
+
+class PickUpAction(Action):
+    pass
+
+
+class OpenAction(Action):
+    pass
+
+
+class CloseAction(Action):
+    pass
+
+
+class KickAction(Action):
+    pass

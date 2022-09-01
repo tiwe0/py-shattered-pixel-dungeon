@@ -4,22 +4,21 @@ from typing import Tuple, Iterator, List, TYPE_CHECKING, Optional
 import numpy as np
 import pygame
 
-from utils.typing import map_tile_type
 from dungeon.assets import Assets
 from dungeon.config import GRID_SIZE
 from dungeon.dsprite import DSpriteSheetReader
+from dungeon.gamemap.gamemap_render import GameMapRender
 from dungeon.gamemap.rooms import RectangularRoom
 from dungeon.tileset.terrain import Terrain
 from dungeon.tileset.tiles_map import Tiles
-from utils.typing import Position
 from utils.compute_fov import FOV
 from utils.line import line
-from dungeon.gamemap.gamemap_render import GameMapRender
+from utils.typing import Position
+from utils.typing import map_tile_type
 
 if TYPE_CHECKING:
     from dungeon.entity import Entity
     from dungeon.engine import Engine
-
 
 # for test
 tmp_test_tiles = DSpriteSheetReader(Assets.Environment.tiles_sewers, frame_width=GRID_SIZE, frame_height=GRID_SIZE,

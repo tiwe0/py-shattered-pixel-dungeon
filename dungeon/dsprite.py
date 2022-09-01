@@ -29,7 +29,7 @@ class DAnimation:
         self.loop = loop
         self.frames = frames
         self.key_frame = key_frame
-        self.delay = float(1.0 / fps) * 1000 if fps != 0 else 1000.0 # 由帧数计算而来, 控制动画速度.
+        self.delay = float(1.0 / fps) * 1000 if fps != 0 else 1000.0  # 由帧数计算而来, 控制动画速度.
         self.time: 'float' = 0.0
         # 对 `elapsed` 属性负责.
         self._timer: 'pygame.time.Clock' = pygame.time.Clock()

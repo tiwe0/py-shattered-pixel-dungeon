@@ -118,4 +118,3 @@ class Assets:
         HERO_ICONS = "interfaces/hero_icons.png"
 
         RADIAL_MENU = "interfaces/radial_menu.png"
-

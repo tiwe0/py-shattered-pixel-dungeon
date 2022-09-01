@@ -20,7 +20,7 @@ def test_stage(func):
                 return
 
         func(screen)
-        render_surface = pygame.transform.scale(screen, (screen.get_width()*4, screen.get_height()*4))
+        render_surface = pygame.transform.scale(screen, (screen.get_width() * 4, screen.get_height() * 4))
         screen.blit(render_surface, (0, 0))
 
         pygame.display.flip()

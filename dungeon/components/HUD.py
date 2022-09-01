@@ -34,7 +34,7 @@ class HealthBar(TileComponent):
         return self
 
     def before_render(self):
-        self.health_ratio = (float(self.actor.hp)/self.actor.max_hp)
+        self.health_ratio = (float(self.actor.hp) / self.actor.max_hp)
 
     def render(self) -> Surface:
         return get_scaled_surface(self.tile, (self.width * self.health_ratio, self.height))
@@ -59,6 +59,6 @@ class WaitButton(TileComponent):
 class SearchButton(TileComponent):
     def __init__(self, **kwargs):
         tile = Tiles.Interface.search_button
-        pos = (24+20, 198)
+        pos = (24 + 20, 198)
         # pos = (24+20, screen_height-tile.get_height())
         super(SearchButton, self).__init__(tile=tile, pos=pos, **kwargs)

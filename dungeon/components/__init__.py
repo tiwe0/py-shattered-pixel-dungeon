@@ -3,7 +3,7 @@ from typing import List, Optional, Tuple
 from pygame import Surface
 
 from dungeon import pre_screen
-from utils.surface import get_scaled_surface_by_factor_with_cut, get_scaled_surface_by_factor
+from utils.surface import get_scaled_surface_by_factor_with_cut
 
 
 class TileComponent:

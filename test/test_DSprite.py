@@ -1,6 +1,6 @@
 from dungeon.assets import Assets
-from dungeon.dsprite import DSpriteSheetReader
 from dungeon.dsprite import DAnimation, DSprite
+from dungeon.dsprite import DSpriteSheetReader
 from dungeon.entity import Entity
 from test.test_stage import test_stage
 
@@ -36,4 +36,3 @@ def test_func(screen):
 
 
 test_stage(test_func)
-

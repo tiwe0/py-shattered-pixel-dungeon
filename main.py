@@ -1,20 +1,21 @@
 import pygame
+
 from dungeon import map_width, map_height, pre_screen_middle, screen, pre_screen
-from dungeon.sprites.sprites_factory import SpriteManager
-from dungeon.input_handler import MainEventHandler
-from dungeon.gamemap import gen_gamemap
-from dungeon.engine import Engine
+from dungeon.actor import Actor
 from dungeon.components import TileComponent
 from dungeon.components.HUD import StatusPanel, HealthBar, BagButton, WaitButton, SearchButton
 from dungeon.components.message_manager import MessageManager
-from dungeon.view_port import ViewPort
+from dungeon.engine import Engine
+from dungeon.gamemap import gen_gamemap
+from dungeon.input_handler import MainEventHandler
+from dungeon.sprites.sprites_factory import SpriteManager
 from dungeon.time_manager import TimeManager
-from dungeon.actor import Actor
+from dungeon.view_port import ViewPort
+from test.debug import DebugRender
 from utils.path import PathFinder
 from utils.scaled_render import CompressRender
-from utils.tile_load import load_image_with_alpha
-from test.debug import DebugRender
 from utils.surface import get_scaled_surface_by_factor
+from utils.tile_load import load_image_with_alpha
 
 sprites_manager = SpriteManager("./meta/info.json")
 cursor = get_scaled_surface_by_factor(load_image_with_alpha("./assets/gdx/cursor_mouse.png"), 2)
@@ -48,7 +49,7 @@ def main():
 
     gamemap = gen_gamemap(map_width, map_height)
     gamemap.place_entity(entity=rogue, position=gamemap.rooms[-1].center_xy)
-    gamemap.place_entity(entity=mob, position=(gamemap.rooms[-1].center_xy[0]+1, gamemap.rooms[-1].center_xy[1]+1))
+    gamemap.place_entity(entity=mob, position=(gamemap.rooms[-1].center_xy[0] + 1, gamemap.rooms[-1].center_xy[1] + 1))
 
     time_manager = TimeManager()
     time_manager.add_actor(rogue)
@@ -70,7 +71,6 @@ def main():
     # debug area
 
     while True:
-
         clock.tick(60)
 
         engine.run()

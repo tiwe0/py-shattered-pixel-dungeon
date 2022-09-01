@@ -1,7 +1,7 @@
-from dungeon import screen, pre_screen_middle, pre_screen_down, pre_screen_up, pre_screen
-from utils.surface import get_scaled_surface_by_factor_with_cut
 from pygame import Surface
 from pygame.display import get_surface
+
+from dungeon import screen, pre_screen_middle, pre_screen_down, pre_screen_up, pre_screen
 
 
 class MultipleSurfaceManager:

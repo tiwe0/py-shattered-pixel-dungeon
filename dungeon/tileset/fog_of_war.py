@@ -16,5 +16,3 @@ class FogOfWar:
 
     unknown_surface = Surface((GRID_SIZE, GRID_SIZE))
     unknown_surface.fill(unknown)
-
-

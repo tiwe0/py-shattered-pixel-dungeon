@@ -1,9 +1,11 @@
-from typing import List, Any, Set, TYPE_CHECKING, Iterator
-from utils.typing import Position
 import heapq
+from typing import List, Any, TYPE_CHECKING, Iterator
+
+from utils.typing import Position
 
 if TYPE_CHECKING:
-    from utils.compute_fov import FOV
+    pass
+
 
 # AI *
 

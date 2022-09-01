@@ -1,10 +1,9 @@
+import random
 from typing import TYPE_CHECKING, Optional
-from dungeon.action import Action, DebugAction, MovementAction, HeadToAction
-from dungeon.components.message_manager import MessageManager
-from test.debug import DebugRender
+
+from dungeon.action import Action, DebugAction, HeadToAction
 from utils.path import PathFinder
 from utils.typing import Position
-import random
 
 if TYPE_CHECKING:
     from dungeon.actor import Actor
@@ -29,6 +28,7 @@ class AIForDebug(AI):
         print('generate action from Debug AI.')
         return DebugAction()
 
+
 # TODO 后面怪物AI可以重构成一个有限状态机.
 
 
@@ -43,7 +43,7 @@ class AIWonder(AI):
                 return HeadToAction(direction=direction)
             else:
                 position_walkable = PathFinder.path_walkable_direction(Position(actor.x, actor.y))
-                random_target = position_walkable[random.randint(0, len(position_walkable)-1)]
+                random_target = position_walkable[random.randint(0, len(position_walkable) - 1)]
                 return HeadToAction(direction=random_target)
 
 

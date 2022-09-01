@@ -1,6 +1,6 @@
+from dungeon.assets import Assets
 from dungeon.dsprite import DSpriteSheetReader
 from test.test_stage import test_stage
-from dungeon.assets import Assets
 
 frame_width = 15
 frame_height = 15

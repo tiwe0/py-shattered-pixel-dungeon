@@ -1,4 +1,5 @@
 from typing import Tuple
+
 import pygame
 
 
@@ -12,4 +13,3 @@ def load_tile(filepath: str, pos: Tuple[int, int], size: Tuple[int, int]) -> pyg
     surface = load_image_with_alpha(filepath)
     tile_surface = surface.subsurface(*pos, *size).copy()
     return tile_surface
-

@@ -1,6 +1,7 @@
 import math
 from fractions import Fraction
 from typing import Tuple, TYPE_CHECKING
+
 import numpy as np
 
 if TYPE_CHECKING:

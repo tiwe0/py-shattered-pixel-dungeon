@@ -1,10 +1,11 @@
-import pygame
-from dungeon import screen_width, screen_height, GRID_SIZE, pre_screen_down, pre_screen_middle, pre_screen_up
 from typing import Tuple, TYPE_CHECKING
 
+import pygame
+from pygame import Surface
+
+from dungeon import screen_width, screen_height, GRID_SIZE, pre_screen_down, pre_screen_middle, pre_screen_up
 from dungeon.tileset.fog_of_war import FogOfWar
 from dungeon.tileset.tiles_map import Tiles
-from pygame import Surface
 
 if TYPE_CHECKING:
     from dungeon.gamemap import GameMap
@@ -20,6 +21,7 @@ class GameMapRender:
     1. 渲染非装饰类元素
     2. 渲染装饰类元素
     """
+
     def __init__(self, gamemap: 'GameMap'):
         self._gamemap = gamemap
         gamemap.gamemap_render = self

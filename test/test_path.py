@@ -1,7 +1,6 @@
 from utils.path import Path
 from utils.path import Position
 
-
 test_case = [
     (1, 1), (1, 2), (1, 3), (2, 3), (3, 4), (3, 5),
     (4, 3), (5, 3)

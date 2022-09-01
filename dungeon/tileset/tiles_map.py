@@ -1,4 +1,5 @@
 from typing import Tuple, TYPE_CHECKING, Optional
+
 from dungeon.dsprite import DSpriteSheetReader
 from dungeon.tileset.terrain import Terrain
 
@@ -8,11 +9,10 @@ if TYPE_CHECKING:
 
 
 def cr(row: int, col: int) -> int:
-    return (row-1)*16+col-1
+    return (row - 1) * 16 + col - 1
 
 
 class Tiles:
-
     _instances = {
         'sewers': None,
         'prison': None,
@@ -46,96 +46,96 @@ class Tiles:
     NULL_TILE = -1
 
     GROUND = cr(1, 1)
-    FLOOR = GROUND+0
-    FLOOR_DECO = GROUND+1
-    GRASS = GROUND+2
-    EMBERS = GROUND+3
-    FLOOR_SP = GROUND+4
+    FLOOR = GROUND + 0
+    FLOOR_DECO = GROUND + 1
+    GRASS = GROUND + 2
+    EMBERS = GROUND + 3
+    FLOOR_SP = GROUND + 4
 
-    FLOOR_ALT_1 = GROUND+6
-    FLOOR_DECO_ALT = GROUND+7
-    GRASS_ALT = GROUND+8
-    EMBERS_ALT = GROUND+9
-    FLOOR_SP_ALT = GROUND+10
+    FLOOR_ALT_1 = GROUND + 6
+    FLOOR_DECO_ALT = GROUND + 7
+    GRASS_ALT = GROUND + 8
+    EMBERS_ALT = GROUND + 9
+    FLOOR_SP_ALT = GROUND + 10
 
-    FLOOR_ALT_2 = GROUND+12
+    FLOOR_ALT_2 = GROUND + 12
 
-    ENTRANCE = GROUND+16
-    EXIT = GROUND+17
-    WELL = GROUND+18
-    EMPTY_WELL = GROUND+19
-    PEDESTAL = GROUND+20
+    ENTRANCE = GROUND + 16
+    EXIT = GROUND + 17
+    WELL = GROUND + 18
+    EMPTY_WELL = GROUND + 19
+    PEDESTAL = GROUND + 20
 
     # Chasm
     CHASM_index = cr(4, 1)
-    CHASM = CHASM_index+0
-    CHASM_FLOOR = CHASM_index+1
-    CHASM_FLOOR_SP = CHASM_index+2
-    CHASM_WALL = CHASM_index+3
-    CHASM_WALL_SP = CHASM_index+4
+    CHASM = CHASM_index + 0
+    CHASM_FLOOR = CHASM_index + 1
+    CHASM_FLOOR_SP = CHASM_index + 2
+    CHASM_WALL = CHASM_index + 3
+    CHASM_WALL_SP = CHASM_index + 4
 
     # Flat Tiles
     FLAT_WALLS = cr(5, 1)
-    FLAT_WALL = FLAT_WALLS+0
-    FLAT_WALL_DECO = FLAT_WALLS+1
-    FLAT_BOOKSHELF = FLAT_WALLS+2
+    FLAT_WALL = FLAT_WALLS + 0
+    FLAT_WALL_DECO = FLAT_WALLS + 1
+    FLAT_BOOKSHELF = FLAT_WALLS + 2
 
-    FLAT_WALL_ALT = FLAT_WALLS+4
-    FLAT_WALL_DECO_ALT = FLAT_WALLS+5
-    FLAT_BOOKSHELF_ALT = FLAT_WALLS+6
+    FLAT_WALL_ALT = FLAT_WALLS + 4
+    FLAT_WALL_DECO_ALT = FLAT_WALLS + 5
+    FLAT_BOOKSHELF_ALT = FLAT_WALLS + 6
 
     FLAT_DOORS = cr(6, 1)
-    FLAT_DOOR = FLAT_DOORS+0
-    FLAT_DOOR_OPEN = FLAT_DOORS+1
-    FLAT_DOOR_LOCKED = FLAT_DOORS+2
-    FLAT_DOOR_CRYSTAL = FLAT_DOORS+3
-    UNLOCKED_EXIT = FLAT_DOORS+4
-    LOCKED_EXIT = FLAT_DOORS+5
+    FLAT_DOOR = FLAT_DOORS + 0
+    FLAT_DOOR_OPEN = FLAT_DOORS + 1
+    FLAT_DOOR_LOCKED = FLAT_DOORS + 2
+    FLAT_DOOR_CRYSTAL = FLAT_DOORS + 3
+    UNLOCKED_EXIT = FLAT_DOORS + 4
+    LOCKED_EXIT = FLAT_DOORS + 5
 
     FLAT_OTHER = cr(7, 1)
-    FLAT_SIGN = FLAT_OTHER+0
-    FLAT_STATUE = FLAT_OTHER+1
-    FLAT_STATUE_SP = FLAT_OTHER+2
-    FLAT_ALCHEMY_POT = FLAT_OTHER+3
-    FLAT_BARRICADE = FLAT_OTHER+4
-    FLAT_HIGH_GRASS = FLAT_OTHER+5
-    FLAT_FURROWED_GRASS = FLAT_OTHER+6
+    FLAT_SIGN = FLAT_OTHER + 0
+    FLAT_STATUE = FLAT_OTHER + 1
+    FLAT_STATUE_SP = FLAT_OTHER + 2
+    FLAT_ALCHEMY_POT = FLAT_OTHER + 3
+    FLAT_BARRICADE = FLAT_OTHER + 4
+    FLAT_HIGH_GRASS = FLAT_OTHER + 5
+    FLAT_FURROWED_GRASS = FLAT_OTHER + 6
 
-    FLAT_HIGH_GRASS_ALT = FLAT_OTHER+8
-    FLAT_FURROWED_ALT = FLAT_OTHER+9
+    FLAT_HIGH_GRASS_ALT = FLAT_OTHER + 8
+    FLAT_FURROWED_ALT = FLAT_OTHER + 9
 
     # Raised Tiles
     # Raised Walls
     RAISED_WALLS = cr(8, 1)
-    RAISED_WALL = RAISED_WALLS+0
-    RAISED_WALL_DECO = RAISED_WALLS+4
-    RAISED_WALL_DOOR = RAISED_WALLS+8
-    RAISED_WALL_BOOKSHELF = RAISED_WALLS+12
+    RAISED_WALL = RAISED_WALLS + 0
+    RAISED_WALL_DECO = RAISED_WALLS + 4
+    RAISED_WALL_DOOR = RAISED_WALLS + 8
+    RAISED_WALL_BOOKSHELF = RAISED_WALLS + 12
 
-    RAISED_WALL_ALT = RAISED_WALLS+16
-    RAISED_WALL_DECO_ALT = RAISED_WALLS+20
-    RAISED_WALL_BOOKSHELF_ALT = RAISED_WALLS+28
+    RAISED_WALL_ALT = RAISED_WALLS + 16
+    RAISED_WALL_DECO_ALT = RAISED_WALLS + 20
+    RAISED_WALL_BOOKSHELF_ALT = RAISED_WALLS + 28
 
     # Raised Doors
     RAISED_DOORS = cr(10, 1)
-    RAISED_DOOR = RAISED_DOORS+0
-    RAISED_DOOR_OPEN = RAISED_DOORS+1
-    RAISED_DOOR_LOCKED = RAISED_DOORS+2
-    RAISED_DOOR_CRYSTAL = RAISED_DOORS+3
-    RAISED_DOOR_SIDEWAYS = RAISED_DOORS+4
+    RAISED_DOOR = RAISED_DOORS + 0
+    RAISED_DOOR_OPEN = RAISED_DOORS + 1
+    RAISED_DOOR_LOCKED = RAISED_DOORS + 2
+    RAISED_DOOR_CRYSTAL = RAISED_DOORS + 3
+    RAISED_DOOR_SIDEWAYS = RAISED_DOORS + 4
 
     # Raised Other
     RAISED_OTHER = cr(11, 1)
-    RAISED_SIGN = RAISED_OTHER+0
-    RAISED_STATUE = RAISED_OTHER+1
-    RAISED_STATUE_SP = RAISED_OTHER+2
-    RAISED_ALCHEMY_POT = RAISED_OTHER+3
-    RAISED_BARRICADE = RAISED_OTHER+4
-    RAISED_HIGH_GRASS = RAISED_OTHER+5
-    RAISED_FURROWED_GRASS = RAISED_OTHER+6
+    RAISED_SIGN = RAISED_OTHER + 0
+    RAISED_STATUE = RAISED_OTHER + 1
+    RAISED_STATUE_SP = RAISED_OTHER + 2
+    RAISED_ALCHEMY_POT = RAISED_OTHER + 3
+    RAISED_BARRICADE = RAISED_OTHER + 4
+    RAISED_HIGH_GRASS = RAISED_OTHER + 5
+    RAISED_FURROWED_GRASS = RAISED_OTHER + 6
 
-    RAISED_HIGH_GRASS_ALT = RAISED_OTHER+9
-    RAISED_FURROWED_ALT = RAISED_OTHER+10
+    RAISED_HIGH_GRASS_ALT = RAISED_OTHER + 9
+    RAISED_FURROWED_ALT = RAISED_OTHER + 10
 
     # Raised Tiles Upper
     # +1for open right, +2 for open right-below, +4 for open left-below, +8 for open left.
@@ -143,32 +143,32 @@ class Tiles:
     # Raised Walls
     WALLS_INTERNAL = cr(12, 1)
 
-    WALL_INTERNAL = WALLS_INTERNAL+0
-    WALL_INTERNAL_WOODEN = WALLS_INTERNAL+16
+    WALL_INTERNAL = WALLS_INTERNAL + 0
+    WALL_INTERNAL_WOODEN = WALLS_INTERNAL + 16
 
     WALLS_OVERHANG = cr(14, 1)
-    WALL_OVERHANG = WALLS_OVERHANG+0
-    DOOR_SIDEWAYS_OVERHANG = WALLS_OVERHANG+4
-    DOOR_SIDEWAYS_OVERHANG_OPEN = WALLS_OVERHANG+8
-    DOOR_SIDEWAYS_OVERHANG_LOCKED = WALLS_OVERHANG+12
-    DOOR_SIDEWAYS_OVERHANG_CRYSTAL = WALLS_OVERHANG+16
-    WALL_OVERHANG_WOODEN = WALLS_OVERHANG+20
+    WALL_OVERHANG = WALLS_OVERHANG + 0
+    DOOR_SIDEWAYS_OVERHANG = WALLS_OVERHANG + 4
+    DOOR_SIDEWAYS_OVERHANG_OPEN = WALLS_OVERHANG + 8
+    DOOR_SIDEWAYS_OVERHANG_LOCKED = WALLS_OVERHANG + 12
+    DOOR_SIDEWAYS_OVERHANG_CRYSTAL = WALLS_OVERHANG + 16
+    WALL_OVERHANG_WOODEN = WALLS_OVERHANG + 20
 
-    DOOR_OVERHANG = WALLS_OVERHANG+25
-    DOOR_OVERHANG_OPEN = WALLS_OVERHANG+26
-    DOOR_OVERHANG_CRYSTAL = WALLS_OVERHANG+27
-    DOOR_SIDEWAYS = WALLS_OVERHANG+28
-    DOOR_SIDEWAYS_LOCKED = WALLS_OVERHANG+29
-    DOOR_SIDEWAYS_CRYSTAL = WALLS_OVERHANG+30
+    DOOR_OVERHANG = WALLS_OVERHANG + 25
+    DOOR_OVERHANG_OPEN = WALLS_OVERHANG + 26
+    DOOR_OVERHANG_CRYSTAL = WALLS_OVERHANG + 27
+    DOOR_SIDEWAYS = WALLS_OVERHANG + 28
+    DOOR_SIDEWAYS_LOCKED = WALLS_OVERHANG + 29
+    DOOR_SIDEWAYS_CRYSTAL = WALLS_OVERHANG + 30
 
-    STATUE_OVERHANG = WALLS_OVERHANG+32
-    ALCHEMY_POT_OVERHANG = WALLS_OVERHANG+33
-    BARRICADE_OVERHANG = WALLS_OVERHANG+34
-    HIGH_GRASS_OVERHANG = WALLS_OVERHANG+35
-    FURROWED_OVERHANG = WALLS_OVERHANG+36
+    STATUE_OVERHANG = WALLS_OVERHANG + 32
+    ALCHEMY_POT_OVERHANG = WALLS_OVERHANG + 33
+    BARRICADE_OVERHANG = WALLS_OVERHANG + 34
+    HIGH_GRASS_OVERHANG = WALLS_OVERHANG + 35
+    FURROWED_OVERHANG = WALLS_OVERHANG + 36
 
-    HIGH_GRASS_OVERHANG_ALT = WALLS_OVERHANG+38
-    FURROWED_OVERHANG_ALT = WALLS_OVERHANG+39
+    HIGH_GRASS_OVERHANG_ALT = WALLS_OVERHANG + 38
+    FURROWED_OVERHANG_ALT = WALLS_OVERHANG + 39
 
     # 直接查询
     direct_tiles_dict = {
@@ -256,7 +256,8 @@ class Tiles:
         return visual
 
     @classmethod
-    def compute_internal_wall_tile(cls, tile: int, right: int, right_below: int, below: int, left_below: int, left: int) -> int:
+    def compute_internal_wall_tile(cls, tile: int, right: int, right_below: int, below: int, left_below: int,
+                                   left: int) -> int:
         # 通向先计算基础贴图
         if tile == Terrain.BOOKSHELF or below == Terrain.BOOKSHELF:
             result = cls.WALL_INTERNAL_WOODEN
@@ -276,7 +277,7 @@ class Tiles:
         return result
 
     @classmethod
-    def compute_raised_wall_tile(cls, tile: int, right: int, below: int, left: int,) -> int:
+    def compute_raised_wall_tile(cls, tile: int, right: int, below: int, left: int, ) -> int:
         # 计算基
         result = 0
         if below == -1 or cls.is_wall_stitchable(below):
@@ -323,9 +324,10 @@ class Tiles:
             return visual if gamemap.random[pos] > 0.5 else cls.common_alt_tiles_dict.get(visual, visual)
 
         if cls.is_door_tile(tile):
-            return cls.compute_raised_door_tile(tile, gamemap.get_tile((x, y-1)))
+            return cls.compute_raised_door_tile(tile, gamemap.get_tile((x, y - 1)))
         elif cls.is_wall_stitchable(tile):
-            return cls.compute_raised_wall_tile(tile, gamemap.get_tile((x+1, y)), gamemap.get_tile((x, y+1)), gamemap.get_tile((x-1, y)))
+            return cls.compute_raised_wall_tile(tile, gamemap.get_tile((x + 1, y)), gamemap.get_tile((x, y + 1)),
+                                                gamemap.get_tile((x - 1, y)))
         elif tile == Terrain.SIGN:
             return cls.RAISED_SIGN
         elif tile == Terrain.STATUE:
@@ -350,7 +352,7 @@ class Tiles:
         x, y = pos
         if cls.is_wall_stitchable(tile):
             if y + 1 < gamemap.height and not cls.is_wall_stitchable(gamemap.get_tile((x, y + 1))):
-                tile_ = gamemap.get_tile((x, y+1))
+                tile_ = gamemap.get_tile((x, y + 1))
                 if tile_ == Terrain.DOOR:
                     return cls.DOOR_SIDEWAYS
                 elif tile_ == Terrain.LOCKED_DOOR:
@@ -362,18 +364,19 @@ class Tiles:
             else:
                 # 计算墙内
                 return cls.compute_internal_wall_tile(
-                    tile, gamemap.get_tile((x+1, y)), gamemap.get_tile((x+1, y+1)), gamemap.get_tile((x, y+1)), gamemap.get_tile((x-1, y+1)), gamemap.get_tile((x-1, y))
+                    tile, gamemap.get_tile((x + 1, y)), gamemap.get_tile((x + 1, y + 1)), gamemap.get_tile((x, y + 1)),
+                    gamemap.get_tile((x - 1, y + 1)), gamemap.get_tile((x - 1, y))
                 )
 
         if y + 1 < gamemap.height and cls.is_wall_stitchable(gamemap.get_tile((x, y + 1))):
             return cls.compute_wall_overhang_tile(
-                tile, gamemap.get_tile((x+1, y+1)), gamemap.get_tile((x, y+1)), gamemap.get_tile((x-1, y+1)),
+                tile, gamemap.get_tile((x + 1, y + 1)), gamemap.get_tile((x, y + 1)), gamemap.get_tile((x - 1, y + 1)),
             )
 
         # 计算 wall_overhang
         if y + 1 < gamemap.height and cls.is_wall_stitchable(gamemap.get_tile((x, y + 1))):
             return cls.compute_wall_overhang_tile(
-                tile, gamemap.get_tile((x+1, y+1)), gamemap.get_tile((x, y+1)), gamemap.get_tile((x-1, y+1))
+                tile, gamemap.get_tile((x + 1, y + 1)), gamemap.get_tile((x, y + 1)), gamemap.get_tile((x - 1, y + 1))
             )
 
         return -1
@@ -412,6 +415,6 @@ class Tiles:
         internal_wall_tile = self.compute_internal_wall_tile(tile, right, right_below, below, left_below, left)
         return self[internal_wall_tile]
 
-    def get_raised_wall_tile(self, tile: int, right: int, below: int, left: int,) -> 'Surface':
+    def get_raised_wall_tile(self, tile: int, right: int, below: int, left: int, ) -> 'Surface':
         raised_wall_tile = self.compute_raised_wall_tile(tile, right, below, left)
         return self[raised_wall_tile]

@@ -1,16 +1,14 @@
-import heapq
 from typing import TYPE_CHECKING, Optional, Tuple, Set, List
 
-from dungeon.entity import Entity
-from dungeon.ai import AIWonder, AIAttack
+from dungeon.ai import AIWonder
 from dungeon.components.message_manager import MessageManager
+from dungeon.entity import Entity
 from utils.compute_fov import FOV
-from test.debug import DebugRender
 
 if TYPE_CHECKING:
     from dungeon.components.HUD import HealthBar
     from dungeon.action import Action
-    from dungeon.ai import AI, AIForDebug
+    from dungeon.ai import AI
     from dungeon.gamemap import Position
 
 

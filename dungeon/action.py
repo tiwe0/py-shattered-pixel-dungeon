@@ -1,8 +1,10 @@
 import sys
-from typing import Tuple, TYPE_CHECKING
-from dungeon.components.message_manager import MessageManager
+from typing import TYPE_CHECKING
 
 import pygame
+
+from dungeon.components.message_manager import MessageManager
+from utils.typing import Position
 
 if TYPE_CHECKING:
     from entity import Entity
@@ -32,12 +34,14 @@ class ActionWithDirection(Action):
     def exec(self, entity: 'Entity'):
         pass
 
-    def __init__(self, direction: Tuple[int, int]):
+    def __init__(self, direction: 'Position'):
         super(ActionWithDirection, self).__init__()
-        self.direction = direction
+        if not isinstance(direction, Position):
+            direction = Position(x=direction[0], y=direction[1])
+        self.direction: 'Position' = direction
 
-    def target(self, entity: 'Entity'):
-        return self.direction[0]+entity.x, self.direction[1]+entity.y
+    def target(self, entity: 'Entity') -> 'Position':
+        return self.direction + entity.xy
 
 
 class ActionWithTarget(Action):
@@ -47,15 +51,13 @@ class ActionWithTarget(Action):
 
 class HeadToAction(ActionWithDirection):
     def exec(self, entity: 'Entity'):
-        dx, dy = self.direction
-        target_x, target_y = entity.x + dx, entity.y + dy
         # 防止跑出地图.
-        if target_x < 0 or target_x >= entity.gamemap.width or target_y < 0 or target_y >= entity.gamemap.height:
+        if self.target(entity=entity) not in entity.gamemap:
             return
-        if entity.gamemap.get_entities_in_xy((target_x, target_y)):
+        if entity.gamemap.get_entities_in_xy(self.target(entity=entity)):
             return AttackAction(self.direction).exec(entity)
-        if entity.gamemap.walkable[target_x, target_y]:
-            entity.spend(self.time)
+        if entity.gamemap.walkable[self.target(entity=entity)]:
+            entity.spend(entity.gamemap.weight[self.target(entity=entity)])
             return MovementAction(self.direction).exec(entity)
 
 

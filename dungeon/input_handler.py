@@ -5,7 +5,7 @@ import pygame.event
 from pygame.event import Event
 from pygame.locals import *
 
-from dungeon.action import Action, MovementAction, WaitAction, EscapeAction, HeadToAction
+from dungeon.action import Action, WaitAction, EscapeAction, HeadToAction
 
 if TYPE_CHECKING:
     from dungeon.actor import Actor

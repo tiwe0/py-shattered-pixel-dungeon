@@ -1,5 +1,6 @@
 import random
 from typing import Optional, Tuple, TYPE_CHECKING
+
 from utils.typing import Position
 
 if TYPE_CHECKING:
@@ -66,8 +67,8 @@ class RectangularRoom:
 
     @property
     def random_pos(self) -> 'Position':
-        random_x = random.randint(self.x1+1, self.x2-1)
-        random_y = random.randint(self.y1+1, self.y2-1)
+        random_x = random.randint(self.x1 + 1, self.x2 - 1)
+        random_y = random.randint(self.y1 + 1, self.y2 - 1)
         return Position(x=random_x, y=random_y)
 
     @property
@@ -77,7 +78,7 @@ class RectangularRoom:
 
     @property
     def corner(self) -> Tuple[slice, slice]:
-        return slice(self.x1, self.x2+1, self.width), slice(self.y1, self.y2+1, self.height)
+        return slice(self.x1, self.x2 + 1, self.width), slice(self.y1, self.y2 + 1, self.height)
 
     def intersects(self, other_room: 'RectangularRoom') -> bool:
         """判断房间是否重叠."""

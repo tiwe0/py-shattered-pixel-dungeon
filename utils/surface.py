@@ -1,5 +1,6 @@
-import pygame
 from typing import Tuple, Union
+
+import pygame
 from pygame import Surface
 
 
@@ -10,7 +11,7 @@ def get_scaled_surface_with_cut(source: Surface, size: Tuple[int, int]):
 
 
 def get_scaled_surface_by_factor_with_cut(source: Surface, factor: int):
-    size = factor*source.get_width(), factor*source.get_height()
+    size = factor * source.get_width(), factor * source.get_height()
     return get_scaled_surface_with_cut(source, size)
 
 
@@ -21,6 +22,5 @@ def get_scaled_surface(source: Surface, size: Tuple[Union[int, float], Union[int
 
 
 def get_scaled_surface_by_factor(source: Surface, factor: int):
-    size = factor*source.get_width(), factor*source.get_height()
+    size = factor * source.get_width(), factor * source.get_height()
     return get_scaled_surface(source, size)
-

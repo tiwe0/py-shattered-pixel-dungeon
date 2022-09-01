@@ -1,6 +1,8 @@
-from dungeon import screen, GRID_SIZE, pre_screen
 from typing import Tuple, Iterable
+
 from pygame import Surface
+
+from dungeon import GRID_SIZE, pre_screen
 
 
 class DebugRender:
@@ -24,7 +26,7 @@ class DebugRender:
 
     @classmethod
     def render_tile_block(cls, tile: 'Surface', pos: Tuple[int, int]):
-        pre_screen.blit(tile, (pos[0]*GRID_SIZE, pos[1]*GRID_SIZE))
+        pre_screen.blit(tile, (pos[0] * GRID_SIZE, pos[1] * GRID_SIZE))
 
     @classmethod
     def render_tile_blocks(cls, tile: 'Surface', positions: Iterable[Tuple[int, int]]):

@@ -34,9 +34,11 @@ class Entity:
         # 用于游戏内回合数判断.
         self.game_time = 0
         self.time_manager = None
+        self.last_spend = 0
 
     def spend(self, time):
         self.game_time += time
+        self.last_spend = time
 
     def __lt__(self, other: 'Entity'):
         return self.game_time < other.game_time

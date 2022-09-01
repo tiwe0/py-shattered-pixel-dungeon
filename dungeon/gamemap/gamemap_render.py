@@ -51,19 +51,19 @@ class GameMapRender:
             self.render_gamemap_tiles_down_layer(pos)
             self.render_gamemap_tiles_up_layer(pos)
         else:
-            down_tile = tiles_map.get_raised_tile_from_terrain(gamemap, pos, gamemap[pos])
+            down_tile = tiles_map.get_raised_tile_from_terrain(gamemap, pos, gamemap.get_tile(pos))
             self.blit_up(down_tile, pos)
             self.blit_up(FogOfWar.explored_surface, pos)
-            up_tile = tiles_map.get_raised_tile_from_wall(gamemap, pos, gamemap[pos])
+            up_tile = tiles_map.get_raised_tile_from_wall(gamemap, pos, gamemap.get_tile(pos))
             if up_tile:
                 self.blit_up(up_tile, pos)
 
     def render_gamemap_tiles_down_layer(self, pos):
-        down_tile = self.tiles_map.get_raised_tile_from_terrain(self.gamemap, pos, self.gamemap[pos])
+        down_tile = self.tiles_map.get_raised_tile_from_terrain(self.gamemap, pos, self.gamemap.get_tile(pos))
         self.blit_down(down_tile, pos)
 
     def render_gamemap_tiles_up_layer(self, pos):
-        up_tile = self.tiles_map.get_raised_tile_from_wall(self.gamemap, pos, self.gamemap[pos])
+        up_tile = self.tiles_map.get_raised_tile_from_wall(self.gamemap, pos, self.gamemap.get_tile(pos))
         if up_tile:
             self.blit_up(up_tile, pos)
 

@@ -1,16 +1,12 @@
-from collections import namedtuple, deque
 from typing import List, Any, Set, TYPE_CHECKING, Iterator
-from dungeon.gamemap import GameMap
+from utils.typing import Position
 import heapq
 
 if TYPE_CHECKING:
     from utils.compute_fov import FOV
 
-Position = namedtuple("Position", ["x", "y"])
-Position.__add__ = lambda self, other: Position(x=self.x + other.x, y=self.y + other.y)
-
-
 # AI *
+
 
 class PathFinder:
     directions = [
@@ -104,7 +100,7 @@ class PathFinder:
         while current != start:
             path.append(current)
             current = path_dict[current]
-        path.append(start)
+        # path.append(start)
         return reversed(path)
 
     @classmethod

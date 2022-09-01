@@ -2,7 +2,8 @@ from typing import TYPE_CHECKING, Optional
 from dungeon.action import Action, DebugAction, MovementAction, HeadToAction
 from dungeon.components.message_manager import MessageManager
 from test.debug import DebugRender
-from utils.path import PathFinder, Position
+from utils.path import PathFinder
+from utils.typing import Position
 import random
 
 if TYPE_CHECKING:
@@ -14,6 +15,8 @@ class AI:
         pass
 
     def fetch_action(self, actor: 'Actor') -> 'Optional[Action]':
+        actor.update_fov()
+        PathFinder.gamemap = actor.gamemap
         action = self.generate_action(actor)
         return action
 
@@ -26,33 +29,35 @@ class AIForDebug(AI):
         print('generate action from Debug AI.')
         return DebugAction()
 
+# TODO 后面怪物AI可以重构成一个有限状态机.
+
 
 class AIWonder(AI):
     def generate_action(self, actor: 'Actor') -> 'Optional[Action]':
-        print(self.__class__.__name__)
-        actor.update_fov()
-        PathFinder.gamemap = actor.gamemap
         if actor.fov.player_in_fov():
             actor.ai = AIAttack()
             return AIAttack().generate_action(actor)
         else:
-            position_walkable = PathFinder.path_walkable_direction(Position(actor.x, actor.y))
-            random_target = position_walkable[random.randint(0, len(position_walkable)-1)]
-            return HeadToAction(direction=random_target)
+            if actor.path_to_walk:
+                direction = actor.path_to_walk.pop(0) - actor.xy
+                return HeadToAction(direction=direction)
+            else:
+                position_walkable = PathFinder.path_walkable_direction(Position(actor.x, actor.y))
+                random_target = position_walkable[random.randint(0, len(position_walkable)-1)]
+                return HeadToAction(direction=random_target)
 
 
 class AIAttack(AI):
     def generate_action(self, actor: 'Actor') -> 'Optional[Action]':
-        print(self.__class__.__name__)
-        actor.update_fov()
-        PathFinder.gamemap = actor.gamemap
-        position_walkable = PathFinder.path_walkable(Position(actor.x, actor.y))
         gamemap = actor.gamemap
-        PathFinder.gamemap = gamemap
         if actor.fov.player_in_fov():
             path_to_player = [p for p in PathFinder.path_to(actor.xy, gamemap.player().xy)]
-            next_position = list(set(position_walkable).intersection(set(path_to_player)))[0]
-            direction = (next_position[0]-actor.x, next_position[1]-actor.y)
+
+            next_position = path_to_player.pop(0)
+            direction = next_position - actor.xy
+
+            actor.path_to_walk = path_to_player
+
             return HeadToAction(direction=direction)
         else:
             actor.ai = AIWonder()

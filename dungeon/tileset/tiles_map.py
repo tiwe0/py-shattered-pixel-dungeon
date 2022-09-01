@@ -323,9 +323,9 @@ class Tiles:
             return visual if gamemap.random[pos] > 0.5 else cls.common_alt_tiles_dict.get(visual, visual)
 
         if cls.is_door_tile(tile):
-            return cls.compute_raised_door_tile(tile, gamemap[x, y-1])
+            return cls.compute_raised_door_tile(tile, gamemap.get_tile((x, y-1)))
         elif cls.is_wall_stitchable(tile):
-            return cls.compute_raised_wall_tile(tile, gamemap[x+1, y], gamemap[x, y+1], gamemap[x-1, y])
+            return cls.compute_raised_wall_tile(tile, gamemap.get_tile((x+1, y)), gamemap.get_tile((x, y+1)), gamemap.get_tile((x-1, y)))
         elif tile == Terrain.SIGN:
             return cls.RAISED_SIGN
         elif tile == Terrain.STATUE:
@@ -349,8 +349,8 @@ class Tiles:
     def compute_raised_tile_from_wall(cls, gamemap: 'GameMap', pos: Tuple[int, int], tile: int):
         x, y = pos
         if cls.is_wall_stitchable(tile):
-            if y + 1 < gamemap.height and not cls.is_wall_stitchable(gamemap[x, y + 1]):
-                tile_ = gamemap[x, y+1]
+            if y + 1 < gamemap.height and not cls.is_wall_stitchable(gamemap.get_tile((x, y + 1))):
+                tile_ = gamemap.get_tile((x, y+1))
                 if tile_ == Terrain.DOOR:
                     return cls.DOOR_SIDEWAYS
                 elif tile_ == Terrain.LOCKED_DOOR:
@@ -362,18 +362,18 @@ class Tiles:
             else:
                 # 计算墙内
                 return cls.compute_internal_wall_tile(
-                    tile, gamemap[x+1, y], gamemap[x+1, y+1], gamemap[x, y+1], gamemap[x-1, y+1], gamemap[x-1, y]
+                    tile, gamemap.get_tile((x+1, y)), gamemap.get_tile((x+1, y+1)), gamemap.get_tile((x, y+1)), gamemap.get_tile((x-1, y+1)), gamemap.get_tile((x-1, y))
                 )
 
-        if y + 1 < gamemap.height and cls.is_wall_stitchable(gamemap[x, y + 1]):
+        if y + 1 < gamemap.height and cls.is_wall_stitchable(gamemap.get_tile((x, y + 1))):
             return cls.compute_wall_overhang_tile(
-                tile, gamemap[x+1, y+1], gamemap[x, y+1], gamemap[x-1, y+1],
+                tile, gamemap.get_tile((x+1, y+1)), gamemap.get_tile((x, y+1)), gamemap.get_tile((x-1, y+1)),
             )
 
         # 计算 wall_overhang
-        if y + 1 < gamemap.height and cls.is_wall_stitchable(gamemap[x, y + 1]):
+        if y + 1 < gamemap.height and cls.is_wall_stitchable(gamemap.get_tile((x, y + 1))):
             return cls.compute_wall_overhang_tile(
-                tile, gamemap[x+1, y+1], gamemap[x, y+1], gamemap[x-1, y+1]
+                tile, gamemap.get_tile((x+1, y+1)), gamemap.get_tile((x, y+1)), gamemap.get_tile((x-1, y+1))
             )
 
         return -1

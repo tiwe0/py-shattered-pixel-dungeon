@@ -1,4 +1,6 @@
+import random
 from typing import Optional, Tuple, TYPE_CHECKING
+from utils.typing import Position
 
 if TYPE_CHECKING:
     from dungeon.gamemap import GameMap
@@ -38,9 +40,35 @@ class RectangularRoom:
             return self.gamemap.walkable
 
     @property
-    def center_xy(self) -> Tuple[int, int]:
+    def random(self):
+        if self.gamemap:
+            return self.gamemap.random
+
+    @property
+    def weight(self):
+        if self.gamemap:
+            return self.gamemap.weight
+
+    @property
+    def explored(self):
+        if self.gamemap:
+            return self.gamemap.explored
+
+    @property
+    def visiting(self):
+        if self.visiting:
+            return self.gamemap.visiting
+
+    @property
+    def center_xy(self) -> 'Position':
         """房间中心."""
-        return self.x1 + self.width // 2, self.y1 + self.height // 2
+        return Position(x=self.x1 + self.width // 2, y=self.y1 + self.height // 2)
+
+    @property
+    def random_pos(self) -> 'Position':
+        random_x = random.randint(self.x1+1, self.x2-1)
+        random_y = random.randint(self.y1+1, self.y2-1)
+        return Position(x=random_x, y=random_y)
 
     @property
     def inner(self) -> Tuple[slice, slice]:

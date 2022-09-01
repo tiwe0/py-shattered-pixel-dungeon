@@ -1,4 +1,5 @@
-from typing import TYPE_CHECKING, Optional, Tuple, Set
+import heapq
+from typing import TYPE_CHECKING, Optional, Tuple, Set, List
 
 from dungeon.entity import Entity
 from dungeon.ai import AIWonder, AIAttack
@@ -10,6 +11,7 @@ if TYPE_CHECKING:
     from dungeon.components.HUD import HealthBar
     from dungeon.action import Action
     from dungeon.ai import AI, AIForDebug
+    from dungeon.gamemap import Position
 
 
 class Actor(Entity):
@@ -24,6 +26,8 @@ class Actor(Entity):
         self.fov: 'Optional[FOV]' = None
         self.fov_set: 'Optional[Set[Tuple[int, int]]]' = None
         self.radius: int = 7
+        self.path_to_walk: 'List[Position]' = []
+        self.buffs = []
 
     def update_fov(self):
         self.fov_set = self.fov.compute_fov(self.xy, self.radius)
@@ -44,6 +48,8 @@ class Actor(Entity):
             self.current_action.exec(self)
         self.update_fov()
         self.current_action = None
+        for buff in self.buffs:
+            buff.act(self)
 
     def fetch_action(self):
         # must override for NPC, mobs...
@@ -110,3 +116,6 @@ class Actor(Entity):
     def die(self):
         self.status = 'die'
         # self.sprite.die()
+
+    def render(self):
+        super(Actor, self).render()

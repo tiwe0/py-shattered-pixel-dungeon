@@ -4,7 +4,6 @@ from typing import Tuple, Iterator, List, TYPE_CHECKING, Optional
 import numpy as np
 import pygame
 
-from collections import deque, namedtuple
 from utils.typing import map_tile_type
 from dungeon.assets import Assets
 from dungeon.config import GRID_SIZE
@@ -12,6 +11,7 @@ from dungeon.dsprite import DSpriteSheetReader
 from dungeon.gamemap.rooms import RectangularRoom
 from dungeon.tileset.terrain import Terrain
 from dungeon.tileset.tiles_map import Tiles
+from utils.typing import Position
 from utils.compute_fov import FOV
 from utils.line import line
 from dungeon.gamemap.gamemap_render import GameMapRender
@@ -20,8 +20,6 @@ if TYPE_CHECKING:
     from dungeon.entity import Entity
     from dungeon.engine import Engine
 
-Position = namedtuple("Position", ["x", "y"])
-Position.__add__ = lambda self, other: Position(x=self.x+other.x, y=self.y+other.y)
 
 # for test
 tmp_test_tiles = DSpriteSheetReader(Assets.Environment.tiles_sewers, frame_width=GRID_SIZE, frame_height=GRID_SIZE,
@@ -44,7 +42,9 @@ class GameMap:
         # 地图信息.
         self.info = np.full(
             (width, height),
-            fill_value=np.array((Terrain.WALL, np.inf, 0, False, False, False), dtype=map_tile_type), order='F')
+            fill_value=np.array((Terrain.WALL, np.inf, 0, False, False, False), dtype=map_tile_type),
+            order='F'
+        )
 
         self.tiles = self.info['tiles']
         self.weight = self.info['weight']
@@ -65,14 +65,20 @@ class GameMap:
         self.tileset_test = Tiles()
         self.fov = None
 
+    def get_tile(self, pos: 'Position'):
+        if pos in self:
+            return self.tiles[pos]
+        else:
+            return Terrain.WALL
+
     def add_room(self, room: 'RectangularRoom'):
         self.rooms.append(room)
 
     def __getitem__(self, item: 'Position'):
         if item in self:
-            return self.tiles[item]
+            return self.info[item]
         else:
-            return Terrain.WALL
+            return None
 
     def __contains__(self, item: 'Position'):
         x, y = item
@@ -151,7 +157,7 @@ def gen_gamemap(map_width: int, map_height: int):
 
         new_room.tiles[new_room.inner] = Terrain.EMPTY
         new_room.walkable[new_room.inner] = True
-        gamemap.weight[new_room.inner] = 1
+        new_room.weight[new_room.inner] = 1
 
         new_room.tiles[new_room.corner] = Terrain.WALL
         new_room.walkable[new_room.corner] = False
@@ -160,7 +166,7 @@ def gen_gamemap(map_width: int, map_height: int):
             for x, y in tunnel_between(new_room.center_xy, gamemap.rooms[-1].center_xy):
                 new_room.tiles[x, y] = Terrain.EMPTY
                 new_room.walkable[x, y] = True
-                gamemap.weight[x, y] = 1
+                new_room.weight[x, y] = 1
 
         gamemap.add_room(new_room)
 

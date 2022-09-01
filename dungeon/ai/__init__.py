@@ -1,8 +1,8 @@
 from typing import TYPE_CHECKING, Optional
 from dungeon.action import Action, DebugAction, MovementAction, HeadToAction
 from dungeon.components.message_manager import MessageManager
-from utils.path import Path, Position
 from test.debug import DebugRender
+from utils.path import PathFinder, Position
 import random
 
 if TYPE_CHECKING:
@@ -31,11 +31,12 @@ class AIWonder(AI):
     def generate_action(self, actor: 'Actor') -> 'Optional[Action]':
         print(self.__class__.__name__)
         actor.update_fov()
+        PathFinder.gamemap = actor.gamemap
         if actor.fov.player_in_fov():
             actor.ai = AIAttack()
             return AIAttack().generate_action(actor)
         else:
-            position_walkable = Path.path_walkable_direction(actor.gamemap, Position(actor.x, actor.y))
+            position_walkable = PathFinder.path_walkable_direction(Position(actor.x, actor.y))
             random_target = position_walkable[random.randint(0, len(position_walkable)-1)]
             return HeadToAction(direction=random_target)
 
@@ -44,9 +45,12 @@ class AIAttack(AI):
     def generate_action(self, actor: 'Actor') -> 'Optional[Action]':
         print(self.__class__.__name__)
         actor.update_fov()
-        position_walkable = Path.path_walkable(actor.gamemap, Position(actor.x, actor.y))
+        PathFinder.gamemap = actor.gamemap
+        position_walkable = PathFinder.path_walkable(Position(actor.x, actor.y))
+        gamemap = actor.gamemap
+        PathFinder.gamemap = gamemap
         if actor.fov.player_in_fov():
-            path_to_player = list(Path.path_to(actor.fov, actor.xy, actor.gamemap.player().xy, True))
+            path_to_player = [p for p in PathFinder.path_to(actor.xy, gamemap.player().xy)]
             next_position = list(set(position_walkable).intersection(set(path_to_player)))[0]
             direction = (next_position[0]-actor.x, next_position[1]-actor.y)
             return HeadToAction(direction=direction)

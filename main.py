@@ -10,7 +10,7 @@ from dungeon.components.message_manager import MessageManager
 from dungeon.view_port import ViewPort
 from dungeon.time_manager import TimeManager
 from dungeon.actor import Actor
-from utils.path import PathAIStar
+from utils.path import PathFinder
 from utils.scaled_render import CompressRender
 from utils.tile_load import load_image_with_alpha
 from test.debug import DebugRender
@@ -66,7 +66,7 @@ def main():
     clock = pygame.time.Clock()
 
     # debug area
-    PathAIStar.gamemap = gamemap
+    PathFinder.gamemap = gamemap
     # debug area
 
     while True:
@@ -78,8 +78,8 @@ def main():
         mob.update_fov()
 
         # debug area
-        path_dict, cost = PathAIStar.a_star(mob.xy, rogue.xy)
-        path = PathAIStar.reconstruct_path(path_dict, mob.xy, rogue.xy)
+        path_dict, cost = PathFinder.a_star(mob.xy, rogue.xy, False)
+        path = PathFinder.reconstruct_path(path_dict, mob.xy, rogue.xy)
         DebugRender.render_color_blocks('red', path)
         # debug area
 

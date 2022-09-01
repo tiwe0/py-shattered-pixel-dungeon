@@ -5,6 +5,7 @@ import numpy as np
 import pygame
 
 from collections import deque, namedtuple
+from utils.typing import map_tile_type
 from dungeon.assets import Assets
 from dungeon.config import GRID_SIZE
 from dungeon.dsprite import DSpriteSheetReader
@@ -41,12 +42,16 @@ class GameMap:
         self.width, self.height = width, height
 
         # 地图信息.
-        self.tiles = np.full((width, height), fill_value=Terrain.WALL, order='F')
-        self.walkable = np.full((width, height), fill_value=False, order='F')
-        self.explored = np.full((width, height), fill_value=False, order='F')
-        self.visiting = np.full((width, height), fill_value=False, order='F')
-        self.weight = np.full((width, height), fill_value=np.inf, order='F')
-        self.random = np.random.random((width, height))
+        self.info = np.full(
+            (width, height),
+            fill_value=np.array((Terrain.WALL, np.inf, 0, False, False, False), dtype=map_tile_type), order='F')
+
+        self.tiles = self.info['tiles']
+        self.weight = self.info['weight']
+        self.random = self.info['random']
+        self.walkable = self.info['walkable']
+        self.explored = self.info['explored']
+        self.visiting = self.info['visiting']
 
         self.surface_middle: 'pygame.Surface' = pygame.Surface((width * GRID_SIZE, height * GRID_SIZE)).convert_alpha()
         self.surface_down: 'pygame.Surface' = pygame.Surface((width * GRID_SIZE, height * GRID_SIZE)).convert_alpha()
@@ -82,7 +87,7 @@ class GameMap:
         if self.fov is None:
             self.fov = FOV(self)
         self.fov.compute_fov(self.player().xy, self.player().radius)
-        self.visiting[:] = self.fov.fov
+        self.visiting = self.fov.fov
         self.explored |= self.visiting
         self.update_surface()
 

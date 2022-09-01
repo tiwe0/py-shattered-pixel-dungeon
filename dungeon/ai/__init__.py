@@ -2,6 +2,7 @@ from typing import TYPE_CHECKING, Optional
 from dungeon.action import Action, DebugAction, MovementAction, HeadToAction
 from dungeon.components.message_manager import MessageManager
 from utils.path import Path, Position
+from test.debug import DebugRender
 import random
 
 if TYPE_CHECKING:
@@ -45,7 +46,7 @@ class AIAttack(AI):
         actor.update_fov()
         position_walkable = Path.path_walkable(actor.gamemap, Position(actor.x, actor.y))
         if actor.fov.player_in_fov():
-            path_to_player = list(Path.path_to(actor.fov, actor.xy, actor.gamemap.player().xy))
+            path_to_player = list(Path.path_to(actor.fov, actor.xy, actor.gamemap.player().xy, True))
             next_position = list(set(position_walkable).intersection(set(path_to_player)))[0]
             direction = (next_position[0]-actor.x, next_position[1]-actor.y)
             return HeadToAction(direction=direction)

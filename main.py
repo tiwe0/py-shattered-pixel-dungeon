@@ -10,8 +10,10 @@ from dungeon.components.message_manager import MessageManager
 from dungeon.view_port import ViewPort
 from dungeon.time_manager import TimeManager
 from dungeon.actor import Actor
+from utils.path import PathAIStar
 from utils.scaled_render import CompressRender
 from utils.tile_load import load_image_with_alpha
+from test.debug import DebugRender
 from utils.surface import get_scaled_surface_by_factor
 
 sprites_manager = SpriteManager("./meta/info.json")
@@ -61,10 +63,26 @@ def main():
 
     gamemap.update_map()
 
+    clock = pygame.time.Clock()
+
+    # debug area
+    PathAIStar.gamemap = gamemap
+    # debug area
+
     while True:
+
+        clock.tick(60)
 
         engine.run()
         CompressRender.render()
+        mob.update_fov()
+
+        # debug area
+        path_dict, cost = PathAIStar.a_star(mob.xy, rogue.xy)
+        path = PathAIStar.reconstruct_path(path_dict, mob.xy, rogue.xy)
+        DebugRender.render_color_blocks('red', path)
+        # debug area
+
         view_port.render()
         message_manager.render_all()
         pre_screen.blit(cursor, pygame.mouse.get_pos())

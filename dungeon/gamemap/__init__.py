@@ -4,6 +4,7 @@ from typing import Tuple, Iterator, List, TYPE_CHECKING, Optional
 import numpy as np
 import pygame
 
+from collections import deque, namedtuple
 from dungeon.assets import Assets
 from dungeon.config import GRID_SIZE
 from dungeon.dsprite import DSpriteSheetReader
@@ -17,6 +18,9 @@ from dungeon.gamemap.gamemap_render import GameMapRender
 if TYPE_CHECKING:
     from dungeon.entity import Entity
     from dungeon.engine import Engine
+
+Position = namedtuple("Position", ["x", "y"])
+Position.__add__ = lambda self, other: Position(x=self.x+other.x, y=self.y+other.y)
 
 # for test
 tmp_test_tiles = DSpriteSheetReader(Assets.Environment.tiles_sewers, frame_width=GRID_SIZE, frame_height=GRID_SIZE,
@@ -41,6 +45,7 @@ class GameMap:
         self.walkable = np.full((width, height), fill_value=False, order='F')
         self.explored = np.full((width, height), fill_value=False, order='F')
         self.visiting = np.full((width, height), fill_value=False, order='F')
+        self.weight = np.full((width, height), fill_value=np.inf, order='F')
         self.random = np.random.random((width, height))
 
         self.surface_middle: 'pygame.Surface' = pygame.Surface((width * GRID_SIZE, height * GRID_SIZE)).convert_alpha()
@@ -58,12 +63,17 @@ class GameMap:
     def add_room(self, room: 'RectangularRoom'):
         self.rooms.append(room)
 
-    def __getitem__(self, item: Tuple[int, int]):
+    def __getitem__(self, item: 'Position'):
+        if item in self:
+            return self.tiles[item]
+        else:
+            return Terrain.WALL
+
+    def __contains__(self, item: 'Position'):
         x, y = item
         if x < 0 or x >= self.width or y < 0 or y >= self.height:
-            return Terrain.WALL
-        else:
-            return self.tiles[x, y]
+            return False
+        return True
 
     def player(self):
         return self.engine.player
@@ -84,7 +94,7 @@ class GameMap:
     def render_map(self):
         self.gamemap_render.render()
 
-    def get_entities_in_xy(self, xy: Tuple[int, int]):
+    def get_entities_in_xy(self, xy: 'Position'):
         """检索目标位置的第一个 entity."""
         for entity in self.entities:
             if entity.xy == xy:
@@ -100,7 +110,7 @@ class GameMap:
         self.render_map()
         self.render_entity()
 
-    def place_entity(self, *, entity: 'Entity', position: 'Tuple[int, int]'):
+    def place_entity(self, *, entity: 'Entity', position: 'Position'):
         """将实体放入地图的某个位置."""
         # 先注册.
         entity.gamemap = self
@@ -113,7 +123,7 @@ class GameMap:
 
 
 def tunnel_between(
-        start: Tuple[int, int], end: Tuple[int, int]
+        start: 'Position', end: 'Position'
 ) -> Iterator[Tuple[int, int]]:
     yield from line(start, end)
 
@@ -136,6 +146,7 @@ def gen_gamemap(map_width: int, map_height: int):
 
         new_room.tiles[new_room.inner] = Terrain.EMPTY
         new_room.walkable[new_room.inner] = True
+        gamemap.weight[new_room.inner] = 1
 
         new_room.tiles[new_room.corner] = Terrain.WALL
         new_room.walkable[new_room.corner] = False
@@ -144,6 +155,7 @@ def gen_gamemap(map_width: int, map_height: int):
             for x, y in tunnel_between(new_room.center_xy, gamemap.rooms[-1].center_xy):
                 new_room.tiles[x, y] = Terrain.EMPTY
                 new_room.walkable[x, y] = True
+                gamemap.weight[x, y] = 1
 
         gamemap.add_room(new_room)
 

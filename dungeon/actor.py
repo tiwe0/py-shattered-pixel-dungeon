@@ -4,6 +4,7 @@ from dungeon.entity import Entity
 from dungeon.ai import AIWonder, AIAttack
 from dungeon.components.message_manager import MessageManager
 from utils.compute_fov import FOV
+from test.debug import DebugRender
 
 if TYPE_CHECKING:
     from dungeon.components.HUD import HealthBar
@@ -43,9 +44,6 @@ class Actor(Entity):
             self.current_action.exec(self)
         self.update_fov()
         self.current_action = None
-        # debug
-        if self.fov.player_in_fov():
-            MessageManager.instance.log(f"{self.__class__.__name__} see you!")
 
     def fetch_action(self):
         # must override for NPC, mobs...
@@ -57,6 +55,8 @@ class Actor(Entity):
         else:
             if self.ai:
                 self.current_action = self.ai.fetch_action(self)
+                # debug
+                MessageManager.instance.log(f"current action: {self.ai.__class__.__name__}")
 
     @property
     def hp(self):

@@ -25,23 +25,32 @@ class ViewPort:
         self.surface = Surface(size).convert_alpha()
         self.followed = True if isinstance(target, Entity) else False
         self.target = target
+        if isinstance(target, Entity):
+            target.followed = self
         self.screen = pre_screen
         self.child: 'Optional[TileComponent]' = None
         # self.fix_init()
-        self.update_pos()
         self.output_size = output_size
+        self.follow_sprite = True
+        self.update_pos()
 
     @property
     def target_x(self):
         if isinstance(self.target, Entity):
-            return self.target.sprite.x
+            if self.follow_sprite:
+                return self.target.sprite.x
+            else:
+                return 16*self.target.x
         else:
             return self.target[0]
 
     @property
     def target_y(self):
         if isinstance(self.target, Entity):
-            return self.target.sprite.y
+            if self.follow_sprite:
+                return self.target.sprite.y
+            else:
+                return 16*self.target.y
         else:
             return self.target[1]
 

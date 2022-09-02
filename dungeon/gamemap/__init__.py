@@ -19,6 +19,7 @@ from utils.typing import map_tile_type
 if TYPE_CHECKING:
     from dungeon.entity import Entity
     from dungeon.engine import Engine
+    from dungeon.actor import Actor
 
 # for test
 tmp_test_tiles = DSpriteSheetReader(Assets.Environment.tiles_sewers, frame_width=GRID_SIZE, frame_height=GRID_SIZE,
@@ -85,7 +86,7 @@ class GameMap:
             return False
         return True
 
-    def player(self):
+    def player(self) -> 'Actor':
         return self.engine.player
 
     def update_map(self):

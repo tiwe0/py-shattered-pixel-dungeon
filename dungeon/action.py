@@ -3,6 +3,7 @@ from typing import TYPE_CHECKING
 
 import pygame
 
+from dungeon.tweener.tweener import BounceTweener
 from dungeon.components.message_manager import MessageManager
 from utils.typing import Position
 
@@ -70,6 +71,13 @@ class AttackAction(ActionWithDirection):
     def exec(self, entity: 'Entity'):
         MessageManager.instance.log(f"{entity} attacked {entity.gamemap.get_entities_in_xy(self.target(entity))}")
         entity.spend(self.time)
+        target = entity.sprite.xy + 8 * self.direction
+        # TODO
+        if entity.is_player():
+            entity.followed.follow_sprite = False
+        entity.sprite.pos_tweeners.append(BounceTweener(entity.sprite, target, 200))
+        if entity.is_player():
+            entity.followed.follow_sprite = True
 
 
 class DebugAction(Action):

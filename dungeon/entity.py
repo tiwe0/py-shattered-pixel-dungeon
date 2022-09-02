@@ -36,6 +36,8 @@ class Entity:
         self.time_manager = None
         self.last_spend = 0
 
+        self.followed = None
+
     def spend(self, time):
         self.game_time += time
         self.last_spend = time

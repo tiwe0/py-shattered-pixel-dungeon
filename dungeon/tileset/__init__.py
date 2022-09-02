@@ -1,4 +1,5 @@
 import pygame
 
-if not pygame.get_init():
-    pygame.init()
+from dungeon.tileset.tiles_item import Item
+
+tiles_item = Item()

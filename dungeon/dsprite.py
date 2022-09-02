@@ -6,6 +6,7 @@ from pygame.sprite import Sprite
 
 from dungeon import pre_screen_middle
 from dungeon.config import GRID_SIZE
+from utils.typing import Position
 from dungeon.tweener.tweener import PosTweener
 
 if TYPE_CHECKING:
@@ -107,12 +108,12 @@ class DSprite(Sprite):
         self.height = height
         self.direction = 'right'
         self.status = 'idle'  # 用于找到正确的动画.
-        self.offset = self.compute_offset(offset_grid)
+        self.offset: 'Position' = self.compute_offset(offset_grid)
 
         # 所有动画保存在字典中. 注意, 所有同类 DSprite 公用同一组动画.
         self.animation: 'Dict[str, DAnimation]' = {}
         # 位置调分器, 用于处理移动.
-        self.pos_tweener: 'Optional[PosTweener]' = None
+        self.pos_tweeners: 'List[PosTweener]' = []
         self.die_tweener: 'Optional[DieTweener]' = None
 
         self._entity = None
@@ -120,11 +121,11 @@ class DSprite(Sprite):
     def __repr__(self):
         return f"DSprite '{self.name}' -> {self.entity}"
 
-    def compute_offset(self, offset_grid: Tuple[int, int]) -> tuple[int, int]:
+    def compute_offset(self, offset_grid: Tuple[int, int]) -> 'Position':
         """计算偏移量."""
         grid_width, grid_height = offset_grid
         offset_x, offset_y = (grid_width - self.width) // 2, (grid_height - self.height - 1)
-        return offset_x, offset_y
+        return Position(x=offset_x, y=offset_y)
 
     def clone(self):
         """DSprite 会在游戏开始时批量加载, 但每个 Entity实例 都应该由对应的 DSprite 实例, 因此这里实现一个 clone 方法.
@@ -137,7 +138,7 @@ class DSprite(Sprite):
     def is_moving(self):
         """根据位置调分器判断该Sprite是否在移动.
         移动就必定有位置调分器, 反之亦然, 这是等价条件."""
-        if self.pos_tweener is None:
+        if not self.pos_tweeners:
             return False
         else:
             return True
@@ -161,7 +162,7 @@ class DSprite(Sprite):
     @property
     def pos(self):
         """返回偏移后的位置."""
-        return self.x + self.offset[0], self.y + self.offset[1]
+        return Position(x=self.x + self.offset[0], y=self.y + self.offset[1])
 
     def update_pos(self):
         """手动更新位置."""
@@ -170,11 +171,16 @@ class DSprite(Sprite):
     def __getitem__(self, item: str):
         return self.animation.get(item, None)
 
+    @property
+    def xy(self):
+        return Position(x=self.x, y=self.y)
+
     def before_render(self):
         """render 前的钩子函数."""
         # 激活 位置调分器, 以更新位置.
-        if self.pos_tweener:
-            self.pos_tweener.activate()
+        if self.pos_tweeners:
+            for pos_tweener in self.pos_tweeners:
+                pos_tweener.activate()
 
     def render(self):
         """渲染函数, 主要负责调用钩子调整属性, 然后将渲染委托给 DAnimation."""
@@ -191,7 +197,7 @@ class DSprite(Sprite):
         self.entity.time_manager.is_busy = True
         target_pos = self.x + GRID_SIZE * direction[0], self.y + GRID_SIZE * direction[1]  # 计算目标位置.
         # 生成 位置调分器. 移动结束后, 该调分器负责将 该 DSprite 状态切换为 'idle'.
-        self.pos_tweener = PosTweener(self, target_pos, 200)
+        self.pos_tweeners.append(PosTweener(self, target_pos, 200))
         # 更新自己的方向.
         if direction[0] > 0:
             self.direction = 'right'

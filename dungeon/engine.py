@@ -5,6 +5,7 @@ from dungeon.time_manager import TimeManager
 if TYPE_CHECKING:
     from dungeon.input_handler import MainEventHandler
     from dungeon.entity import Entity
+    from dungeon.actor import Actor
     from dungeon.gamemap.__init__ import GameMap
 
 
@@ -19,7 +20,7 @@ class Engine:
 
     def __init__(
             self,
-            player: 'Entity',
+            player: 'Actor',
             input_handler: 'MainEventHandler',
             gamemap: 'GameMap',
             time_manager: 'TimeManager',
@@ -30,7 +31,7 @@ class Engine:
         :param input_handler: 输入处理器.
         :param gamemap: 对应地图.
         """
-        self.player: 'Entity' = player
+        self.player: 'Actor' = player
         self.player.engine = self
 
         # 这里 input_handler 是个类, 因此初始化不太一样.

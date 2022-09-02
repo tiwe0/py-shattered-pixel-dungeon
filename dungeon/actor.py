@@ -1,6 +1,7 @@
-from typing import TYPE_CHECKING, Optional, Tuple, Set, List
+from typing import TYPE_CHECKING, Optional, Tuple, Set, List, Union
 
 from dungeon.ai import AIWonder
+from dungeon.dice import Dice, MultipleDice
 from dungeon.components.message_manager import MessageManager
 from dungeon.entity import Entity
 from utils.compute_fov import FOV
@@ -26,6 +27,10 @@ class Actor(Entity):
         self.radius: int = 7
         self.path_to_walk: 'List[Position]' = []
         self.buffs = []
+
+        # dice
+        self.attack_dice: 'Union[Dice, MultipleDice]' = Dice()
+        self.defence_dice: 'Union[Dice, MultipleDice]' = Dice()
 
     def update_fov(self):
         self.fov_set = self.fov.compute_fov(self.xy, self.radius)

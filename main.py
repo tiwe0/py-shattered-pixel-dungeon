@@ -2,7 +2,7 @@ import pygame
 
 from dungeon import map_width, map_height, pre_screen_middle, screen, pre_screen
 from dungeon.actor import Actor
-from dungeon.components import TileComponent
+from dungeon.components import TileComponent, NinePatchComponent
 from dungeon.components.HUD import StatusPanel, HealthBar, BagButton, WaitButton, SearchButton
 from dungeon.components.message_manager import MessageManager
 from dungeon.engine import Engine
@@ -11,13 +11,14 @@ from dungeon.input_handler import MainEventHandler
 from dungeon.sprites.sprites_factory import SpriteManager
 from dungeon.time_manager import TimeManager
 from dungeon.view_port import ViewPort
+from dungeon.ui import UI
+from dungeon.tileset.tiles_ninepath import ninepatch_frame
 from test.debug import DebugRender
 from utils.path import PathFinder
 from utils.scaled_render import CompressRender
 from utils.surface import get_scaled_surface_by_factor
 from utils.tile_load import load_image_with_alpha
 
-from dungeon.tileset.tiles_ninepath import ninepatch_scroll, ninepatch_frame
 
 sprites_manager = SpriteManager("./meta/info.json")
 cursor = get_scaled_surface_by_factor(load_image_with_alpha("./assets/gdx/cursor_mouse.png"), 2)
@@ -29,13 +30,19 @@ def main():
 
     mob_sprite = sprites_manager['Thief'].clone()
     mob = Actor(x=0, y=0, sprite=mob_sprite, hp=2, mp=2, san=10)
-    mob.game_time = 2
 
     gui_components = TileComponent(scale=3)
     gui_components.add_child(StatusPanel().add_child(HealthBar().attach_actor(rogue)))
     gui_components.add_child(BagButton()).add_child(WaitButton()).add_child(SearchButton())
 
+    inventory_component = NinePatchComponent(ninepatch=ninepatch_frame, width=87, height=220, pos=(0, 120), scale=2)
+
     message_manager = MessageManager(width=650, height=77, pos=(280, 600))
+
+    ui = UI()
+    ui.add_child(gui_components)
+    ui.add_child(message_manager)
+    ui.add_child(inventory_component)
 
     view_port = ViewPort(
         size=(pre_screen_middle.get_width() // 2, pre_screen_middle.get_height() // 2),
@@ -45,7 +52,7 @@ def main():
         target=rogue,
         output_size=(pre_screen_middle.get_width(), pre_screen_middle.get_height()),
     )
-    view_port.add_components(gui_components)
+    view_port.add_components(ui)
 
     input_handler = MainEventHandler()
 
@@ -62,6 +69,7 @@ def main():
         input_handler=input_handler,
         gamemap=gamemap,
         time_manager=time_manager,
+        ui=ui,
     )
 
     gamemap.update_map()
@@ -83,7 +91,6 @@ def main():
         path_dict, cost = PathFinder.a_star(mob.xy, rogue.xy, False)
         path = PathFinder.reconstruct_path(path_dict, mob.xy, rogue.xy)
         DebugRender.render_color_blocks('red', path)
-        DebugRender.render_tile_block(ninepatch_frame.rd, mob.xy)
         # debug area
 
         view_port.render()

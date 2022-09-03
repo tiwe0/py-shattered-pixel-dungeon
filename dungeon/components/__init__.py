@@ -1,13 +1,17 @@
+from io import StringIO
 from typing import List, Optional, Tuple
 
 from pygame import Surface
 
 from dungeon import pre_screen
-from utils.surface import get_scaled_surface_by_factor_with_cut
+from dungeon.fonts import ark_font
+from utils.typing import Position
+from utils.surface import get_scaled_surface_by_factor_with_cut, get_scaled_surface_by_factor
+from utils.ninepatch import NinePatch
 
 
 class TileComponent:
-    def __init__(self, *, scale: int = 1, tile: 'Optional[Surface]' = None, pos: 'Tuple[int, int]' = (0, 0)):
+    def __init__(self, *, scale: int = 1, tile: 'Optional[Surface]' = None, pos: 'Position' = Position(0, 0)):
         self.children: 'List[TileComponent]' = []
         self.parent: 'Optional[TileComponent]' = None
         self.scale_factor = scale
@@ -80,7 +84,7 @@ class TileComponent:
         # TODO 这个方法可能会有性能问题
         if self.scale_factor == 1:
             return rendered
-        return get_scaled_surface_by_factor_with_cut(rendered, self.scale_factor)
+        return get_scaled_surface_by_factor(rendered, self.scale_factor)
 
     def update_parent(self, update: 'Surface'):
         """将update更新到父组件上."""
@@ -93,3 +97,84 @@ class TileComponent:
         self.children.append(component)
         component.parent = self
         return self
+
+
+class NinePatchComponent(TileComponent):
+    def __init__(self, ninepatch: 'NinePatch', width: 'float', height: 'float', **kwargs):
+        super(NinePatchComponent, self).__init__(**kwargs)
+        self.ninepatch: 'NinePatch' = ninepatch
+        self.width = width
+        self.height = height
+
+    def render(self):
+        return self.ninepatch.get_surface(middle_width=self.width, middle_height=self.height)
+
+
+class TextComponent(TileComponent):
+    # 半角字符 7, 全角字符 12, 空格 5, 高度为 12.
+    length_dict = {
+        'half': 6,
+        'full': 12,
+    }
+
+    half_word = "abdcefghijklmnopqrstuvwxyz" \
+                "ABCDEFGHIJKLMNOPQRSTUVWXYZ" \
+                " -_.()/\\<>0123456789"
+
+    def __init__(self, message: 'str', width: 'int', **kwargs):
+        super(TextComponent, self).__init__(**kwargs)
+        self.message = message
+        self.width = width
+        self.tile = self.generate_tile()
+
+    def generate_tile(self) -> 'Surface':
+        """根据message生成相应的贴图."""
+        split_message = []
+
+        def split_rec(message_left):
+            current_length = 0
+            for index in range(len(message_left)):
+                if message_left[index] in self.half_word:
+                    current_length += 6
+                else:
+                    current_length += 12
+                if current_length > self.width:
+                    split_message.append(message_left[:index])
+                    split_rec(message_left[index:])
+                    break
+                if index == len(message_left) - 1:
+                    split_message.append(message_left[:index])
+
+        split_rec(self.message)
+        message_tile = Surface((self.width, len(split_message) * 13 - 1)).convert_alpha()
+        y = 0
+        for message_index in range(len(split_message)):
+            font_surface = ark_font.render(split_message[message_index], False, (255, 255, 255))
+            message_tile.blit(font_surface, (0, y))
+            y += 13
+        return message_tile
+
+    @property
+    def height(self):
+        return self.tile.get_height()
+
+
+class TextContainerComponent(TileComponent):
+    def __init__(self, width: int, height: int, **kwargs):
+        super(TextContainerComponent, self).__init__(**kwargs)
+        self.width, self.height = width, height
+        self.message_history: List[TextComponent] = []
+
+    def before_render(self):
+        x, y = 0, 0
+        self.children = []
+        for message in self.message_history[-5:]:
+            message.pos = (x, y)
+            y += (message.height + 1)
+            self.add_child(message)
+
+    def log(self, *args, **kwargs):
+        with StringIO() as output:
+            print(*args, file=output, **kwargs)
+            message = output.getvalue()
+        self.message_history.append(TextComponent(message, self.width))

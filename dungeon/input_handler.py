@@ -5,7 +5,7 @@ import pygame.event
 from pygame.event import Event
 from pygame.locals import *
 
-from dungeon.action import Action, WaitAction, EscapeAction, HeadToAction
+from dungeon.action import *
 
 if TYPE_CHECKING:
     from dungeon.actor import Actor
@@ -32,6 +32,7 @@ class MainEventHandler(EventHandler):
         K_b: HeadToAction(direction=(-1, +1)),
         K_n: HeadToAction(direction=(+1, +1)),
         K_PERIOD: WaitAction(),
+        K_i: ToggleInventor(),
 
         # number Punch
         K_7: HeadToAction(direction=(-1, -1)),

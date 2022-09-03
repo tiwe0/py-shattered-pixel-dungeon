@@ -1,6 +1,7 @@
 from typing import TYPE_CHECKING, Optional
 
 from dungeon.time_manager import TimeManager
+from dungeon.ui import UI
 
 if TYPE_CHECKING:
     from dungeon.input_handler import MainEventHandler
@@ -24,6 +25,7 @@ class Engine:
             input_handler: 'MainEventHandler',
             gamemap: 'GameMap',
             time_manager: 'TimeManager',
+            ui: 'UI',
     ):
         """
 
@@ -44,6 +46,8 @@ class Engine:
 
         self.time_manager: 'TimeManager' = time_manager
         self.time_manager.engine = self
+
+        self.ui: 'UI' = ui
 
     def handle_event(self):
         """事件处理委托给事件处理器."""

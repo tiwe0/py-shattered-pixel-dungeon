@@ -17,6 +17,7 @@ from utils.typing import Position
 from utils.typing import map_tile_type
 
 if TYPE_CHECKING:
+    from dungeon.item import Item
     from dungeon.entity import Entity
     from dungeon.engine import Engine
     from dungeon.actor import Actor
@@ -59,6 +60,7 @@ class GameMap:
 
         # 其他信息
         self.entities: 'List[Entity]' = []
+        self.items: 'List[Item]' = []
         self.rooms: 'List[RectangularRoom]' = []
         self.engine: 'Optional[Engine]' = None
         self.gamemap_render: 'Optional[GameMapRender]' = None
@@ -104,6 +106,12 @@ class GameMap:
 
     def render_map(self):
         self.gamemap_render.render()
+
+    def get_item_in_xy(self, xy: 'Position'):
+        for item in self.items:
+            if item.xy == xy:
+                return item
+        return None
 
     def get_entities_in_xy(self, xy: 'Position'):
         """检索目标位置的第一个 entity."""

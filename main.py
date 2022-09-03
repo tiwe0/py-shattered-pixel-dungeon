@@ -17,6 +17,8 @@ from utils.scaled_render import CompressRender
 from utils.surface import get_scaled_surface_by_factor
 from utils.tile_load import load_image_with_alpha
 
+from dungeon.tileset.tiles_ninepath import ninepatch_scroll, ninepatch_frame
+
 sprites_manager = SpriteManager("./meta/info.json")
 cursor = get_scaled_surface_by_factor(load_image_with_alpha("./assets/gdx/cursor_mouse.png"), 2)
 
@@ -81,6 +83,7 @@ def main():
         path_dict, cost = PathFinder.a_star(mob.xy, rogue.xy, False)
         path = PathFinder.reconstruct_path(path_dict, mob.xy, rogue.xy)
         DebugRender.render_color_blocks('red', path)
+        DebugRender.render_tile_block(ninepatch_frame.rd, mob.xy)
         # debug area
 
         view_port.render()

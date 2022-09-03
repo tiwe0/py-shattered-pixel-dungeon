@@ -1,5 +1,5 @@
 import sys
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Optional, Union
 
 import pygame
 
@@ -8,7 +8,8 @@ from dungeon.components.message_manager import MessageManager
 from utils.typing import Position
 
 if TYPE_CHECKING:
-    from entity import Entity
+    from dungeon.entity import Entity
+    from dungeon.actor import Actor
 
 
 class Action:
@@ -68,16 +69,21 @@ class MovementAction(ActionWithDirection):
 
 
 class AttackAction(ActionWithDirection):
-    def exec(self, entity: 'Entity'):
-        MessageManager.instance.log(f"{entity} attacked {entity.gamemap.get_entities_in_xy(self.target(entity))}")
+    def exec(self, entity: 'Union[Entity, Actor]'):
+        enemy: 'Actor' = entity.gamemap.get_entities_in_xy(self.target(entity))
+        MessageManager.instance.log(f"{entity} attacked {enemy}")
         entity.spend(self.time)
         target = entity.sprite.xy + 8 * self.direction
-        # TODO
+        # TODO 后续再优化一下with
         if entity.is_player():
-            entity.followed.follow_sprite = False
-        entity.sprite.pos_tweeners.append(BounceTweener(entity.sprite, target, 200))
-        if entity.is_player():
-            entity.followed.follow_sprite = True
+            with entity.followed.suspend_follow() as vp:
+                entity.sprite.pos_tweeners.append(BounceTweener(entity.sprite, target, 200))
+        else:
+            entity.sprite.pos_tweeners.append(BounceTweener(entity.sprite, target, 200))
+        attack = entity.attack_dice.roll()
+        defence = enemy.defence_dice.roll()
+        damage = max(0, attack-defence)
+        enemy.hp -= damage
 
 
 class DebugAction(Action):

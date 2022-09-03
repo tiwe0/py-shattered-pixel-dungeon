@@ -12,4 +12,4 @@ def load_image_with_alpha(filepath: str) -> pygame.Surface:
 def load_tile(filepath: str, pos: Tuple[int, int], size: Tuple[int, int]) -> pygame.Surface:
     surface = load_image_with_alpha(filepath)
     tile_surface = surface.subsurface(*pos, *size).copy()
-    return tile_surface
+    return tile_surface.convert_alpha()

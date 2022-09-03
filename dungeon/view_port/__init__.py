@@ -1,4 +1,5 @@
 from typing import Tuple, Optional, Union
+from contextlib import contextmanager
 
 from pygame import Surface
 
@@ -87,6 +88,12 @@ class ViewPort:
     @property
     def center_y(self):
         return self.y + self.height // 2
+
+    @contextmanager
+    def suspend_follow(self):
+        self.follow_sprite = False
+        yield self
+        self.follow_sprite = True
 
     def fix_init(self):
         """主要是防止动态属性在init中不生效."""

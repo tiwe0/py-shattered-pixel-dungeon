@@ -7,6 +7,7 @@ if TYPE_CHECKING:
     from dungeon.gamemap.__init__ import GameMap
     from dungeon.dsprite import DSprite
     from dungeon.engine import Engine
+    from dungeon.view_port import ViewPort
 
 
 class Entity:
@@ -36,7 +37,7 @@ class Entity:
         self.time_manager = None
         self.last_spend = 0
 
-        self.followed = None
+        self.followed: 'ViewPort' = None
 
     def spend(self, time):
         self.game_time += time

@@ -4,6 +4,7 @@ from dungeon.ai import AIWonder
 from dungeon.dice import Dice, MultipleDice
 from dungeon.components.message_manager import MessageManager
 from dungeon.entity import Entity
+from dungeon.bag import Bag
 from utils.compute_fov import FOV
 
 if TYPE_CHECKING:
@@ -29,8 +30,12 @@ class Actor(Entity):
         self.buffs = []
 
         # dice
-        self.attack_dice: 'Union[Dice, MultipleDice]' = Dice()
-        self.defence_dice: 'Union[Dice, MultipleDice]' = Dice()
+        self.dodge_dice: 'Union[Dice, MultipleDice]' = Dice('3d4')
+        self.attack_dice: 'Union[Dice, MultipleDice]' = Dice('3d4')
+        self.defence_dice: 'Union[Dice, MultipleDice]' = Dice('3d4')
+
+        # other
+        self.bag: 'Bag' = Bag()
 
     def update_fov(self):
         self.fov_set = self.fov.compute_fov(self.xy, self.radius)

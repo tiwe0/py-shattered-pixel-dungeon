@@ -63,14 +63,9 @@ class Actor(Entity):
         # must override for NPC, mobs...
         # maybe fetch action from its AI, set it to current_action
         # waiting to be executed.
-        if self.is_player():
-            # 这个实现不咋好
-            self.engine.input_handler.consume_action()
-        else:
-            if self.ai:
-                self.current_action = self.ai.fetch_action(self)
-                # debug
-                MessageManager.instance.log(f"current action: {self.ai.__class__.__name__}")
+        self.current_action = self.ai.fetch_action(self)
+        # debug
+        MessageManager.instance.log(f"current action: {self.ai.__class__.__name__}")
 
     @property
     def hp(self):

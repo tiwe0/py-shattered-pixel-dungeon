@@ -1,10 +1,11 @@
 from typing import TYPE_CHECKING, Optional
 
+from dungeon.ai import AIFetchFromInput
 from dungeon.time_manager import TimeManager
 from dungeon.ui import UI
+from dungeon.input_handler import MainEventHandler
 
 if TYPE_CHECKING:
-    from dungeon.input_handler import MainEventHandler
     from dungeon.entity import Entity
     from dungeon.actor import Actor
     from dungeon.gamemap.__init__ import GameMap
@@ -35,6 +36,7 @@ class Engine:
         """
         self.player: 'Actor' = player
         self.player.engine = self
+        self.player.ai = AIFetchFromInput()
 
         # 这里 input_handler 是个类, 因此初始化不太一样.
         self.input_handler: 'MainEventHandler' = input_handler
@@ -48,9 +50,10 @@ class Engine:
         self.time_manager.engine = self
 
         self.ui: 'UI' = ui
+        self.ui.engine = self
 
     def handle_event(self):
-        """事件处理委托给事件处理器."""
+        """ 事件处理委托给事件处理器."""
         self.input_handler.handle_event()
 
     def render(self):

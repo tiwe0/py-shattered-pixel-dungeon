@@ -11,6 +11,7 @@ from utils.ninepatch import NinePatch
 
 
 class TileComponent:
+    """TODO Render 总体逻辑没问题, 但是细节有点问题, 架构需要调整一下."""
     def __init__(self, *, scale: int = 1, tile: 'Optional[Surface]' = None, pos: 'Position' = Position(0, 0)):
         self.children: 'List[TileComponent]' = []
         self.parent: 'Optional[TileComponent]' = None
@@ -26,6 +27,8 @@ class TileComponent:
         else:
             self.local_surface = Surface((pre_screen.get_width(), pre_screen.get_height())).convert_alpha()
             self.clear_local()
+
+        self.activate = True
 
     @property
     def parent_surface(self) -> 'Surface':
@@ -66,18 +69,20 @@ class TileComponent:
         """
         self.clear_local()
         self.before_render()
-        for child in self.children:
-            child.render_all()
-        rendered = self.render()
-        self.update_parent(self.scale(rendered))
+        if self.activate:
+            for child in self.children:
+                child.render_all()
+            self.update_parent(self.scale(self.local_surface))
 
     def before_render(self):
         """默认的before trigger."""
-        if self.tile:
-            self.local_surface.blit(self.tile, (0, 0))
+        rendered = self.render()
+        self.local_surface.blit(rendered, (0, 0))
 
     def render(self):
         """默认的render函数."""
+        if self.tile:
+            return self.tile
         return self.local_surface
 
     def scale(self, rendered: 'Surface') -> Surface:
@@ -100,11 +105,12 @@ class TileComponent:
 
 
 class NinePatchComponent(TileComponent):
-    def __init__(self, ninepatch: 'NinePatch', width: 'float', height: 'float', **kwargs):
+    def __init__(self, ninepatch: 'NinePatch', width: 'float', height: 'float', activate: 'bool', **kwargs):
         super(NinePatchComponent, self).__init__(**kwargs)
         self.ninepatch: 'NinePatch' = ninepatch
         self.width = width
         self.height = height
+        self.activate = activate
 
     def render(self):
         return self.ninepatch.get_surface(middle_width=self.width, middle_height=self.height)

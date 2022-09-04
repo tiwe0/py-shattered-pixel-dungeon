@@ -8,7 +8,7 @@ class Item(Entity):
         super(Item, self).__init__(*args, **kwargs)
         self.weight = 1
         self.tile: 'Optional[Surface]' = None
-        self.categroy: 'str' = ''
+        self.category: 'str' = ''
 
 
 class Potion(Item):

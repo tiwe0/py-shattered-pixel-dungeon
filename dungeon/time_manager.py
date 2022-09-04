@@ -1,4 +1,5 @@
 import heapq
+from dungeon.action import TimeManagerActionSuspend
 from typing import Optional, TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -29,7 +30,7 @@ class TimeManager:
         while True:
             actor = heapq.heappop(self.activated_entities)
             actor.fetch_action()
-            if actor.is_player() and actor.current_action is None:
+            if isinstance(actor.current_action, TimeManagerActionSuspend):
                 heapq.heappush(self.activated_entities, actor)
                 return
             actor.act()

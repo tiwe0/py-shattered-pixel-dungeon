@@ -3,11 +3,11 @@ import pygame
 from dungeon import map_width, map_height, pre_screen_middle, screen, pre_screen
 from dungeon.actor import Actor
 from dungeon.components import TileComponent, NinePatchComponent
-from dungeon.components.HUD import StatusPanel, HealthBar, BagButton, WaitButton, SearchButton
+from dungeon.components.HUD import StatusPanel, HealthBar, BagButton, WaitButton, SearchButton, Bag, BagItem
 from dungeon.components.message_manager import MessageManager
 from dungeon.engine import Engine
 from dungeon.gamemap import gen_gamemap
-from dungeon.input_handler import MainEventHandler
+from dungeon.input_handler import MainEventHandler, InventoryEventHandler
 from dungeon.sprites.sprites_factory import SpriteManager
 from dungeon.time_manager import TimeManager
 from dungeon.view_port import ViewPort
@@ -35,14 +35,17 @@ def main():
     gui_components.add_child(StatusPanel().add_child(HealthBar().attach_actor(rogue)))
     gui_components.add_child(BagButton()).add_child(WaitButton()).add_child(SearchButton())
 
-    inventory_component = NinePatchComponent(ninepatch=ninepatch_frame, width=87, height=220, pos=(0, 120), scale=2)
+    inventory_component = Bag(bag=rogue.bag)
+    inventory_component.add_child(BagItem(item='ds'))
 
     message_manager = MessageManager(width=650, height=77, pos=(280, 600))
 
     ui = UI()
     ui.add_child(gui_components)
     ui.add_child(message_manager)
-    ui.add_child(inventory_component)
+    ui.add_inventory_panel(inventory_component)
+
+    inventory_handler = InventoryEventHandler()
 
     view_port = ViewPort(
         size=(pre_screen_middle.get_width() // 2, pre_screen_middle.get_height() // 2),

@@ -1,19 +1,19 @@
 import sys
-from typing import TYPE_CHECKING, Optional, Union
+from typing import TYPE_CHECKING, Union
 
 import pygame
 
 from dungeon.tweener.tweener import BounceTweener
-from dungeon.components.message_manager import MessageManager
 from utils.typing import Position
 
 if TYPE_CHECKING:
     from dungeon.entity import Entity
     from dungeon.actor import Actor
+    from dungeon.input_handler import InventoryEventHandler
 
 
 class Action:
-    def __init__(self, *args):
+    def __init__(self, *args, **kwargs):
         self.time = 1
         pass
 
@@ -21,23 +21,32 @@ class Action:
         pass
 
 
-class EscapeAction(Action):
+class InventoryAction:
+    def __init__(self, *args, **kwargs):
+        self.time = 0
+        pass
+
+    def exec(self, entity: 'Entity'):
+        pass
+
+
+class SystemActionEscape(Action):
     def exec(self, entity: 'Entity'):
         pygame.quit()
         sys.exit()
 
 
-class WaitAction(Action):
+class ActorActionWait(Action):
     def exec(self, entity: 'Entity'):
         entity.spend(1)
 
 
-class ActionWithDirection(Action):
+class ActorActionWithDirection(Action):
     def exec(self, entity: 'Entity'):
         pass
 
     def __init__(self, direction: 'Position'):
-        super(ActionWithDirection, self).__init__()
+        super(ActorActionWithDirection, self).__init__()
         if not isinstance(direction, Position):
             direction = Position(x=direction[0], y=direction[1])
         self.direction: 'Position' = direction
@@ -46,37 +55,36 @@ class ActionWithDirection(Action):
         return self.direction + entity.xy
 
 
-class ActionWithTarget(Action):
+class ActorActionWithTarget(Action):
     def exec(self, entity: 'Entity'):
         pass
 
 
-class HeadToAction(ActionWithDirection):
+class ActorActionHeadTo(ActorActionWithDirection):
     def exec(self, entity: 'Entity'):
         # 防止跑出地图.
         if self.target(entity=entity) not in entity.gamemap:
             return
         if entity.gamemap.get_entities_in_xy(self.target(entity=entity)):
-            return AttackAction(self.direction).exec(entity)
+            return ActorActionAttack(self.direction).exec(entity)
         if entity.gamemap.walkable[self.target(entity=entity)]:
             entity.spend(entity.gamemap.weight[self.target(entity=entity)])
-            return MovementAction(self.direction).exec(entity)
+            return ActorActionMovement(self.direction).exec(entity)
 
 
-class MovementAction(ActionWithDirection):
+class ActorActionMovement(ActorActionWithDirection):
     def exec(self, entity: 'Entity'):
         entity.move(self.direction)
 
 
-class AttackAction(ActionWithDirection):
+class ActorActionAttack(ActorActionWithDirection):
     def exec(self, entity: 'Union[Entity, Actor]'):
         enemy: 'Actor' = entity.gamemap.get_entities_in_xy(self.target(entity))
-        MessageManager.instance.log(f"{entity} attacked {enemy}")
         entity.spend(self.time)
-        target = entity.sprite.xy + 8 * self.direction
+        target = entity.sprite.xy + 4 * self.direction
         # TODO 后续再优化一下with
         if entity.is_player():
-            with entity.followed.suspend_follow() as vp:
+            with entity.followed.suspend_follow():
                 entity.sprite.pos_tweeners.append(BounceTweener(entity.sprite, target, 200))
         else:
             entity.sprite.pos_tweeners.append(BounceTweener(entity.sprite, target, 200))
@@ -91,38 +99,58 @@ class DebugAction(Action):
         print('message from DebugAction.')
 
 
-class ToggleInventor(Action):
-    def exec(self, entity: 'Entity'):
+class TimeManagerActionSuspend(Action):
+    pass
+
+
+class ActorActionUpStair(Action):
+    pass
+
+
+class ActorActionDownStair(Action):
+    pass
+
+
+class ActorActionDrink(Action):
+    pass
+
+
+class ActorActionEat(Action):
+    pass
+
+
+class ActorActionPickUp(Action):
+    pass
+
+
+class ActorActionOpen(Action):
+    pass
+
+
+class ActorActionClose(Action):
+    pass
+
+
+class ActorActionKick(Action):
+    pass
+
+
+class InventoryActionToggle(InventoryAction):
+    def exec(self, entity: 'Union[Actor, InventoryEventHandler]'):
         entity.engine.ui.toggle_inventory()
 
 
-class UpStairAction(Action):
+class InventoryActionShiftPage(InventoryAction):
     pass
 
 
-class DownStairAction(Action):
+class InventoryActionShiftItem(InventoryAction):
     pass
 
 
-class DrinkAction(Action):
+class InventoryActionShiftCate(InventoryAction):
     pass
 
 
-class EatAction(Action):
-    pass
-
-
-class PickUpAction(Action):
-    pass
-
-
-class OpenAction(Action):
-    pass
-
-
-class CloseAction(Action):
-    pass
-
-
-class KickAction(Action):
+class InventoryActionSelect(InventoryAction):
     pass

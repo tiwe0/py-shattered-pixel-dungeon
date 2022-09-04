@@ -1,7 +1,7 @@
 import random
 from typing import TYPE_CHECKING, Optional
 
-from dungeon.action import Action, DebugAction, HeadToAction
+from dungeon.action import Action, DebugAction, ActorActionHeadTo, TimeManagerActionSuspend
 from utils.path import PathFinder
 from utils.typing import Position
 
@@ -40,11 +40,11 @@ class AIWonder(AI):
         else:
             if actor.path_to_walk:
                 direction = actor.path_to_walk.pop(0) - actor.xy
-                return HeadToAction(direction=direction)
+                return ActorActionHeadTo(direction=direction)
             else:
                 position_walkable = PathFinder.path_walkable_direction(Position(actor.x, actor.y))
                 random_target = position_walkable[random.randint(0, len(position_walkable) - 1)]
-                return HeadToAction(direction=random_target)
+                return ActorActionHeadTo(direction=random_target)
 
 
 class AIAttack(AI):
@@ -58,7 +58,14 @@ class AIAttack(AI):
 
             actor.path_to_walk = path_to_player
 
-            return HeadToAction(direction=direction)
+            return ActorActionHeadTo(direction=direction)
         else:
             actor.ai = AIWonder()
             return AIWonder().generate_action(actor)
+
+
+class AIFetchFromInput(AI):
+    def generate_action(self, actor: 'Actor') -> 'Optional[Action]':
+        action = actor.engine.input_handler.current_action
+        actor.engine.input_handler.current_action = TimeManagerActionSuspend()
+        return action

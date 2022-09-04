@@ -10,25 +10,17 @@ from utils.surface import get_scaled_surface_by_factor_with_cut, get_scaled_surf
 from utils.ninepatch import NinePatch
 
 
-class TileComponent:
-    """TODO Render 总体逻辑没问题, 但是细节有点问题, 架构需要调整一下."""
-    def __init__(self, *, scale: int = 1, tile: 'Optional[Surface]' = None, pos: 'Position' = Position(0, 0)):
+class Component:
+    def __init__(self, *, scale: int = 1, pos: 'Position' = Position(0, 0), activate: 'bool' = True):
         self.children: 'List[TileComponent]' = []
         self.parent: 'Optional[TileComponent]' = None
         self.scale_factor = scale
         self.pos = pos
 
-        # 初始化代码,
-        # tile = None -> local_surface = new_surface()
-        # tile = something -> local_surface = tile.copy()
-        self._tile = tile
-        if tile:
-            self.local_surface = tile.copy()
-        else:
-            self.local_surface = Surface((pre_screen.get_width(), pre_screen.get_height())).convert_alpha()
-            self.clear_local()
+        self.local_surface = Surface((pre_screen.get_width(), pre_screen.get_height())).convert_alpha()
+        self.clear_local()
 
-        self.activate = True
+        self.activate = activate
 
     @property
     def parent_surface(self) -> 'Surface':
@@ -41,16 +33,6 @@ class TileComponent:
             return pre_screen
         else:
             return self.parent.local_surface
-
-    @property
-    def tile(self):
-        return self._tile
-
-    @tile.setter
-    def tile(self, value: Surface):
-        """更新 tile 时, 会同时更新 local_surface."""
-        self._tile = value
-        self.local_surface = value.copy()
 
     def is_root(self) -> bool:
         return self.parent is None
@@ -69,20 +51,22 @@ class TileComponent:
         """
         self.clear_local()
         self.before_render()
+        self.render_self()
         if self.activate:
             for child in self.children:
                 child.render_all()
             self.update_parent(self.scale(self.local_surface))
 
     def before_render(self):
+        pass
+
+    def render_self(self):
         """默认的before trigger."""
         rendered = self.render()
         self.local_surface.blit(rendered, (0, 0))
 
     def render(self):
         """默认的render函数."""
-        if self.tile:
-            return self.tile
         return self.local_surface
 
     def scale(self, rendered: 'Surface') -> Surface:
@@ -104,7 +88,38 @@ class TileComponent:
         return self
 
 
-class NinePatchComponent(TileComponent):
+class TileComponent(Component):
+    """TODO Render 总体逻辑没问题, 但是细节有点问题, 架构需要调整一下."""
+    def __init__(self, tile: 'Optional[Surface]' = None, **kwargs):
+        super(TileComponent, self).__init__(**kwargs)
+        # 初始化代码,
+        # tile = None -> local_surface = new_surface()
+        # tile = something -> local_surface = tile.copy()
+        self._tile = tile
+        if tile:
+            self.local_surface = tile.copy()
+        else:
+            self.local_surface = Surface((pre_screen.get_width(), pre_screen.get_height())).convert_alpha()
+            self.clear_local()
+
+    @property
+    def tile(self):
+        return self._tile
+
+    @tile.setter
+    def tile(self, value: Surface):
+        """更新 tile 时, 会同时更新 local_surface."""
+        self._tile = value
+        self.local_surface = value.copy()
+
+    def render(self):
+        """默认的render函数."""
+        if self.tile:
+            return self.tile
+        return self.local_surface
+
+
+class NinePatchComponent(Component):
     def __init__(self, ninepatch: 'NinePatch', width: 'float', height: 'float', activate: 'bool', **kwargs):
         super(NinePatchComponent, self).__init__(**kwargs)
         self.ninepatch: 'NinePatch' = ninepatch
@@ -171,7 +186,7 @@ class TextContainerComponent(TileComponent):
         self.width, self.height = width, height
         self.message_history: List[TextComponent] = []
 
-    def before_render(self):
+    def render_self(self):
         x, y = 0, 0
         self.children = []
         for message in self.message_history[-5:]:

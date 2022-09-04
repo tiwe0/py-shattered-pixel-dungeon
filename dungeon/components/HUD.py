@@ -38,7 +38,6 @@ class HealthBar(TileComponent):
 
     def before_render(self):
         self.health_ratio = (float(self.actor.hp) / self.actor.max_hp)
-        super(HealthBar, self).before_render()
 
     def render(self) -> Surface:
         return get_scaled_surface(self.tile, (self.width * self.health_ratio, self.height))

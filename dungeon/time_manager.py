@@ -5,6 +5,7 @@ from typing import Optional, TYPE_CHECKING
 if TYPE_CHECKING:
     from dungeon.actor import Actor
     from dungeon.engine import Engine
+    from dungeon.action import Action
 
 
 class TimeManager:
@@ -26,11 +27,15 @@ class TimeManager:
         heapq.heappush(self.activated_entities, actor)
         actor.time_manager = self
 
+    @staticmethod
+    def need_suspend(action: 'Action') -> bool:
+        return isinstance(action, TimeManagerActionSuspend)
+
     def run(self):
         while True:
             actor = heapq.heappop(self.activated_entities)
             actor.fetch_action()
-            if isinstance(actor.current_action, TimeManagerActionSuspend):
+            if self.need_suspend(actor.current_action):
                 heapq.heappush(self.activated_entities, actor)
                 return
             actor.act()

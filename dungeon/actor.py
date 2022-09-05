@@ -44,9 +44,10 @@ class Actor(Entity):
         action_name = self.current_action.__class__.__name__.lower()
         return f'exec_{action_name}' in self.__dir__()
 
-    def act(self):
+    def act(self) -> 'bool':
+        """返回True, 则时间系统继续允许; 返回False, 则时间系统跳出."""
         if self.current_action is None:
-            return
+            return False
         # check action is override or not.
         if self.override_action():
             action_name = self.current_action.__class__.__name__.lower()
@@ -65,7 +66,6 @@ class Actor(Entity):
         # waiting to be executed.
         self.current_action = self.ai.fetch_action(self)
         # debug
-        MessageManager.instance.log(f"current action: {self.ai.__class__.__name__}")
 
     @property
     def hp(self):

@@ -142,11 +142,15 @@ class TextComponent(TileComponent):
                 "ABCDEFGHIJKLMNOPQRSTUVWXYZ" \
                 " -_.()/\\<>0123456789"
 
-    def __init__(self, message: 'str', width: 'int', **kwargs):
+    def __init__(self, message: 'str', width: 'Optional[int]' = None, **kwargs):
         super(TextComponent, self).__init__(**kwargs)
         self.message = message
-        self.width = width
-        self.tile = self.generate_tile()
+        if width:
+            self.width = width
+            self.tile = self.generate_tile()
+        else:
+            self.tile = ark_font.render(message, False, kwargs.get('color', (255, 255, 255))).convert_alpha()
+            self.width = self.tile.get_width()
 
     def generate_tile(self) -> 'Surface':
         """根据message生成相应的贴图."""
@@ -199,3 +203,4 @@ class TextContainerComponent(TileComponent):
             print(*args, file=output, **kwargs)
             message = output.getvalue()
         self.message_history.append(TextComponent(message, self.width))
+

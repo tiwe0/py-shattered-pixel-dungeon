@@ -1,8 +1,12 @@
-from typing import Tuple, Iterable
+from typing import Tuple, Iterable, TYPE_CHECKING
 
 from pygame import Surface
 
 from dungeon import GRID_SIZE, pre_screen
+
+
+if TYPE_CHECKING:
+    from dungeon.components import Component
 
 
 class DebugRender:
@@ -42,3 +46,7 @@ class DebugRender:
     def render_color_blocks(cls, color: 'str', positions: Iterable[Tuple[int, int]]):
         for pos in positions:
             cls.render_color_block(color, pos)
+
+    @classmethod
+    def render_component(cls, component: 'Component'):
+        component.render_all()

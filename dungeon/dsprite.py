@@ -86,7 +86,7 @@ class DAnimation:
         :return:
         """
         current_frame = self.get_current_frame(sprite.direction)
-        pre_screen_middle.blit(current_frame, sprite.pos)
+        pre_screen_middle.blit(current_frame, sprite.pos_offset)
 
 
 class DSprite(Sprite):
@@ -102,13 +102,13 @@ class DSprite(Sprite):
         :param offset_grid: 偏移, 负责将 DSprite 微调, 默认为 x 微调到中心, y 微调到靠底部上移 1 px.
         """
         super().__init__()  # 这里貌似没有用到父类, 后续考虑删除.
-        self.x, self.y = 0, 0
+        self.pos_x, self.pos_y = 0, 0
         self.name = name
         self.width = width
         self.height = height
+        self.offset_grid = offset_grid
         self.direction = 'right'
         self.status = 'idle'  # 用于找到正确的动画.
-        self.offset: 'Position' = self.compute_offset(offset_grid)
 
         # 所有动画保存在字典中. 注意, 所有同类 DSprite 公用同一组动画.
         self.animation: 'Dict[str, DAnimation]' = {}
@@ -121,11 +121,28 @@ class DSprite(Sprite):
     def __repr__(self):
         return f"DSprite '{self.name}' -> {self.entity}"
 
-    def compute_offset(self, offset_grid: Tuple[int, int]) -> 'Position':
-        """计算偏移量."""
-        grid_width, grid_height = offset_grid
-        offset_x, offset_y = (grid_width - self.width) // 2, (grid_height - self.height - 1)
+    def __getitem__(self, item: str):
+        return self.animation.get(item, None)
+
+    @property
+    def offset(self) -> 'Position':
+        grid_width, grid_height = self.offset_grid
+        offset_x = (grid_width - self.width) // 2
+        offset_y = grid_height - self.height - 1
         return Position(x=offset_x, y=offset_y)
+
+    @property
+    def pos_offset(self):
+        """返回偏移后的位置."""
+        return self.pos + self.offset
+
+    @property
+    def pos(self):
+        return Position(x=self.pos_x, y=self.pos_y)
+
+    @property
+    def xy(self):
+        return self.entity.xy
 
     def clone(self):
         """DSprite 会在游戏开始时批量加载, 但每个 Entity实例 都应该由对应的 DSprite 实例, 因此这里实现一个 clone 方法.
@@ -159,21 +176,9 @@ class DSprite(Sprite):
         # 获取当前动画
         return self[self.status]
 
-    @property
-    def pos(self):
-        """返回偏移后的位置."""
-        return Position(x=self.x + self.offset[0], y=self.y + self.offset[1])
-
     def update_pos(self):
         """手动更新位置."""
-        self.x, self.y = GRID_SIZE * self.entity.x, GRID_SIZE * self.entity.y
-
-    def __getitem__(self, item: str):
-        return self.animation.get(item, None)
-
-    @property
-    def xy(self):
-        return Position(x=self.x, y=self.y)
+        self.pos_x, self.pos_y = GRID_SIZE * self.entity.xy
 
     def before_render(self):
         """render 前的钩子函数."""
@@ -191,17 +196,20 @@ class DSprite(Sprite):
         """添加动画, 注意, 动画不应当知晓 DSprite 的存在, 否则 clone 方法会出问题."""
         self.animation[animation.status] = animation
 
-    def move(self, direction: 'Tuple[int, int]'):
+    def move(self, direction: 'Position'):
         """移动."""
+        self.turn_to(direction)
         self.status = 'run'  # 切换到 run 动画.
         self.entity.time_manager.is_busy = True
-        target_pos = self.x + GRID_SIZE * direction[0], self.y + GRID_SIZE * direction[1]  # 计算目标位置.
+        target_pos = self.pos + GRID_SIZE * direction
         # 生成 位置调分器. 移动结束后, 该调分器负责将 该 DSprite 状态切换为 'idle'.
         self.pos_tweeners.append(PosTweener(self, target_pos, 200))
+
+    def turn_to(self, direction: 'Position'):
         # 更新自己的方向.
-        if direction[0] > 0:
+        if direction.x > 0:
             self.direction = 'right'
-        elif direction[0] < 0:
+        elif direction.x < 0:
             self.direction = 'left'
 
 

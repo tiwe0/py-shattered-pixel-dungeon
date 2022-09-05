@@ -12,7 +12,7 @@ def cr(row: int, col: int) -> int:
     return (row - 1) * 16 + col - 1
 
 
-class Tiles:
+class TilesMap:
     _instances = {
         'sewers': None,
         'prison': None,

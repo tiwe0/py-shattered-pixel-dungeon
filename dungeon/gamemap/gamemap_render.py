@@ -5,7 +5,7 @@ from pygame import Surface
 
 from dungeon import screen_width, screen_height, GRID_SIZE, pre_screen_down, pre_screen_middle, pre_screen_up
 from dungeon.tileset.fog_of_war import FogOfWar
-from dungeon.tileset.tiles_map import Tiles
+from dungeon.tileset.tiles_map import TilesMap
 
 if TYPE_CHECKING:
     from dungeon.gamemap import GameMap
@@ -30,7 +30,7 @@ class GameMapRender:
         self.surface_down: 'Surface' = pygame.Surface((screen_width, screen_height)).convert_alpha()
         self.surface_middle: 'Surface' = pygame.Surface((screen_width, screen_height)).convert_alpha()
         self.surface_up: 'Surface' = pygame.Surface((screen_width, screen_height)).convert_alpha()
-        self.tiles_map = Tiles()
+        self.tiles_map = TilesMap()
 
     def clear_surfaces(self):
         self.surface_down.fill((0, 0, 0, 0))

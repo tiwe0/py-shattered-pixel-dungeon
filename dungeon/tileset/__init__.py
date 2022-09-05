@@ -1,5 +1,5 @@
 import pygame
 
-from dungeon.tileset.tiles_item import Item
+from dungeon.tileset.tiles_item import TilesItems
 
-tiles_item = Item()
+tiles_item = TilesItems()

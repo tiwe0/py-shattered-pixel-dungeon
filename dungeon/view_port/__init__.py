@@ -39,7 +39,7 @@ class ViewPort:
     def target_x(self):
         if isinstance(self.target, Entity):
             if self.follow_sprite:
-                return self.target.sprite.x
+                return self.target.sprite.pos_x
             else:
                 return 16*self.target.x
         else:
@@ -49,7 +49,7 @@ class ViewPort:
     def target_y(self):
         if isinstance(self.target, Entity):
             if self.follow_sprite:
-                return self.target.sprite.y
+                return self.target.sprite.pos_y
             else:
                 return 16*self.target.y
         else:

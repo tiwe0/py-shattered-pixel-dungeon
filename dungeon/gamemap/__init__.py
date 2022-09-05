@@ -10,7 +10,7 @@ from dungeon.dsprite import DSpriteSheetReader
 from dungeon.gamemap.gamemap_render import GameMapRender
 from dungeon.gamemap.rooms import RectangularRoom
 from dungeon.tileset.terrain import Terrain
-from dungeon.tileset.tiles_map import Tiles
+from dungeon.tileset.tiles_map import TilesMap
 from utils.compute_fov import FOV
 from utils.line import line
 from utils.typing import Position
@@ -64,7 +64,7 @@ class GameMap:
         self.rooms: 'List[RectangularRoom]' = []
         self.engine: 'Optional[Engine]' = None
         self.gamemap_render: 'Optional[GameMapRender]' = None
-        self.tileset_test = Tiles()
+        self.tileset_test = TilesMap()
         self.fov = None
 
     def get_tile(self, pos: 'Position'):

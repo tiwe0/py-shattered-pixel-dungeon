@@ -45,12 +45,12 @@ class PosTweener(Tweener):
     def __init__(self, sprite: 'DSprite', target_pos: 'Tuple[int, int]', time_interval: 'float'):
         super(PosTweener, self).__init__(time_interval)
         self.sprite = sprite
-        self.origin_pos = sprite.xy
+        self.origin_pos = sprite.pos
         self.target_pos = target_pos
 
     def activate_interval(self):
         pos = Position.linear(self.origin_pos, self.target_pos, self.percentage)
-        self.sprite.x, self.sprite.y = pos
+        self.sprite.pos_x, self.sprite.pos_y = pos
 
     def activate_post(self):
         self.sprite.pos_tweeners.remove(self)
@@ -61,4 +61,4 @@ class PosTweener(Tweener):
 class BounceTweener(PosTweener):
     def activate_interval(self):
         pos = Position.bounce(self.origin_pos, self.target_pos, self.percentage)
-        self.sprite.x, self.sprite.y = pos
+        self.sprite.pos_x, self.sprite.pos_y = pos

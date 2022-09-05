@@ -81,7 +81,7 @@ class ActorActionAttack(ActorActionWithDirection):
     def exec(self, entity: 'Union[Entity, Actor]'):
         enemy: 'Actor' = entity.gamemap.get_entities_in_xy(self.target(entity))
         entity.spend(self.time)
-        target = entity.sprite.xy + 4 * self.direction
+        target = entity.sprite.pos + 4 * self.direction
         # TODO 后续再优化一下with
         if entity.is_player():
             with entity.followed.suspend_follow():

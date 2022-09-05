@@ -1,14 +1,16 @@
+import pygame
+
 from dungeon.dsprite import DSpriteSheetReader
 
 tiles_item_path = "assets/sprites/items.png"
-tiles_item = DSpriteSheetReader(tiles_item_path, frame_width=16, frame_height=16)
+tiles_item_reader = DSpriteSheetReader(tiles_item_path, frame_width=16, frame_height=16)
 
 
 def cr(c, r):
     return 16 * (c - 1) + (r - 1)
 
 
-class Item:
+class TilesItems:
     size_dict = {}
 
     PLACEHOLDERS = cr(1, 1)
@@ -645,14 +647,26 @@ class Item:
 
     instance = None
 
+    tiles_dict = {}
+
     def __new__(cls, *args, **kwargs):
         if cls.instance is None:
             cls.instance = super().__new__(cls)
         return cls.instance
 
     def __init__(self):
-        self.tileset = tiles_item
+        self.tileset = tiles_item_reader
+        for code, size in self.size_dict.items():
+            width, height = size
+            surface = pygame.Surface((16, 16)).convert_alpha()
+            surface.fill((0, 0, 0, 0))
+            width_offset = (16-width) // 2
+            height_offset = (16-height-1)
+            surface.blit(self.tileset[code].subsurface(0, 0, width, height), (width_offset, height_offset))
+            self.tiles_dict[code] = surface
 
     def __getitem__(self, item: int):
-        width, height = self.size_dict[item]
-        return self.tileset[item].subsurface(0, 0, width, height)
+        return self.tiles_dict[item]
+
+
+tiles_item = TilesItems()

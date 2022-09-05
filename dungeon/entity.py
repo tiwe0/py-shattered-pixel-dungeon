@@ -59,10 +59,10 @@ class Entity:
     @property
     def pos(self):
         """返回对应的渲染位置."""
-        return GRID_SIZE * self.x, GRID_SIZE * self.y
+        return GRID_SIZE * self.xy
 
     def update_sprite_pos(self):
-        self.sprite.x, self.sprite.y = GRID_SIZE * self.x, GRID_SIZE * self.y
+        self.sprite.pos_x, self.sprite.pos_y = GRID_SIZE * self.x, GRID_SIZE * self.y
 
     def render(self):
         """render 委托给 sprite."""

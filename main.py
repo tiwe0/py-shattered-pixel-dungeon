@@ -2,7 +2,7 @@ import pygame
 
 from dungeon import map_width, map_height, pre_screen_middle, screen, pre_screen
 from dungeon.actor import Actor
-from dungeon.components import TileComponent, NinePatchComponent
+from dungeon.components import TileComponent, NinePatchComponent, TextComponent
 from dungeon.components.HUD import StatusPanel, HealthBar, BagButton, WaitButton, SearchButton, Bag, BagItem
 from dungeon.components.message_manager import MessageManager
 from dungeon.engine import Engine
@@ -13,6 +13,7 @@ from dungeon.time_manager import TimeManager
 from dungeon.view_port import ViewPort
 from dungeon.ui import UI
 from dungeon.tileset.tiles_ninepath import ninepatch_frame
+from dungeon.tileset.tiles_item import tiles_item
 from test.debug import DebugRender
 from utils.path import PathFinder
 from utils.scaled_render import CompressRender
@@ -94,10 +95,11 @@ def main():
         path_dict, cost = PathFinder.a_star(mob.xy, rogue.xy, False)
         path = PathFinder.reconstruct_path(path_dict, mob.xy, rogue.xy)
         DebugRender.render_color_blocks('red', path)
+        DebugRender.render_tile_block(tiles_item[tiles_item.DUST], mob.xy)
         # debug area
 
         view_port.render()
-        message_manager.render_all()
+
         pre_screen.blit(cursor, pygame.mouse.get_pos())
 
         screen.blit(pre_screen, (0, 0))

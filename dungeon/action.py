@@ -8,7 +8,7 @@ from utils.typing import Position
 
 if TYPE_CHECKING:
     from dungeon.entity import Entity
-    from dungeon.actor import Actor
+    from dungeon.actors.actor import Actor
     from dungeon.input_handler import InventoryEventHandler
 
 

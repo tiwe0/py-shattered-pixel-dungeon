@@ -3,7 +3,7 @@ from dungeon.action import TimeManagerActionSuspend
 from typing import Optional, TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from dungeon.actor import Actor
+    from dungeon.actors.actor import Actor
     from dungeon.engine import Engine
     from dungeon.action import Action
 

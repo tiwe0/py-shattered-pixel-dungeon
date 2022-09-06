@@ -10,7 +10,7 @@ from dungeon.item import Item
 from utils.surface import get_scaled_surface
 
 if TYPE_CHECKING:
-    from dungeon.actor import Actor
+    from dungeon.actors.actor import Actor
 
 
 class StatusPanel(TileComponent):

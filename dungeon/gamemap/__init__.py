@@ -20,7 +20,7 @@ if TYPE_CHECKING:
     from dungeon.item import Item
     from dungeon.entity import Entity
     from dungeon.engine import Engine
-    from dungeon.actor import Actor
+    from dungeon.actors.actor import Actor
 
 # for test
 tmp_test_tiles = DSpriteSheetReader(Assets.Environment.tiles_sewers, frame_width=GRID_SIZE, frame_height=GRID_SIZE,

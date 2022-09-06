@@ -1,4 +1,4 @@
-from typing import Any, Optional
+from typing import Optional
 
 import pygame.event
 from pygame.event import Event
@@ -7,7 +7,7 @@ from pygame.locals import *
 from dungeon.action import *
 
 if TYPE_CHECKING:
-    from dungeon.actor import Actor
+    from dungeon.actors.actor import Actor
 
 
 class EventHandler:

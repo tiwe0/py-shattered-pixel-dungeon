@@ -1,7 +1,7 @@
 from typing import Tuple, TYPE_CHECKING, Optional
 
 from dungeon.config import GRID_SIZE
-from utils.path import Position
+from utils.typing import Position
 
 if TYPE_CHECKING:
     from dungeon.gamemap.__init__ import GameMap
@@ -12,6 +12,7 @@ if TYPE_CHECKING:
 
 class Entity:
     """游戏中实体的抽象模型."""
+    id = 0
 
     def __init__(self, x: int = 0, y: int = 0, sprite: 'Optional[DSprite]' = None):
         """
@@ -20,6 +21,9 @@ class Entity:
         :param y: y 坐标, 这里为地图坐标, 而非渲染坐标.
         :param sprite: 对应的 DSprite 实例, 通常情况 每个实例应对应唯一的 DSprite.
         """
+        self.id = Entity.id
+        Entity.id += 1
+
         self.x, self.y = x, y
 
         self.status = "idle"  # 默认状态. (废弃)
@@ -47,7 +51,7 @@ class Entity:
         return self.game_time < other.game_time
 
     def __eq__(self, other: 'Entity'):
-        return self.game_time == other.game_time
+        return self.id == other.id
 
     def action_override(self, action_name: str):
         return f'exec_{action_name.lower()}' in self.__dir__()
@@ -62,7 +66,7 @@ class Entity:
         return GRID_SIZE * self.xy
 
     def update_sprite_pos(self):
-        self.sprite.pos_x, self.sprite.pos_y = GRID_SIZE * self.x, GRID_SIZE * self.y
+        self.sprite.pos_x, self.sprite.pos_y = GRID_SIZE * self.xy
 
     def render(self):
         """render 委托给 sprite."""
@@ -72,11 +76,13 @@ class Entity:
         """判断自己是否为玩家控制的entity."""
         return self is self.gamemap.player()
 
-    def move(self, direction: 'Tuple[int, int]'):
+    def remove(self):
+        self.gamemap.entities.remove(self)
+        self.time_manager.activated_entities.remove(self)
+
+    def move(self, direction: 'Position'):
         """移动函数, 这里不作任何判断, 位置是否合法, 判断应当由事件处理器或AI自行判断."""
-        dx, dy = direction
-        self.x += dx
-        self.y += dy
+        self.x, self.y = self.xy + direction
 
         # 如果为玩家, 则更新地图信息.
         if self.is_player():

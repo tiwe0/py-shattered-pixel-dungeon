@@ -6,7 +6,7 @@ from utils.path import PathFinder
 from utils.typing import Position
 
 if TYPE_CHECKING:
-    from dungeon.actor import Actor
+    from dungeon.actors.actor import Actor
 
 
 class AI:
@@ -63,6 +63,11 @@ class AIAttack(AI):
             actor.ai = AIWonder()
             return AIWonder().generate_action(actor)
 
+
+class AIDie(AI):
+    def generate_action(self, actor: 'Actor') -> 'Optional[Action]':
+        actor.sprite.status = 'die'
+        return
 
 class AIFetchFromInput(AI):
     def generate_action(self, actor: 'Actor') -> 'Optional[Action]':

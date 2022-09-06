@@ -1,4 +1,4 @@
-from dungeon.actor import Actor
+from dungeon.actors.actor import Actor
 
 
 class Buff:

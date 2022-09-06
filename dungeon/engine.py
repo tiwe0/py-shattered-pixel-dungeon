@@ -6,8 +6,7 @@ from dungeon.ui import UI
 from dungeon.input_handler import MainEventHandler
 
 if TYPE_CHECKING:
-    from dungeon.entity import Entity
-    from dungeon.actor import Actor
+    from dungeon.actors.actor import Actor
     from dungeon.gamemap.__init__ import GameMap
 
 

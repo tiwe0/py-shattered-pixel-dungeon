@@ -27,7 +27,10 @@ class DAnimation:
         :param loop: 该动画是否循环播放.
         """
         self.status = status
-        self.loop = loop
+        if loop == "true":
+            self.loop = True
+        else:
+            self.loop = False
         self.frames = frames
         self.key_frame = key_frame
         self.delay = float(1.0 / fps) * 1000 if fps != 0 else 1000.0  # 由帧数计算而来, 控制动画速度.
@@ -211,6 +214,9 @@ class DSprite(Sprite):
             self.direction = 'right'
         elif direction.x < 0:
             self.direction = 'left'
+
+    def die(self):
+        self.status = 'die'
 
 
 class DSpriteSheetReader:
